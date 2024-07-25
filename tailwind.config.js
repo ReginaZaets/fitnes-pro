@@ -18,6 +18,7 @@ export default {
       },
       width: {
         btnWidth: "103px",
+        contentWidth: "1160px"
       },
       height: {
         btnHeight: "52px",
