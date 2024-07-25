@@ -1,11 +1,11 @@
 import Header from "../components/common/Header";
-import SignupModal from "../components/popups/SignupModal";
+import ResetPassword from "../components/popups/ResetPassword";
 
 const MainPage = () => {
   return (
     <div className="bg-mainColor ">
       <Header />
-      <SignupModal/>
+      <ResetPassword/>
     </div>
   );
 };

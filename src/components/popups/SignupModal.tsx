@@ -5,27 +5,27 @@ const SignupModal = () => {
         <img
           src="/images/logo.svg"
           alt="imageLogo"
-          className="w-logosigninModalW h-logosigninModalH pl-logoPaddingSigninModal "
+          className="w-logosigninModalW h-logosigninModalH ml-[30px] "
         />
         <div className="flex flex-col items-center mt-12 gap-2.5">
           <input
-            className="border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg"
+            className="border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight"
             type="text"
             name="login"
             placeholder="Логин"
           />
           <input
-            className="border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg"
+            className="border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight"
             type="text"
-            name="login"
+            name="password"
             placeholder="Пароль"
           />
         </div>
         <div className="flex flex-col gap-2.5 mt-btnModalMargin">
-          <button className="w-inputWidth h-inputHeight border rounded-small bg-btnColor text-lg font-normal text-black">
+          <button className="w-inputWidth h-inputHeight border rounded-small bg-btnColor text-lg font-normal text-black leading-textHeight">
             Войти
           </button>
-          <button className="w-inputWidth h-inputHeight border border-black rounded-small text-lg font-normal text-black">
+          <button className="w-inputWidth h-inputHeight border border-black rounded-small text-lg font-normal text-black leading-textHeight">
             Зарегистрироваться
           </button>
         </div>

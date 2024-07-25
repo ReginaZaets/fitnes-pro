@@ -19,6 +19,12 @@ export default {
         btnInactiveText: "#999999",
         btnInactiveBg: "#F7F7F7",
         inputModal: "#D0CECE",
+        btnSignunColorHover: "#C6FF00",
+        btnSignunColorActive: "#000000",
+        btnSignunColorInactive: "#F7F7F7",
+        btnSigninColorHover: "#F7F7F7",
+        btnSigninColorActive: "#E9ECED",
+        btnSigninColorInactive: "#F7F7F7",
       },
       borderRadius: {
         small: "46px",
@@ -41,7 +47,6 @@ export default {
         inputHeight: "52px",
       },
       padding: {
-        logoPaddingSigninModal: "30px",
         inputPadding: "18px",
       },
       margin: {
@@ -49,6 +54,9 @@ export default {
       },
       boxShadow: {
         customShadow: "0px 4px 67px -12px rgba(0, 0, 0, 0.13)",
+      },
+      lineHeight: {
+        textHeight: "19.8px",
       },
     },
   },
