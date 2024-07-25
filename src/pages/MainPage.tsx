@@ -2,7 +2,7 @@ import Header from "../components/common/Header"
 
 const MainPage = () => {
   return (
-    <div>
+    <div className="bg-mainColor ">
       <Header/>
     </div>
   )
