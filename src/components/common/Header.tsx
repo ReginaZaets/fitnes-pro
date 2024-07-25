@@ -1,3 +1,5 @@
+import User from "./User";
+
 const Header = () => {
   return (
     <div className="w-contentWidth my-0 mx-auto ">
@@ -8,9 +10,7 @@ const Header = () => {
             Онлайн-тренировки для занятий дома
           </p>
         </div>
-        <button className="bg-btnColor rounded-small w-btnWidth h-btnHeight text-black text-lg">
-          Войти
-        </button>
+       <User/>
       </div>
     </div>
   );
