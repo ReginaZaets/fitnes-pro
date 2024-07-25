@@ -31,7 +31,7 @@ const User = () => {
           <p className="text-lg font-normal text-headerPopLinkColor mb-[30px]">
             sergey.petrov96@mail.ru
           </p>
-          <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-btnHeight w-btnUserPopWidth text-black text-lg">
+          <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-btnHeight w-[206px] text-black text-lg">
             Мой профиль
           </button>
           <button className=" hover:bg-btnHoverWhite active:bg-btnActive rounded-small h-btnHeight w-[206px] border border-black  text-black text-lg">

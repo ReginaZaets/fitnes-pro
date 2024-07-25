@@ -25,8 +25,6 @@ export default {
       width: {
         btnWidth: "103px",
         contentWidth: "1160px",
-        userPopWidth:"266px",
-        btnUserPopWidth: "206px"
       },
       height: {
         btnHeight: "52px",
