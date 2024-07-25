@@ -23,6 +23,9 @@ export default {
       height: {
         btnHeight: "52px",
       },
+      lineHeight: {
+        'title': '60px',
+      }
     },
   },
   plugins: [],
