@@ -3,7 +3,7 @@ import User from "./User";
 const Header = () => {
   return (
     <div className="w-contentWidth my-0 mx-auto ">
-      <div className="flex justify-between py-12">
+      <div className="flex justify-between pt-12">
         <div>
           <img src="/images/logo.svg" alt="imageLogo" />
           <p className="py-4 text-lg text-black font-normal opacity-50">
