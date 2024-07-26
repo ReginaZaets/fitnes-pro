@@ -7,9 +7,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "prettier",
-  ],
+   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
@@ -20,9 +18,6 @@ module.exports = {
   },
   plugins: ["@typescript-eslint", "react", "react-hooks", "prettier"],
   rules: {
-    indent: ["error", 2],
-    quotes: ["error", "double"],
-    semi: ["error", "always"],
-    "prettier/prettier": ["error", { semi: true, singleQuote: false }],
+   
   },
 };
