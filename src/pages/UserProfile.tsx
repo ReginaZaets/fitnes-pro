@@ -1,10 +1,8 @@
-
-
 const UserProfile = () => {
   return (
     <div className="w-contentWidth my-0 mx-auto">
-      
       <h2 className="text-[40px] font-semibold text-black pb-10">Профиль</h2>
+
       <div className=" flex gap-[33px] bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] p-[30px]">
         <div className="bg-[#D9D9D9] w-[197px] h-[197px] rounded-[20px] relative">
           <img
