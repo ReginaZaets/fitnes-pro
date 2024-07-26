@@ -24,7 +24,6 @@ export default {
         btnSignunColorInactive: "#F7F7F7",
         btnSigninColorHover: "#F7F7F7",
         btnSigninColorActive: "#E9ECED",
-        btnSigninColorInactive: "#F7F7F7",
       },
       borderRadius: {
         small: "46px",

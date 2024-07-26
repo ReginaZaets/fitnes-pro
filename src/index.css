@@ -14,3 +14,32 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+.custom-checkbox {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #000000;
+  border-radius: 50%;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+}
+
+.custom-checkbox:checked {
+  background-color: #bcec30; 
+  border-color: #bcec30;
+}
+
+.custom-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background: url("/images/check.png") no-repeat center center;
+  background-size: contain;
+}

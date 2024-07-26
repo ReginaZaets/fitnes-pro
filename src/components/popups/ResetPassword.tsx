@@ -22,7 +22,7 @@ const ResetPassword = () => {
           />
         </div>
         <div className="flex flex-col gap-2.5 mt-btnModalMargin">
-          <button className="w-inputWidth h-inputHeight border rounded-small bg-btnColor leading-textHeight text-lg font-normal text-black hover:bg-[#C6FF00]">
+          <button className="w-inputWidth h-inputHeight border rounded-small bg-btnColor leading-textHeight text-lg font-normal text-black hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]">
             Подтвердить
           </button>
         </div>
