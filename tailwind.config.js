@@ -19,11 +19,6 @@ export default {
         btnInactiveText: "#999999",
         btnInactiveBg: "#F7F7F7",
         inputModal: "#D0CECE",
-        btnSignunColorHover: "#C6FF00",
-        btnSignunColorActive: "#000000",
-        btnSignunColorInactive: "#F7F7F7",
-        btnSigninColorHover: "#F7F7F7",
-        btnSigninColorActive: "#E9ECED",
       },
       borderRadius: {
         small: "46px",
