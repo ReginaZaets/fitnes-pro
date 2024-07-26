@@ -4,6 +4,7 @@ const User = () => {
       <button className="bg-btnColor hover:bg-btnHoverGreen  active:bg-black active:text-white rounded-small w-btnWidth h-btnHeight text-black text-lg">
         Войти
       </button>
+      {/* Состояние при авторизации */}
       <div className="hidden">
         <div className="flex gap-x-3 items-center relative">
           <img src="/images/Profile.svg" alt="profile" />
@@ -24,7 +25,7 @@ const User = () => {
           </svg>
         </div>
       </div>
-
+      {/* Модальное окно при клике */}
       <div className="hidden absolute top-24 right-0 rounded-3xl bg-white w-[266px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]">
         <div className="flex flex-col items-center justify-center gap-2.5  my-7">
           <p className="text-lg font-normal  text-black">Сергей</p>

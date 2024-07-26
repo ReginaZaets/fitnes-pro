@@ -10,7 +10,7 @@
 
 body {
   background: "#FAFAFA";
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin-left: 140px;
+  margin-right: 140px;
+  margin-top: 50px;
 }

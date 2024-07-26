@@ -28,8 +28,7 @@ export default {
       },
       height: {
         btnHeight: "52px",
-        userPopHeight:"258px",
-        
+        userPopHeight: "258px",
       },
     },
   },
