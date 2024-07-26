@@ -8,6 +8,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
+    'prettier', // Отключает правила, конфликтующие с Prettier
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -21,8 +22,12 @@ module.exports = {
     '@typescript-eslint',
     'react',
     'react-hooks',
+    'prettier'
   ],
   rules: {
-    // ваши правила
+    'indent': ['error', 2], // Используем отступы в 2 пробела
+    'quotes': ['error', 'double'],  // Используем двойные кавычки
+    'semi': ['error', 'always'], // Всегда требует точку с запятой в конце строки
+    'prettier/prettier': ['error', { 'semi': true, 'singleQuote': false }], // Устанавливает правило для Prettier в ESLint
   },
 };
