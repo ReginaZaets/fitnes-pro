@@ -16,7 +16,7 @@ const SignupModal = () => {
           />
           <input
             className="border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight"
-            type="text"
+            type="password"
             name="password"
             placeholder="Пароль"
           />

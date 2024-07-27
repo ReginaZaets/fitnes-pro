@@ -10,13 +10,13 @@ const ResetPassword = () => {
         <div className="flex flex-col items-center mt-12 gap-2.5">
           <input
             className="border w-inputWidth h-inputHeight rounded-lg leading-textHeight pl-inputPadding py-4 text-lg"
-            type="text"
+            type="password"
             name="password"
             placeholder="Пароль"
           />
           <input
             className="border w-inputWidth h-inputHeight rounded-lg leading-textHeight pl-inputPadding py-4 text-lg"
-            type="text"
+            type="password"
             name="password"
             placeholder="Повторите пароль"
           />
