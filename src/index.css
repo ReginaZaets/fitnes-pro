@@ -9,8 +9,44 @@
 }
 
 body {
-  background: "#FAFAFA";
+  background-color: #fafafa;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+header {
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
+}
+
+main {
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
+}
+
+@media (max-width: 1200px) {
+  header {
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  main {
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 375px) {
+  header {
+    width: 375px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  main {
+    width: 375px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
 }
