@@ -9,8 +9,18 @@
 }
 
 body {
-  background: "#FAFAFA";
+  background-color: #fafafa;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+header {
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
+}
+
+main {
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
 }
