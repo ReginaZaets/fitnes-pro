@@ -52,6 +52,9 @@ export default {
       lineHeight: {
         textHeight: "19.8px",
       },
+      lineHeight: {
+        'title': '60px',
+      }
     },
   },
   plugins: [],
