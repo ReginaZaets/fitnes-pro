@@ -19,7 +19,7 @@ const User = () => {
             <path
               d="M12.3552 1.03308L6.67761 6.7107L0.999999 1.03308"
               stroke="black"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </svg>
         </div>
