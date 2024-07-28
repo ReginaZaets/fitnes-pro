@@ -8,7 +8,7 @@ type CourseType = {
 
 export const CourseCard = ({ course }: { course: CourseType }) => {
   return (
-    <div className="w-[360px] min-h-[501px]  flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px]">
+    <div className="w-[360px] min-h-[501px]  flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg">
       <div className="flex justify-end ">
         <svg
           className="absolute mx-[18px] my-[12px]"
