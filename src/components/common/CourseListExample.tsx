@@ -1,22 +1,31 @@
-import { get, getDatabase, ref } from "firebase/database";
 import { useEffect, useState } from "react";
-import { app } from "../../firebaseConfig";
 import { Course } from "../../types/types";
+import { fetchGetCourse, fetchGetCourses } from "../../api/coursesApi";
+//import { useParams } from "react-router-dom";
 
 const CourseListExample = () => {
+  // Состояние для хранения массива курсов
   const [courseArray, setCourseArray] = useState<Course[]>([]);
 
-  const fetchCourseList = async () => {
-    const db = getDatabase(app);
-    const dbRef = ref(db, "courses");
-    const snapshot = await get(dbRef);
-    if (snapshot.exists()) {
-      setCourseArray(Object.values(snapshot.val()));
-    }
-  };
+  // Состояние для хранения курса
+  const [course, setCourse] = useState<Course | null>(null);
 
+  // Получение всех курсов при загрузке
   useEffect(() => {
-    fetchCourseList();
+    fetchGetCourses().then((data) => {
+      setCourseArray(data);
+    });
+  }, []);
+
+  // Пока хардкодим ID курса. В последствии ID нужно будет получать из адреса с помощью useParams
+  //const { courseID } = useParams<{ courseID: string }>();
+  const courseID = "6i67sm";
+
+  // Получение курса по ID при загрузке
+  useEffect(() => {
+    fetchGetCourse(courseID).then((data) => {
+      setCourse(data);
+    });
   }, []);
 
   return (
@@ -25,6 +34,9 @@ const CourseListExample = () => {
       {courseArray.map((course) => (
         <li key={course._id}>{course.nameRU}</li>
       ))}
+      <br />
+      <br />
+      <div>{course && course.nameRU}</div>
     </div>
   );
 };
