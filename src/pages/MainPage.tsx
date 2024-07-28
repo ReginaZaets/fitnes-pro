@@ -1,11 +1,13 @@
-import Header from "../components/common/Header"
+import Header from "../components/common/Header";
+import CourseInfo from "../components/CourseInfo/CourseInfo";
 
 const MainPage = () => {
   return (
     <div className="bg-mainColor ">
-      <Header/>
+      <Header />
+      <CourseInfo />
     </div>
-  )
-}
+  );
+};
 
-export default MainPage
+export default MainPage;

@@ -14,3 +14,21 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+@layer components {
+  .card {
+    @apply rounded-[28px] w-[368px] h-[141px] flex items-center justify-center text-white;
+  }
+  .number-reasons {
+    @apply font-semibold w-[35px] font-bold text-7xl 
+    box-border;
+  }
+  .text-reasons {
+    @apply text-xl;
+  }
+  .directions-name {
+    @apply text-2xl font-normal before:content-['#'];
+  }
+  .items {
+    @apply text-black opacity-50 text-2xl font-normal  before:content-['•'];
+  }
+}
