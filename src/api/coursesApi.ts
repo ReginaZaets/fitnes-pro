@@ -35,3 +35,42 @@ export const fetchGetCourse = async (courseID: string) => {
     }
     return data;
 };
+
+// Получение всех курсов конкретного юзера
+export const fetchGetCoursesUser = async () => {
+    try {
+
+    } catch (error) {
+        console.log(`Ошибка получения данных: ${error}`);
+    }
+};
+
+// Добавление курса в приобретенные к юзеру
+
+export const fetchAddCourseUser = async (courseID: string) => {
+    try {
+
+    } catch (error) {
+        console.log(`Ошибка получения данных: ${error}`);
+    }
+};
+
+// Удаление курса из приобретенных
+
+export const fetchDeleteCourseUser = async (courseID: string) => {
+    try {
+
+    } catch (error) {
+        console.log(`Ошибка получения данных: ${error}`);
+    }
+};
+
+// Добавление прогресса в занятие курса
+
+export const fetchAddProgressCourseUser = async (courseID: string, progress: number) => {
+    try {
+
+    } catch (error) {
+        console.log(`Ошибка получения данных: ${error}`);
+    }
+};
