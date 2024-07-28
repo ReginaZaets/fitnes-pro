@@ -11,7 +11,7 @@ const MainPage = () => {
           Начните заниматься спортом и улучшите качество жизни
         </div>
         <div className="relative max-w-xs p-3 bg-[#BCEC30] text-black rounded-lg w-[288px] flex items-center ">
-          <div className="absolute top-[92%] transform -translate-y-1/1 w-4 h-4 bg-[#BCEC30] rotate-45 "></div>{" "}
+          <div className="absolute top-[88%]  rotate-45 w-0 h-0 border-l-[10px] border-r-[10px] border-t-[30px] border-l-transparent border-r-transparent border-t-[#BCEC30] "></div>{" "}
           <p>Измени своё тело за полгода!</p>
         </div>
       </div>
