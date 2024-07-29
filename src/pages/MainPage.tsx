@@ -1,10 +1,9 @@
 import { CourseCard } from "../components/common/CourseCard";
 import Header from "../components/common/Header";
 import { courses } from "../consts";
-
 const MainPage = () => {
   return (
-    <div className="bg-mainColor flex flex-col justify-center items-center">
+    <div className="bg-mainColor ">
       <Header />
       <main>
         <div className="flex gap-[5px] font-normal  text-2xl items-center my-4 w-full">
