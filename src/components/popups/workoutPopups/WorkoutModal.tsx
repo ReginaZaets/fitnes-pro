@@ -4,7 +4,7 @@ import WorkoutItem from "./WorkoutItem";
 const WorkoutModal = () => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
-      <div className="absolute bg-white border w-[460px] h-[609px] shadow-customShadow rounded-radiusModal p-10">
+      <div className="absolute bg-white border w-auto max-w-lg h-auto shadow-customShadow rounded-radiusModal p-10">
         <h1 className="text-[32px] leading-[35.2px] ml-[17px]">
           Выберите тренировку
         </h1>
