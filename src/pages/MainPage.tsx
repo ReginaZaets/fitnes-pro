@@ -22,6 +22,9 @@ const MainPage = () => {
           ))}
         </div>
       </main>
+      <section className="mt-[20px]">
+        <button onClick={() => {window.scrollTo(0, 0)}} className="bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center">Наверх ↑</button>
+      </section>
     </div>
   );
 };
