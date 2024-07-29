@@ -1,18 +1,24 @@
 {
   "extends": [
     "stylelint-config-standard",
-    "stylelint-config-tailwindcss"
+    "stylelint-config-tailwindcss",
+    "stylelint-config-prettier"
   ],
-  "plugins": [
-    "stylelint-order"
-  ],
+  "plugins": ["stylelint-order", "stylelint-prettier"],
   "rules": {
     "at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen"]
+        "ignoreAtRules": [
+          "tailwind",
+          "apply",
+          "variants",
+          "responsive",
+          "screen"
+        ]
       }
     ],
-    "order/properties-alphabetical-order": true
+    "order/properties-alphabetical-order": true,
+    "prettier/prettier": true
   }
 }
