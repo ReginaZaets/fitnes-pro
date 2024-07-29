@@ -3,7 +3,7 @@ import Header from "../components/common/Header";
 import { courses } from "../consts";
 const MainPage = () => {
   return (
-    <div className="bg-mainColor ">
+    <>
       <Header />
       <main>
         <div className="flex gap-[5px] font-normal  text-2xl items-center my-4 w-full">
@@ -15,23 +15,23 @@ const MainPage = () => {
             <p>Измени своё тело за полгода!</p>
           </div>
         </div>
-        <div className="flex flex-row flex-wrap items-center gap-[30px]">
+        <div className="flex flex-row flex-wrap items-center gap-[40px]">
           {courses.map((course) => (
             <CourseCard key={course.name} course={course} />
           ))}
         </div>
+        <section className="mt-[20px] mb-[20px] flex justify-center">
+          <button
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
+            className="bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center"
+          >
+            Наверх ↑
+          </button>
+        </section>
       </main>
-      <section className="mt-[20px]">
-        <button
-          onClick={() => {
-            window.scrollTo(0, 0);
-          }}
-          className="bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center"
-        >
-          Наверх ↑
-        </button>
-      </section>
-    </div>
+    </>
   );
 };
 
