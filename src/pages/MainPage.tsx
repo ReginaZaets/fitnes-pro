@@ -1,10 +1,9 @@
+import { Outlet } from "react-router-dom";
 import { CourseCard } from "../components/common/CourseCard";
-import Header from "../components/common/Header";
 import { courses } from "../consts";
 const MainPage = () => {
   return (
     <>
-      <Header />
       <main>
         <div className="flex gap-[5px] font-normal  text-2xl items-center my-4 w-full">
           <div className=" w-[947px] h-[120px] text-black text-[60px] font-medium leading-[60px] text-left">
@@ -31,6 +30,7 @@ const MainPage = () => {
           </button>
         </section>
       </main>
+      <Outlet />
     </>
   );
 };
