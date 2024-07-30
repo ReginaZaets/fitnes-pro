@@ -9,14 +9,24 @@
 }
 
 body {
-  background: "#FAFAFA";
+  background-color: #fafafa;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+header {
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
+}
+
+main {
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
+}
 @layer components {
   .card {
-    @apply rounded-[28px] w-[368px] h-[141px] flex items-center justify-center text-white;
+    @apply rounded-[28px] w-[368px] h-[141px] flex items-center justify-between text-white bg-courseInfoBlock p-[20px];
   }
   .number-reasons {
     @apply font-semibold w-[35px] font-bold text-7xl 
@@ -25,10 +35,39 @@ body {
   .text-reasons {
     @apply text-xl;
   }
+  .direction {
+    @apply grid grid-cols-3 gap-x-[190px] gap-y-7;
+  }
   .directions-name {
-    @apply text-2xl font-normal before:content-['#'];
+    @apply text-2xl font-normal before:content-itemIcon;
   }
   .items {
-    @apply text-black opacity-50 text-2xl font-normal  before:content-['•'];
+    @apply text-black opacity-50 text-2xl font-normal  before:content-['•'] leading-tight;
+  }
+}
+
+@media (max-width: 1200px) {
+  header {
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  main {
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 375px) {
+  header {
+    width: 375px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  main {
+    width: 375px;
+    margin: 0 auto;
+    padding: 0 16px;
   }
 }
