@@ -1,4 +1,6 @@
 import { Outlet } from "react-router-dom";
+import { CourseCard } from "../components/common/CourseCard";
+import {courses} from  "../consts"
 
 const UserProfile = () => {
   return (
@@ -6,19 +8,15 @@ const UserProfile = () => {
       <main>
         <h2 className="text-[40px] font-semibold text-black pb-10">Профиль</h2>
 
-        <div className=" flex gap-[33px] bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] p-[30px]">
-          <div className="bg-[#D9D9D9] w-[197px] h-[197px] rounded-[20px] relative">
+        <div className="flex gap-[33px] bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] p-[30px] w-full">
+          
             <img
-              className="absolute top-[28px] left-[61px]"
-              src="/images/Icon.svg"
-              alt=""
+              className="w-[141px] lg:w-[197px]"
+              src="/images/icon-profile.svg"
+              alt="картинка пользователя"
             />
-            <img
-              className="absolute top-[125px]"
-              src="/images/Ellipse.svg"
-              alt=""
-            />
-          </div>
+         
+          
           <div className="flex flex-col justify-between">
             <div>
               <p className="text-[32px] font-semibold pb-[30px]">Сергей</p>
@@ -40,6 +38,11 @@ const UserProfile = () => {
         </h2>
 
         {/* Здесь будут карточки */}
+        <div className="flex flex-row flex-wrap items-center gap-[40px]">
+          {courses.map((course) => (
+            <CourseCard key={course.name} course={course} />
+          ))}
+        </div>
         <Outlet />
       </main>
     </>
