@@ -50,7 +50,7 @@ const CourseInfo = () => {
       </section>
       <section className="flex flex-col">
         <p className=" text-[40px] text-black font-semibold">Направления</p>
-        <div className="bg-btnColor my-[40px] w-full rounded-[28px] p-[30px] flex items-center justify-center">
+        <div className="bg-btnColor mt-[40px] w-full rounded-[28px] p-[30px] flex items-stretch flex-wrap justify-center">
           <div className="direction">
             <span className="directions-name ">Йога для новичков</span>
             <span className="directions-name">Классическая йога</span>

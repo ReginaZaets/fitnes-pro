@@ -40,7 +40,7 @@ main {
     @apply grid grid-cols-3 gap-x-[190px] gap-y-7;
   }
   .directions-name {
-    @apply text-2xl font-normal before:content-itemIcon;
+    @apply text-2xl font-normal before:content-itemIcon flex gap-2;
   }
   .items {
     @apply text-black opacity-50 text-2xl font-normal  before:content-['•'] leading-tight;

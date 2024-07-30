@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       content: {
-        itemIcon: 'url("/images/icon.svg")',
+        itemIcon: 'url("/icones/iconDirections.svg")',
       },
       screens: {
         sm: "480px",
