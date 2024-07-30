@@ -46,7 +46,6 @@ export const fetchGetCoursesUser = async () => {
 };
 
 // Добавление курса в приобретенные к юзеру
-
 export const fetchAddCourseUser = async (courseID: string) => {
     try {
 
@@ -56,7 +55,6 @@ export const fetchAddCourseUser = async (courseID: string) => {
 };
 
 // Удаление курса из приобретенных
-
 export const fetchDeleteCourseUser = async (courseID: string) => {
     try {
 
@@ -66,7 +64,6 @@ export const fetchDeleteCourseUser = async (courseID: string) => {
 };
 
 // Добавление прогресса в занятие курса
-
 export const fetchAddProgressCourseUser = async (courseID: string, progress: number) => {
     try {
 
