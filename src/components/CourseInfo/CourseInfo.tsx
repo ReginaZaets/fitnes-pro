@@ -1,10 +1,33 @@
+import { useEffect, useState } from "react";
+import { fetchGetCourse } from "../../api/coursesApi";
+import { useParams } from "react-router-dom";
+import { Course } from "../../types/types";
+
+// type Props = {
+//   params: {
+//     id: string;
+//   };
+// };
+type Props = {
+  course: Course;
+};
+
 const CourseInfo = () => {
+  const { id } = useParams<{ id: string }>();
+
+  const [data, setData] = useState<Course[] | null>(null);
+
+  useEffect(() => {
+    fetchGetCourse(id).then((data) => {
+      setData(data);
+      console.log(id);
+    });
+  }, []);
+
   return (
     <main>
       <div>
-        <p className="p-10 text-[60px] absolute z-10 text-white font-semibold ">
-          Йога
-        </p>
+        <p className="p-10 text-[60px] absolute z-10 text-white font-semibold "></p>
         <img
           src="/images/skillCards/yoga.png"
           alt=""
@@ -52,6 +75,12 @@ const CourseInfo = () => {
         <p className=" text-[40px] text-black font-semibold">Направления</p>
         <div className="bg-btnColor mt-[40px] w-full rounded-[28px] p-[30px] flex items-stretch flex-wrap justify-center">
           <div className="direction">
+            {" "}
+            {/* <>
+              {data?.map((item) => {
+                <span key={item}>{description}</span>;
+              })}
+            </> */}
             <span className="directions-name ">Йога для новичков</span>
             <span className="directions-name">Классическая йога</span>
             <span className="directions-name">Кундалини-йога</span>
