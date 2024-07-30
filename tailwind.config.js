@@ -21,13 +21,11 @@ export default {
         btnActive: "#E9ECED",
         btnInactiveText: "#999999",
         btnInactiveBg: "#F7F7F7",
-        yogaCard: "#FFC700",
-        courseInfoBlock: "",
-        courseInfoBlock: "#151720",
       },
 
       borderRadius: {
         small: "46px",
+        radiusModal: "30px",
       },
       width: {
         btnWidth: "103px",
