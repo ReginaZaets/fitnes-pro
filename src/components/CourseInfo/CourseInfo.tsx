@@ -1,16 +1,25 @@
 const CourseInfo = () => {
   return (
-    <div className="w-contentWidth my-0 mx-auto">
-      <div className=" bg-yogaCard  max-w-[1160px] h-[310px] rounded-[30px] text-[16px] text-white font-bold flex-wrap">
-        <p className="p-10 text-[60px]">Йога</p>
+    <main>
+      <div>
+        <p className="p-10 text-[60px] absolute z-10 text-white font-semibold ">
+          Йога
+        </p>
+        <img
+          src="/images/skillCards/yoga.png"
+          alt=""
+          className="relative"
+          md:w-32
+        />
       </div>
-      <section className="my-[60px] flex flex-col">
-        <p className="p-10 text-[40px] text-black font-semibold">
+
+      <section className="my-[20px] pb-[40px] flex flex-col">
+        <p className=" text-[40px] text-black font-semibold my-10">
           Подойдет для вас, если:
         </p>
-        <section className="flex gap-[17px]  flex-wrap">
-          <div className="bg-courseInfoBlock card">
-            <div className="flex">
+        <section className="flex gap-[17px]  flex-wrap justify-center items-stretch">
+          <div className=" card">
+            <div className="flex gap-6 ">
               <span className="text-btnColor number-reasons">1</span>
               <p className="text-reasons">
                 Давно хотели
@@ -19,8 +28,8 @@ const CourseInfo = () => {
             </div>
           </div>
 
-          <div className="bg-courseInfoBlock card">
-            <div className="flex">
+          <div className="card ">
+            <div className="flex gap-6">
               <span className="text-btnColor number-reasons">2</span>
               <p className="text-reasons">
                 Хотите укрепить <br />
@@ -29,21 +38,20 @@ const CourseInfo = () => {
               </p>
             </div>
           </div>
-          <div className="bg-courseInfoBlock card">
-            <div className="flex">
+          <div className="card ">
+            <div className="flex gap-6 w-full">
               <span className="text-btnColor number-reasons">3</span>
-              <p className="text-reasons">
-                Ищете активность, <br />
-                полезную для тела <br /> и души
+              <p className="text-reasons w-full">
+                Ищете активность, полезную для тела и души
               </p>
             </div>
           </div>
         </section>
       </section>
       <section className="flex flex-col">
-        <p className="p-10 text-[40px] text-black font-semibold">Направления</p>
-        <div className="bg-btnColor h-[146px] rounded-[28px] p-[30px] flex items-center justify-center">
-          <div className=" grid grid-cols-3 gap-x-[190px] gap-y-8">
+        <p className=" text-[40px] text-black font-semibold">Направления</p>
+        <div className="bg-btnColor my-[40px] w-full rounded-[28px] p-[30px] flex items-center justify-center">
+          <div className="direction">
             <span className="directions-name ">Йога для новичков</span>
             <span className="directions-name">Классическая йога</span>
             <span className="directions-name">Кундалини-йога</span>
@@ -53,20 +61,20 @@ const CourseInfo = () => {
           </div>
         </div>
       </section>
-      <section className="flex absolute">
+      <section className="flex absolute my-[142px]">
         <div className="flex flex-col items-start">
-          <p className="p-10 text-[60px] text-black font-bold">
-            Начни путь к новому телу
+          <p className=" leading-none text-[60px] text-black font-bold ">
+            Начни путь <br />к новому телу
           </p>
-          <ul className="w-[437px]">
+          <ul className="w-[437px] my-7 flex items-start flex-col justify-start">
             <li className="items">проработка всех групп мышц</li>
             <li className="items">тренировка суставов</li>
             <li className="items">улучшение циркуляции крови</li>
             <li className="items">упражнения заряжают бодростью</li>
             <li className="items">помогают противостоять стрессам</li>
           </ul>
-          <button className="bg-btnColor rounded-small w-[437px] h-btnHeight text-black text-lg m-[28px]">
-            <p>Войдите, чтобы добавить курс</p>
+          <button className="bg-btnColor rounded-small w-[437px] h-btnHeight text-black text-lg my-[28px]">
+            <p className="text-[18px]">Войдите, чтобы добавить курс</p>
           </button>
         </div>
         <img
@@ -85,7 +93,7 @@ const CourseInfo = () => {
           className="relative right-[570px] top-[120px]"
         />
       </section>
-    </div>
+    </main>
   );
 };
 

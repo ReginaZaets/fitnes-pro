@@ -3,6 +3,9 @@ export default {
   content: ["./src/**/*.{html,js,ts,tsx}"],
   theme: {
     extend: {
+      content: {
+        itemIcon: 'url("/images/icon.svg")',
+      },
       screens: {
         sm: "480px",
         md: "768px",
