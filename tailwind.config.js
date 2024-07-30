@@ -21,6 +21,7 @@ export default {
         btnActive: "#E9ECED",
         btnInactiveText: "#999999",
         btnInactiveBg: "#F7F7F7",
+        courseInfoBlock: "#151720",
       },
 
       borderRadius: {
