@@ -14,7 +14,7 @@ const User = () => {
     <div className="flex gap-x-3 items-center relative">
       {!user && (
         <Link to={paths.SIGN_IN_MODAL}>
-          <button className="bg-btnColor  hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small w-[103px] h-[52px] text-black text-lg">
+          <button className="bg-btnColor  hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small w-[83px] h-[36px] sm:w-[103px] sm:h-[52px] text-black text-lg">
             Войти
           </button>
         </Link>
@@ -23,7 +23,7 @@ const User = () => {
         <div className="">
           <div className="flex gap-x-3 items-center relative">
             <img src="/images/Profile.svg" alt="profile" />
-            <p className="py-4 text-2xl text-black font-normal">Сергей</p>
+            <p className="hidden sm:block py-4 text-2xl text-black font-normal">Сергей</p>
             <svg
               onClick={ToggleDropdown}
               className="mx-2"
@@ -62,7 +62,7 @@ const User = () => {
             <Link to={paths.MAIN}>
               <button
                 onClick={clickExit}
-                className="hover:bg-btnHoverWhite active:bg-btnActive rounded-small h-btnHeight w-btnUserPopWidth border border-black  text-black text-lg"
+                className="hover:bg-btnHoverWhite active:bg-btnActive rounded-small  h-btnHeight w-btnUserPopWidth border border-black  text-black text-lg"
               >
                 Выйти
               </button>

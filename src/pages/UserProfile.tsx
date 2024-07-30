@@ -6,9 +6,9 @@ const UserProfile = () => {
   return (
     <>
       <main>
-        <h2 className="text-[40px] font-semibold text-black pb-10">Профиль</h2>
+        <h2 className="text-[24px] font-semibold text-black pb-[20px] sm:pb-10 lg:text-[40px]">Профиль</h2>
 
-        <div className="flex gap-[33px] bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] p-[30px] w-full">
+        <div className="flex flex-wrap justify-center lg:flex-row sm:flex-col sm:justify-normal md:flex-col md:justify-normal  gap-[33px] bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] p-[30px] w-full">
           
             <img
               className="w-[141px] lg:w-[197px]"
@@ -18,22 +18,22 @@ const UserProfile = () => {
          
           
           <div className="flex flex-col justify-between">
-            <div>
-              <p className="text-[32px] font-semibold pb-[30px]">Сергей</p>
-              <p className="text-[18px] font-normal">Логин: sergey.petrov96</p>
+            <div className="self-start">
+              <p className="text-[24px] sm:text-[32px] font-semibold pb-[20px] sm:pb-[30px]">Сергей</p>
+              <p className="text-[18px] font-normal pb-[30px]">Логин: sergey.petrov96</p>
             </div>
 
-            <div className="flex gap-[10px]">
-              <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] w-[192px] text-black text-[18px]">
+            <div className="flex flex-col items-center gap-[10px] sm:flex-row ">
+              <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]">
                 Изменить пароль
               </button>
-              <button className=" hover:bg-btnHoverWhite active:bg-btnActive rounded-small h-[52px] w-[192px] border border-black  text-black text-lg">
+              <button className=" hover:bg-btnHoverWhite active:bg-btnActive rounded-small h-[52px] w-[248px] sm:w-[192px] border border-black  text-black text-lg">
                 Выйти
               </button>
             </div>
           </div>
         </div>
-        <h2 className="text-[40px] font-semibold text-black pt-[60px] pb-[30px]">
+        <h2 className="text-[24px] lg:text-[40px] font-semibold text-black pt-[24px] pb-[0] sm:pt-[60px] sm:pb-[30px]">
           Мои курсы
         </h2>
 
