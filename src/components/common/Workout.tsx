@@ -1,6 +1,5 @@
-
-// import { Exercise } from "../../lib/exercises";
-// import ExerciseItem from "./ExerciseItem";
+import { Exercise } from "../../lib/exercises";
+import ExerciseItem from "./ExerciseItem";
 
 const Workout = () => {
   return (
@@ -23,17 +22,17 @@ const Workout = () => {
           allowFullScreen
       ></iframe>
       </div>
-      <div className="rounded-[30px] bg-white shadow-[customShadow] w-full h-[375px] p-10 flex flex-col justify-start items-start">
-        <h2 className="font-[StratosSkyeng] text-[32px] font-normal mb-5">
+      <div className="rounded-[30px] bg-white shadow-[customShadow] w-full h-[395px] p-10 flex flex-col justify-start items-start">
+        <h2 className="font-[StratosSkyeng, sans-serif] text-[32px] font-normal mb-5">
           Упражнения тренировки 2
         </h2>
-        <div className="mb-[40px] grid grid-cols-1 gap-x-[60px] gap-y-[24px] md:grid-cols-3 md:gap-y-[20px]">
+        <div className="mb-[40px] grid grid-cols-1 gap-x-[45px] gap-y-[24px] md:grid-cols-3 md:gap-y-[20px]">
           
-            {/* {Exercise.map((item) => {
+            {Exercise.map((item) => {
               return(<ExerciseItem title={item.title} progress={item.progress} />)
-            })} */}
+            })}
 
-            <div className="w-80 h-9 text-left flex flex-col">
+            {/* <div className="w-80 h-9 text-left flex flex-col">
               <h3 className="font-[Roboto] text-[18px] leading-[110%] font-normal">Наклоны вперед 0%</h3>
               <progress
                 value="40"
@@ -106,7 +105,7 @@ const Workout = () => {
                 max="100"
                 className="w-full h-[6px] mt-[10px] block [&::-webkit-progress-bar]:bg-[#F7F7F7] [&::-webkit-progress-value]:bg-blue-400 [&::-moz-progress-bar]:bg-[#00C1FF]"
               />
-            </div>
+            </div> */}
               
         </div>
         <button className="rounded-[30px] bg-[#BCEC30] text-[18px] font-normal leading-[110%]">

@@ -1,10 +1,12 @@
+import Header from "../components/common/Header";
 import Workout from "../components/common/Workout";
 
 const WorkoutVideoPage = () => {
   return (
-    <div className="bg-mainColor ">
+    <main>
+      {/* <Header /> */}
       <Workout />
-    </div>
+    </main>
   );
 };
 
