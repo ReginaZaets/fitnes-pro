@@ -1,9 +1,9 @@
-import MainPage from "./pages/MainPage";
+import { AppRoutes } from "./AppRoutes";
 
 function App() {
   return (
     <>
-      <MainPage />
+      <AppRoutes />
     </>
   );
 }

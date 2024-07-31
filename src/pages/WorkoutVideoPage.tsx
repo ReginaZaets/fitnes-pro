@@ -1,13 +1,12 @@
-import Header from "../components/common/Header";
+import { Outlet } from "react-router-dom";
 import Workout from "../components/common/Workout";
-
-const WorkoutVideoPage = () => {
+const WorkoutPage = () => {
   return (
-    <main>
-      {/* <Header /> */}
+    <>
       <Workout />
-    </main>
+      <Outlet />
+    </>
   );
 };
 
-export default WorkoutVideoPage;
+export default WorkoutPage;
