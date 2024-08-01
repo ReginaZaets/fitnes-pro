@@ -1,6 +1,6 @@
 import { get, ref } from "firebase/database";
 import { db } from "./firebaseConfig";
-import { Course } from "../types/types";
+import { Course, UserCourse } from "../types/types";
 
 // Получение всех курсов
 export const fetchGetCourses = async () => {
@@ -37,12 +37,26 @@ export const fetchGetCourse = async (courseID: string) => {
 };
 
 // Получение всех курсов конкретного юзера
-export const fetchGetCoursesUser = async () => {
+export const fetchGetCoursesUser = async (userID: string) => {
+    let userCourses: UserCourse[] = [];
+    let filteredCourses: Course[] = [];
     try {
-
+        const dbRef = ref(db, `users/${userID}/courses`);
+        const snapshot = await get(dbRef);
+        if (snapshot.exists()) {
+            userCourses = snapshot.val();
+            console.log(userCourses);
+            const allCourses = await fetchGetCourses();
+            // Фильтрация курсов по ID
+            filteredCourses = allCourses.filter(course =>
+                userCourses.some(userCourse => userCourse.course_id === course._id));
+          } else {
+            console.warn("Нет приобретенных курсов курсов");
+          }
     } catch (error) {
         console.log(`Ошибка получения данных: ${error}`);
     }
+    return filteredCourses;
 };
 
 // Добавление курса в приобретенные к юзеру

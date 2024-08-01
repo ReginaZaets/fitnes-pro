@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { Course } from "../../types/types";
-import { fetchGetCourse, fetchGetCourses } from "../../api/coursesApi";
+import { Course, UserCourse } from "../../types/types";
+import {
+  fetchGetCourse,
+  fetchGetCourses,
+  fetchGetCoursesUser,
+} from "../../api/coursesApi";
 //import { useParams } from "react-router-dom";
 
 const CourseListExample = () => {
@@ -9,6 +13,9 @@ const CourseListExample = () => {
 
   // Состояние для хранения курса
   const [course, setCourse] = useState<Course | null>(null);
+
+  // Состояние для хранения курсов пользователя
+  const [userCourses, setUserCourses] = useState<Course[]>([]);
 
   // Получение всех курсов при загрузке
   useEffect(() => {
@@ -28,6 +35,16 @@ const CourseListExample = () => {
     });
   }, []);
 
+  // Пока хардкодим ID пользователя. В последствии ID необходимо получать из контекста
+  const userID = "52j4se";
+
+  // Получение списка приобретенных курсов пользователя
+  useEffect(() => {
+    fetchGetCoursesUser(userID).then((data) => {
+      setUserCourses(data);
+    });
+  }, []);
+
   return (
     <div>
       <div>Курсы</div>
@@ -37,6 +54,12 @@ const CourseListExample = () => {
       <br />
       <br />
       <div>{course && course.nameRU}</div>
+      <br />
+      <br />
+      <div>Курсы пользователя</div>
+      {userCourses.map((course) => (
+        <li key={course._id}>{course.nameRU}</li>
+      ))}
     </div>
   );
 };
