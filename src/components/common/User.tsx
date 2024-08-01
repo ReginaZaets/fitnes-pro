@@ -1,7 +1,34 @@
+import { useNavigate } from "react-router-dom";
+import { paths } from "../../lib/paths";
+import { useEffect } from "react";
+
 const User = () => {
+  const navigate = useNavigate();
+
+  const handleCloseModal = () => {
+    navigate(paths.MAIN);
+  };
+  const handleOpenModal = () => {
+    navigate(paths.SIGN_IN_MODAL);
+  };
+  useEffect(() => {
+    const handleEscape = (event: any) => {
+      if (event.key === "Escape") {
+        handleCloseModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
   return (
     <div className="flex gap-x-3 items-center relative">
-      <button className="bg-btnColor  hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small w-[103px] h-[52px] text-black text-lg">
+      <button
+        onClick={handleOpenModal}
+        className="bg-btnColor  hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small w-[103px] h-[52px] text-black text-lg"
+      >
         Войти
       </button>
       <div className="hidden">
