@@ -6,8 +6,8 @@ import { useUserContext } from "../../context/hooks/useUser";
 const User = () => {
   // const [user, setUser] = useState<string | null>("julia");
   const { user } = useUserContext();
-  const { logout } = useUserContext();
-  const [isOpen, setIsOpen] = useState(false);
+const { logout } = useUserContext();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const ToggleDropdown = () => setIsOpen((prevState) => !prevState);
   const clickExit = () => {
     logout();
@@ -27,7 +27,7 @@ const User = () => {
           <div className="flex gap-x-3 items-center relative">
             <img src="/images/Profile.svg" alt="profile" />
             <p className="hidden sm:block py-4 text-2xl text-black font-normal">
-              Сергей
+              {user?.name}
             </p>
             <svg
               onClick={ToggleDropdown}
@@ -51,9 +51,9 @@ const User = () => {
       {isOpen && (
         <div className="absolute z-10 top-24 right-0 rounded-3xl bg-white w-[266px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]">
           <div className="flex flex-col items-center justify-center gap-2.5 my-7">
-            <p className="text-lg font-normal  text-black">Сергей</p>
+            <p className="text-lg font-normal  text-black">{user?.name}</p>
             <p className="text-lg font-normal text-headerPopLinkColor mb-8">
-              sergey.petrov96@mail.ru
+             {user?.email}
             </p>
             <Link to={paths.PROFILE}>
               <button

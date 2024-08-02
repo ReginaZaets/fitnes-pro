@@ -5,7 +5,8 @@ import { paths } from "../../lib/paths";
 import { useUserContext } from "../../context/hooks/useUser";
 
 const Profile = () => {
-    const {logout} = useUserContext()
+    const { user } = useUserContext();
+const { logout } = useUserContext();
   return (
     <div>
       <h2 className="text-[24px] font-semibold text-black pb-[20px] sm:pb-10 lg:text-[40px]">
@@ -22,7 +23,7 @@ const Profile = () => {
         <div className="flex flex-col justify-between">
           <div className="self-start">
             <p className="text-[24px] sm:text-[32px] font-semibold pb-[20px] sm:pb-[30px]">
-              Сергей
+              {user?.name}
             </p>
             <p className="text-[18px] font-normal pb-[30px]">
               Логин: sergey.petrov96
