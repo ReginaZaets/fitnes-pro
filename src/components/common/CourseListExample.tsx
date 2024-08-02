@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { Course, UserCourse } from "../../types/types";
+import { Course, UserCourse, Workout } from "../../types/types";
 import {
   fetchGetCourse,
   fetchGetCourses,
   fetchGetCoursesUser,
+  fetchGetWorkouts,
 } from "../../api/coursesApi";
+import { getCourseProgress } from "../../lib/courseProgress";
 //import { useParams } from "react-router-dom";
 
 const CourseListExample = () => {
   // Состояние для хранения массива курсов
-  const [courseArray, setCourseArray] = useState<Course[]>([]);
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
 
   // Состояние для хранения курса
   const [course, setCourse] = useState<Course | null>(null);
@@ -17,10 +19,16 @@ const CourseListExample = () => {
   // Состояние для хранения курсов пользователя
   const [userCourses, setUserCourses] = useState<Course[]>([]);
 
+  // Состояние для хранения курсов, тренировок и прогресса тренировок пользователя
+  const [userCoursesData, setUserCoursesData] = useState<UserCourse[]>([]);
+
+  // Состояние для хранения всех тренировок
+  const [allWorkouts, setAllWorkouts] = useState<Workout[]>([]);
+
   // Получение всех курсов при загрузке
   useEffect(() => {
     fetchGetCourses().then((data) => {
-      setCourseArray(data);
+      setAllCourses(data);
     });
   }, []);
 
@@ -41,14 +49,22 @@ const CourseListExample = () => {
   // Получение списка приобретенных курсов пользователя
   useEffect(() => {
     fetchGetCoursesUser(userID).then((data) => {
-      setUserCourses(data);
+      setUserCourses(data.filteredCourses);
+      setUserCoursesData(data.userCourses);
+    });
+  }, []);
+
+  // Получение всех тренировок при загрузке
+  useEffect(() => {
+    fetchGetWorkouts().then((data) => {
+      setAllWorkouts(data);
     });
   }, []);
 
   return (
     <div>
       <div>Курсы</div>
-      {courseArray.map((course) => (
+      {allCourses.map((course) => (
         <li key={course._id}>{course.nameRU}</li>
       ))}
       <br />
@@ -58,7 +74,13 @@ const CourseListExample = () => {
       <br />
       <div>Курсы пользователя</div>
       {userCourses.map((course) => (
-        <li key={course._id}>{course.nameRU}</li>
+        <div key={course._id}>
+          <li>{course.nameRU}</li>
+          <span>
+            Прогресс:{" "}
+            {getCourseProgress(course._id, course.workouts, userCoursesData)}
+          </span>
+        </div>
       ))}
     </div>
   );

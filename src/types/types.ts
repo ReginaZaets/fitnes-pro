@@ -24,12 +24,11 @@ export type Exercise = {
   quantity: number;
 }
 
-
-
-
 // Типизация для объекта пользователя
 export type User = {
   _uid: string;
+  name: string;
+  email: string;
   courses: UserCourse[];
 }
 
@@ -43,4 +42,5 @@ export type UserCourse = {
 export type UserCourseWorkout = {
   _id: string;
   exercises: Exercise[];
+  done: boolean;
 }

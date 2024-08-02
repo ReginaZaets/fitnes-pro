@@ -1,6 +1,6 @@
 import { get, ref } from "firebase/database";
 import { db } from "./firebaseConfig";
-import { Course, UserCourse } from "../types/types";
+import { Course, UserCourse, Workout } from "../types/types";
 
 // Получение всех курсов
 export const fetchGetCourses = async () => {
@@ -10,9 +10,9 @@ export const fetchGetCourses = async () => {
         const snapshot = await get(dbRef);
         if (snapshot.exists()) {
             data = Object.values(snapshot.val());
-          } else {
+        } else {
             console.warn("Нет доступных курсов");
-          }
+        }
     } catch (error) {
         console.log(`Ошибка получения данных: ${error}`);
     }
@@ -27,9 +27,9 @@ export const fetchGetCourse = async (courseID: string) => {
         const snapshot = await get(dbRef);
         if (snapshot.exists()) {
             data = snapshot.val();
-          } else {
+        } else {
             console.warn("Нет доступных курсов");
-          }
+        }
     } catch (error) {
         console.log(`Ошибка получения данных: ${error}`);
     }
@@ -45,18 +45,18 @@ export const fetchGetCoursesUser = async (userID: string) => {
         const snapshot = await get(dbRef);
         if (snapshot.exists()) {
             userCourses = snapshot.val();
-            console.log(userCourses);
+            //console.log(userCourses);
             const allCourses = await fetchGetCourses();
             // Фильтрация курсов по ID
             filteredCourses = allCourses.filter(course =>
                 userCourses.some(userCourse => userCourse.course_id === course._id));
-          } else {
+        } else {
             console.warn("Нет приобретенных курсов курсов");
-          }
+        }
     } catch (error) {
         console.log(`Ошибка получения данных: ${error}`);
     }
-    return filteredCourses;
+    return { userCourses, filteredCourses };
 };
 
 // Добавление курса в приобретенные к юзеру
@@ -87,4 +87,22 @@ export const fetchAddProgressCourseUser = async (courseID: string, progress: num
     } catch (error) {
         console.log(`Ошибка получения данных: ${error}`);
     }
+};
+
+// Получение списка всех тренировок
+
+export const fetchGetWorkouts = async () => {
+    let data: Workout[] = [];
+    try {
+        const dbRef = ref(db, `workouts`);
+        const snapshot = await get(dbRef);
+        if (snapshot.exists()) {
+            data = snapshot.val();
+        } else {
+            console.warn("Нет доступных тренировок");
+        }
+    } catch (error) {
+        console.log(`Ошибка получения данных: ${error}`);
+    }
+    return data;
 };

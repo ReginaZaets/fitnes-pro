@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { CourseCard } from "../components/common/CourseCard";
 import { courses } from "../consts";
-import CourseListExample from "../components/common/CourseListExample";
 const MainPage = () => {
   return (
     <>
@@ -30,7 +29,6 @@ const MainPage = () => {
             Наверх ↑
           </button>
         </section>
-        <CourseListExample />
       </main>
       <Outlet />
     </>
