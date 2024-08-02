@@ -5,19 +5,19 @@ import { paths } from "../../lib/paths";
 import { useUserContext } from "../../context/hooks/useUser";
 import { useEffect, useState } from "react";
 import { fetchGetCoursesUser } from "../../api/coursesApi";
-import {  Course } from "../../types/types";
+import { Course } from "../../types/types";
 
 const Profile = () => {
-    const { user, logout } = useUserContext();
-    const [coursesUser, setCoursesUser] = useState<Course[]>([]);
+  const { user, logout } = useUserContext();
+  const [coursesUser, setCoursesUser] = useState<Course[]>([]);
 
-    useEffect(() => {
-        if (user) {
-          fetchGetCoursesUser(user._uid).then(({filteredCourses}) => {
-            setCoursesUser(filteredCourses);
-          });
-        }
-      }, [user]);
+  useEffect(() => {
+    if (user) {
+      fetchGetCoursesUser(user._uid).then(({ filteredCourses }) => {
+        setCoursesUser(filteredCourses);
+      });
+    }
+  }, [user]);
 
   return (
     <div>
@@ -43,15 +43,18 @@ const Profile = () => {
           </div>
 
           <div className="flex flex-col items-center gap-[10px] sm:flex-row ">
-          <Link to={paths.NEW_PASSWORD_MODAL}>
-            <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]">
-              Изменить пароль
-            </button>
+            <Link to={paths.NEW_PASSWORD_MODAL}>
+              <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]">
+                Изменить пароль
+              </button>
             </Link>
             <Link to={paths.MAIN}>
-            <button onClick={logout} className=" hover:bg-btnHoverWhite active:bg-btnActive rounded-small h-[52px] w-[248px] sm:w-[192px] border border-black  text-black text-lg">
-              Выйти
-            </button>
+              <button
+                onClick={logout}
+                className=" hover:bg-btnHoverWhite active:bg-btnActive rounded-small h-[52px] w-[248px] sm:w-[192px] border border-black  text-black text-lg"
+              >
+                Выйти
+              </button>
             </Link>
           </div>
         </div>
