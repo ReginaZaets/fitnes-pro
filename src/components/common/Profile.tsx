@@ -1,12 +1,24 @@
 import { CourseCard } from "./CourseCard";
-import { courses } from "../../consts";
+
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useUserContext } from "../../context/hooks/useUser";
+import { useEffect, useState } from "react";
+import { fetchGetCoursesUser } from "../../api/coursesApi";
+import {  UserCourse } from "../../types/types";
 
 const Profile = () => {
-    const { user } = useUserContext();
-const { logout } = useUserContext();
+    const { user, logout } = useUserContext();
+    const [coursesUser, setCoursesUser] = useState<UserCourse[]>([]);
+
+    useEffect(() => {
+        if (user) {
+          fetchGetCoursesUser(user._uid).then(({userCourses}) => {
+            setCoursesUser(userCourses);
+          });
+        }
+      }, [user]);
+
   return (
     <div>
       <h2 className="text-[24px] font-semibold text-black pb-[20px] sm:pb-10 lg:text-[40px]">
@@ -26,7 +38,7 @@ const { logout } = useUserContext();
               {user?.name}
             </p>
             <p className="text-[18px] font-normal pb-[30px]">
-              Логин: sergey.petrov96
+              Логин: {user?.email}
             </p>
           </div>
 
@@ -50,8 +62,8 @@ const { logout } = useUserContext();
 
       {/* Здесь будут карточки */}
       <div className="flex flex-row flex-wrap items-center gap-[40px]">
-        {courses.map((course) => (
-          <CourseCard key={course.name} course={course} />
+        {coursesUser.map((course) => (
+          <CourseCard key={course.course_id} course={course} />
         ))}
       </div>
     </div>

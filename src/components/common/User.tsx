@@ -5,8 +5,7 @@ import { useUserContext } from "../../context/hooks/useUser";
 
 const User = () => {
   // const [user, setUser] = useState<string | null>("julia");
-  const { user } = useUserContext();
-const { logout } = useUserContext();
+  const { user, logout } = useUserContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ToggleDropdown = () => setIsOpen((prevState) => !prevState);
   const clickExit = () => {
