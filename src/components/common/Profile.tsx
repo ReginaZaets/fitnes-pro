@@ -5,16 +5,16 @@ import { paths } from "../../lib/paths";
 import { useUserContext } from "../../context/hooks/useUser";
 import { useEffect, useState } from "react";
 import { fetchGetCoursesUser } from "../../api/coursesApi";
-import {  UserCourse } from "../../types/types";
+import {  Course } from "../../types/types";
 
 const Profile = () => {
     const { user, logout } = useUserContext();
-    const [coursesUser, setCoursesUser] = useState<UserCourse[]>([]);
+    const [coursesUser, setCoursesUser] = useState<Course[]>([]);
 
     useEffect(() => {
         if (user) {
-          fetchGetCoursesUser(user._uid).then(({userCourses}) => {
-            setCoursesUser(userCourses);
+          fetchGetCoursesUser(user._uid).then(({filteredCourses}) => {
+            setCoursesUser(filteredCourses);
           });
         }
       }, [user]);
@@ -63,7 +63,7 @@ const Profile = () => {
       {/* Здесь будут карточки */}
       <div className="flex flex-row flex-wrap items-center gap-[40px]">
         {coursesUser.map((course) => (
-          <CourseCard key={course.course_id} course={course} />
+          <CourseCard key={course._id} course={course} />
         ))}
       </div>
     </div>
