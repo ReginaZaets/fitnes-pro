@@ -12,17 +12,17 @@ export const Exercise: PropsExercises[] = [
   },
   {
     id: 2,
-    title: "Наклоны назад",
+    title: "Наклоны вперед",
     progress: 40,
   },
   {
     id: 3,
-    title: "Поднятие ног, согнутых в коленях",
+    title: "Наклоны вперед",
     progress: 40,
   },
   {
     id: 4,
-    title: "Наклоны вперед",
+    title: "Наклоны назад",
     progress: 40,
   },
   {
@@ -32,22 +32,22 @@ export const Exercise: PropsExercises[] = [
   },
   {
     id: 6,
-    title: "Поднятие ног, согнутых в коленях",
+    title: "Наклоны назад",
     progress: 40,
   },
   {
     id: 7,
-    title: "Наклоны вперед",
+    title: "Поднятие ног, согнутых в коленях",
     progress: 40,
   },
   {
     id: 8,
-    title: "Наклоны назад",
+    title: "Поднятие ног, согнутых в коленях",
     progress: 40,
   },
   {
     id: 9,
     title: "Поднятие ног, согнутых в коленях",
-    progress: 40,
+    progress: 100,
   },
 ];
