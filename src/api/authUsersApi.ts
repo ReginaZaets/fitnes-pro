@@ -3,7 +3,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth } from "./firebaseConfig";
+import { auth, db } from "./firebaseConfig";
+import { ref, set } from "firebase/database";
 
 export const register = async (email: string, password: string) => {
   try {
@@ -12,7 +13,14 @@ export const register = async (email: string, password: string) => {
       email,
       password
     );
-    return userCreate.user;
+    const user = userCreate.user;
+
+    await set(ref(db, "users/" + user.uid), {
+      _uid: user.uid,
+      email: user.email,
+    });
+
+    return user;
   } catch (error: any) {
     console.log(error.message);
     switch (error.code) {

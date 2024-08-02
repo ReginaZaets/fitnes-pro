@@ -6,6 +6,7 @@ const SignupModal = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
     repeatPassword: "",
@@ -26,8 +27,11 @@ const SignupModal = () => {
 
   const validateForm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!formData.email && !formData.password && !formData.repeatPassword) {
-      setError("Введите логин и пароль");
+    if (!formData.name && !formData.email && !formData.password && !formData.repeatPassword) {
+      setError("Введите имя, логин и пароль");
+      return false;
+    } else if (!formData.name) {
+      setError("Введите имя");
       return false;
     } else if (!formData.email) {
       setError("Введите логин");
@@ -63,6 +67,8 @@ const SignupModal = () => {
         return "border-[#DB0030]";
       } else if (inputName === "repeatPassword" && error.includes("пароль")) {
         return "border-[#DB0030]";
+      } else if (inputName === "name" && error.includes("имя")) {
+        return "border-[#DB0030]";
       }
     }
     return "border-[#D0CECE]";
@@ -81,6 +87,13 @@ const SignupModal = () => {
           className="w-logosigninModalW h-logosigninModalH ml-[30px] "
         />
         <div className="flex flex-col items-center mt-12 gap-2.5">
+          <input
+            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("name")}`}
+            type="text"
+            name="name"
+            onChange={handleChange}
+            placeholder="Имя"
+          />
           <input
             className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("email")}`}
             type="text"
@@ -103,7 +116,9 @@ const SignupModal = () => {
             placeholder="Повторите пароль"
           />
           {error && (
-            <p className="text-sm w-inputWidth leading-[15.4px] text-center text-[#F84D4D]">{error}</p>
+            <p className="text-sm w-inputWidth leading-[15.4px] text-center text-[#F84D4D]">
+              {error}
+            </p>
           )}
         </div>
         <div className="flex flex-col gap-2.5 mt-btnModalMargin">
