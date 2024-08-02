@@ -1,4 +1,5 @@
-import { createContext, useContext } from "react";
+import { createContext, useState } from "react";
+
 
 function checkLS() {
     try {
@@ -13,20 +14,21 @@ export const UserContext = createContext(null);
 
 export function UserProvider({children}) {
   
-    const [user, setUser] = useState(checkLS());
-    const navigate = useNavigate();
-  
+     const [user, setUser] = useState(checkLS());
+     //const [user, setUser] = useState("julia")
+      
   function userLogin(newUser) {
     console.log(newUser);
     localStorage.setItem("user", JSON.stringify(newUser));
     setUser(newUser);
-    navigate(routeObj.MAIN);
+    
   }
   
   function logout() {
     localStorage.removeItem("user");
     setUser(null);
-    navigate(routeObj.SIGN_IN_MODAL);
+    console.log(user)
+    
   }
   return(
     <UserContext.Provider value={{user, userLogin, logout}}>

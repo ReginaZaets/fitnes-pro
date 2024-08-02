@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
+import { useUserContext } from "../../context/hooks/useUser";
 
 const User = () => {
-  const [user, setUser] = useState<string | null>("julia");
+  // const [user, setUser] = useState<string | null>("julia");
+  const { user } = useUserContext();
+  const { logout } = useUserContext();
   const [isOpen, setIsOpen] = useState(false);
   const ToggleDropdown = () => setIsOpen((prevState) => !prevState);
   const clickExit = () => {
-    setUser(null);
+    logout();
     setIsOpen(false);
   };
   return (
     <div className="flex gap-x-3 items-center relative">
       {!user && (
-        <Link to={paths.SIGN_IN_MODAL}>
+        <Link to={paths.SIGN_UP_MODAL}>
           <button className="bg-btnColor  hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small w-[83px] h-[36px] sm:w-[103px] sm:h-[52px] text-black text-lg">
             Войти
           </button>
@@ -23,7 +26,9 @@ const User = () => {
         <div className="">
           <div className="flex gap-x-3 items-center relative">
             <img src="/images/Profile.svg" alt="profile" />
-            <p className="hidden sm:block py-4 text-2xl text-black font-normal">Сергей</p>
+            <p className="hidden sm:block py-4 text-2xl text-black font-normal">
+              Сергей
+            </p>
             <svg
               onClick={ToggleDropdown}
               className="mx-2"
