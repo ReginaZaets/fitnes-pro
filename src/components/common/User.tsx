@@ -50,22 +50,35 @@ const User = () => {
             />
           </svg>
         </div>
-      </div>
+      )}
 
-      <div className="hidden absolute top-24 right-0 rounded-3xl bg-white w-[266px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]">
-        <div className="flex flex-col items-center justify-center gap-2.5 my-7">
-          <p className="text-lg font-normal  text-black">Сергей</p>
-          <p className="text-lg font-normal text-headerPopLinkColor mb-8">
-            sergey.petrov96@mail.ru
-          </p>
-          <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-btnHeight w-btnUserPopWidth text-black text-lg">
-            Мой профиль
-          </button>
-          <button className="hover:bg-btnHoverWhite active:bg-btnActive rounded-small h-btnHeight w-btnUserPopWidth border border-black  text-black text-lg">
-            Выйти
-          </button>
+      {isOpen && (
+        <div className="absolute z-10 top-24 right-0 rounded-3xl bg-white w-[266px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]">
+          <div className="flex flex-col items-center justify-center gap-2.5 my-7">
+            <p className="text-lg font-normal  text-black">{user?.name}</p>
+            <p className="text-lg font-normal text-headerPopLinkColor mb-8">
+             {user?.email}
+            </p>
+            <Link to={paths.PROFILE}>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-btnHeight w-btnUserPopWidth text-black text-lg"
+              >
+                Мой профиль
+              </button>
+            </Link>
+
+            <Link to={paths.MAIN}>
+              <button
+                onClick={clickExit}
+                className="hover:bg-btnHoverWhite active:bg-btnActive rounded-small  h-btnHeight w-btnUserPopWidth border border-black  text-black text-lg"
+              >
+                Выйти
+              </button>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
