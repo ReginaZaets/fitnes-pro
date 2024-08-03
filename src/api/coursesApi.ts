@@ -1,6 +1,7 @@
 import { get, ref } from "firebase/database";
 import { db } from "./firebaseConfig";
-import { Course } from "../types/types";
+import { Course, UserCourse, Workout } from "../types/types";
+import { getBlob, ref as storageRef, getStorage } from "firebase/storage";
 
 // Получение всех курсов
 export const fetchGetCourses = async () => {
@@ -10,9 +11,9 @@ export const fetchGetCourses = async () => {
         const snapshot = await get(dbRef);
         if (snapshot.exists()) {
             data = Object.values(snapshot.val());
-          } else {
+        } else {
             console.warn("Нет доступных курсов");
-          }
+        }
     } catch (error) {
         console.log(`Ошибка получения данных: ${error}`);
     }
@@ -27,9 +28,9 @@ export const fetchGetCourse = async (courseID: string) => {
         const snapshot = await get(dbRef);
         if (snapshot.exists()) {
             data = snapshot.val();
-          } else {
+        } else {
             console.warn("Нет доступных курсов");
-          }
+        }
     } catch (error) {
         console.log(`Ошибка получения данных: ${error}`);
     }
@@ -37,12 +38,26 @@ export const fetchGetCourse = async (courseID: string) => {
 };
 
 // Получение всех курсов конкретного юзера
-export const fetchGetCoursesUser = async () => {
+export const fetchGetCoursesUser = async (userID: string) => {
+    let userCourses: UserCourse[] = [];
+    let filteredCourses: Course[] = [];
     try {
-
+        const dbRef = ref(db, `users/${userID}/courses`);
+        const snapshot = await get(dbRef);
+        if (snapshot.exists()) {
+            userCourses = snapshot.val();
+            //console.log(userCourses);
+            const allCourses = await fetchGetCourses();
+            // Фильтрация курсов по ID
+            filteredCourses = allCourses.filter(course =>
+                userCourses.some(userCourse => userCourse.course_id === course._id));
+        } else {
+            console.warn("Нет приобретенных курсов");
+        }
     } catch (error) {
         console.log(`Ошибка получения данных: ${error}`);
     }
+    return { userCourses, filteredCourses };
 };
 
 // Добавление курса в приобретенные к юзеру
@@ -74,3 +89,36 @@ export const fetchAddProgressCourseUser = async (courseID: string, progress: num
         console.log(`Ошибка получения данных: ${error}`);
     }
 };
+
+// Получение списка всех тренировок
+
+export const fetchGetWorkouts = async () => {
+    let data: Workout[] = [];
+    try {
+        const dbRef = ref(db, `workouts`);
+        const snapshot = await get(dbRef);
+        if (snapshot.exists()) {
+            data = snapshot.val();
+        } else {
+            console.warn("Нет доступных тренировок");
+        }
+    } catch (error) {
+        console.log(`Ошибка получения данных: ${error}`);
+    }
+    return data;
+};
+
+// Получение картинок по пути (свойство src в объекте Course)
+export const fetchGetCourseImage = async (src: string) => {
+    try {
+      const storage = getStorage();
+      const storRef = storageRef(storage, `gs://fitness-pro-72544.appspot.com/${src}`);
+      const blob = await getBlob(storRef);
+  
+      const url = URL.createObjectURL(blob);
+      return url;
+    } catch (error) {
+      console.error("Ошибка получения изображения:", error);
+      throw error;
+    }
+  };
