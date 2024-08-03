@@ -1,6 +1,7 @@
 import { get, ref } from "firebase/database";
 import { db } from "./firebaseConfig";
 import { Course, UserCourse, Workout } from "../types/types";
+import { getBlob, ref as storageRef, getStorage } from "firebase/storage";
 
 // Получение всех курсов
 export const fetchGetCourses = async () => {
@@ -106,3 +107,18 @@ export const fetchGetWorkouts = async () => {
     }
     return data;
 };
+
+// Получение картинок по пути (свойство src в объекте Course)
+export const fetchGetCourseImage = async (src: string) => {
+    try {
+      const storage = getStorage();
+      const storRef = storageRef(storage, `gs://fitness-pro-72544.appspot.com/${src}`);
+      const blob = await getBlob(storRef);
+  
+      const url = URL.createObjectURL(blob);
+      return url;
+    } catch (error) {
+      console.error("Ошибка получения изображения:", error);
+      throw error;
+    }
+  };

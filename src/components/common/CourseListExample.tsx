@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Course, UserCourse, Workout } from "../../types/types";
 import {
   fetchGetCourse,
+  fetchGetCourseImage,
   fetchGetCourses,
   fetchGetCoursesUser,
   fetchGetWorkouts,
@@ -15,6 +16,8 @@ const CourseListExample = () => {
 
   // Состояние для хранения курса
   const [course, setCourse] = useState<Course | null>(null);
+  // Состояние для хранения картинки курса
+  const [imgCourse, setImgCourse] = useState("");
 
   // Состояние для хранения курсов пользователя
   const [userCourses, setUserCourses] = useState<Course[]>([]);
@@ -43,6 +46,15 @@ const CourseListExample = () => {
     });
   }, []);
 
+  const src = course?.img;
+  // Получение url картинки по src
+  useEffect(() => {
+    src &&
+      fetchGetCourseImage(src).then((data) => {
+        setImgCourse(data);
+      });
+  }, [src]);
+
   // Пока хардкодим ID пользователя. В последствии ID необходимо получать из контекста
   const userID = "52j4se";
 
@@ -69,7 +81,10 @@ const CourseListExample = () => {
       ))}
       <br />
       <br />
-      <div>{course && course.nameRU}</div>
+      <div>
+        <h3>{course && course.nameRU}</h3>
+        <img src={imgCourse} />
+      </div>
       <br />
       <br />
       <div>Курсы пользователя</div>
