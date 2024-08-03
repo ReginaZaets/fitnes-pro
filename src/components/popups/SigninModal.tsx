@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../api/authUsersApi";
+import { paths } from "../../lib/paths";
 
 const SigninModal = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const SigninModal = () => {
     try {
       const user = await login(formData.email, formData.password);
       console.log("user:", user);
-      navigate("/");
+      navigate(paths.MAIN);
     } catch (error: any) {
       console.error("Error registering:", error);
       setError(error.message);
@@ -55,13 +56,25 @@ const SigninModal = () => {
     }
     return "border-[#D0CECE]";
   };
+  const handleClickResetPassword = () => {
+    navigate("/new-password");
+  };
+
+  const getTextColorAndClick = () => {
+    if (error) {
+      if (error && error.includes("Восстановить пароль?")) {
+        return "underline cursor-pointer";
+      }
+    }
+  };
+
   const handleClickSignin = () => {
     navigate("/signup");
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10 transition-opacity duration-300">
-      <div className="relative bg-white border w-auto max-w-lg h-auto shadow-customShadow rounded-radiusModal p-4 md:p-10">
+      <div className="absolute bg-white border w-auto max-w-lg h-auto shadow-customShadow rounded-radiusModal p-4 md:p-10">
         <img
           src="/images/logo.svg"
           alt="imageLogo"
@@ -85,7 +98,12 @@ const SigninModal = () => {
             placeholder="Пароль"
           />
           {error && (
-            <p className="text-sm leading-[15.4px] text-[#F84D4D]">{error}</p>
+            <p
+              onClick={handleClickResetPassword}
+              className={`text-sm w-inputWidth leading-[15.4px] text-center text-[#F84D4D] ${getTextColorAndClick()}`}
+            >
+              {error}
+            </p>
           )}
         </div>
         <div className="flex flex-col gap-2.5 mt-btnModalMargin">

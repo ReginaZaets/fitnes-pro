@@ -2,18 +2,19 @@ import { CourseCard } from "./CourseCard";
 
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
-import { useUserContext } from "../../context/hooks/useUser";
 import { useEffect, useState } from "react";
 import { fetchGetCoursesUser } from "../../api/coursesApi";
 import { Course } from "../../types/types";
+import { useUserContext } from "../../context/hooks/useUser";
+import { logout } from "../../api/authUsersApi";
 
 const Profile = () => {
-  const { user, logout } = useUserContext();
+  const user = useUserContext();
   const [coursesUser, setCoursesUser] = useState<Course[]>([]);
 
   useEffect(() => {
     if (user) {
-      fetchGetCoursesUser(user._uid).then(({ filteredCourses }) => {
+      fetchGetCoursesUser(user.uid).then(({ filteredCourses }) => {
         setCoursesUser(filteredCourses);
       });
     }
@@ -35,7 +36,7 @@ const Profile = () => {
         <div className="flex flex-col justify-between">
           <div className="self-start">
             <p className="text-[24px] sm:text-[32px] font-semibold pb-[20px] sm:pb-[30px]">
-              {user?.name}
+              {user?.displayName}
             </p>
             <p className="text-[18px] font-normal pb-[30px]">
               Логин: {user?.email}

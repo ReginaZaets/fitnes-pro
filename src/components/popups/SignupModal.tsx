@@ -27,7 +27,12 @@ const SignupModal = () => {
 
   const validateForm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!formData.name && !formData.email && !formData.password && !formData.repeatPassword) {
+    if (
+      !formData.name &&
+      !formData.email &&
+      !formData.password &&
+      !formData.repeatPassword
+    ) {
       setError("Введите имя, логин и пароль");
       return false;
     } else if (!formData.name) {
@@ -50,7 +55,11 @@ const SignupModal = () => {
     e.preventDefault();
     if (!validateForm(e)) return;
     try {
-      const user = await register(formData.email, formData.password);
+      const user = await register(
+        formData.email,
+        formData.password,
+        formData.name
+      );
       console.log("Registered user:", user);
       navigate("/signin");
     } catch (error: any) {
@@ -80,7 +89,7 @@ const SignupModal = () => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10 transition-opacity duration-300">
-      <div className="relative bg-white border w-auto h-auto shadow-customShadow rounded-radiusModal p-4 md:p-10">
+      <div className="absolute bg-white border w-auto h-auto shadow-customShadow rounded-radiusModal p-4 md:p-10">
         <img
           src="/images/logo.svg"
           alt="imageLogo"
