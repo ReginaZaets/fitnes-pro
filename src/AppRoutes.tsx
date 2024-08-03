@@ -11,7 +11,6 @@ import UserProfile from "./pages/UserProfile";
 import WorkoutModal from "./components/popups/workoutPopups/WorkoutModal";
 import MyProgressModal from "./components/popups/myProgressPopups/MyProgressModal";
 import WorkoutPage from "./pages/WorkoutVideoPage";
-import CourseInfo from "./components/CourseInfo/CourseInfo";
 import CourseInfoPage from "./pages/CourseInfo";
 
 export const AppRoutes = () => {
