@@ -8,6 +8,7 @@ export type Course = {
   fitting: [];
   order: number;
   workouts: [];
+  img: string;
 };
 
 // Типизация для объекта тренировки
