@@ -12,6 +12,7 @@ import WorkoutModal from "./components/popups/workoutPopups/WorkoutModal";
 import MyProgressModal from "./components/popups/myProgressPopups/MyProgressModal";
 import WorkoutPage from "./pages/WorkoutVideoPage";
 import CourseInfo from "./components/CourseInfo/CourseInfo";
+import { Course } from "./types/types";
 
 export const AppRoutes = () => {
   return (

@@ -3,31 +3,25 @@ import { fetchGetCourse } from "../../api/coursesApi";
 import { useParams } from "react-router-dom";
 import { Course } from "../../types/types";
 
-// type Props = {
-//   params: {
-//     id: string;
-//   };
-// };
-type Props = {
-  course: Course;
-};
-
 const CourseInfo = () => {
   const { id } = useParams<{ id: string }>();
 
-  const [data, setData] = useState<Course[] | null>(null);
+  const [data, setData] = useState<Course | null>(null);
 
   useEffect(() => {
-    fetchGetCourse(id).then((data) => {
-      setData(data);
-      console.log(id);
-    });
+    if (id) {
+      fetchGetCourse(id).then((res) => {
+        setData(res);
+      });
+    }
   }, []);
 
   return (
     <main>
       <div>
-        <p className="p-10 text-[60px] absolute z-10 text-white font-semibold "></p>
+        <p className="p-10 text-[60px] absolute z-10 text-white font-semibold ">
+          {data?.nameRU}
+        </p>
         <img
           src="/images/skillCards/yoga.png"
           alt=""
@@ -41,17 +35,24 @@ const CourseInfo = () => {
           Подойдет для вас, если:
         </p>
         <section className="flex gap-[17px]  flex-wrap justify-center items-stretch">
-          <div className=" card">
-            <div className="flex gap-6 ">
-              <span className="text-btnColor number-reasons">1</span>
-              <p className="text-reasons">
-                Давно хотели
-                <br /> попробовать йогу, <br /> но не решались начать
-              </p>
-            </div>
-          </div>
+          <>
+            {data?.fitting.map((item, index) => (
+              <div className=" card">
+                <div className="flex gap-6 ">
+                  <span className="text-btnColor number-reasons">
+                    {index + 1}
+                  </span>
+                  <p className="text-reasons" key={item}>
+                    {item}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </>
+          {/* </div>
+          </div> */}
 
-          <div className="card ">
+          {/* <div className="card ">
             <div className="flex gap-6">
               <span className="text-btnColor number-reasons">2</span>
               <p className="text-reasons">
@@ -68,25 +69,20 @@ const CourseInfo = () => {
                 Ищете активность, полезную для тела и души
               </p>
             </div>
-          </div>
+          </div> */}
         </section>
       </section>
       <section className="flex flex-col">
         <p className=" text-[40px] text-black font-semibold">Направления</p>
         <div className="bg-btnColor mt-[40px] w-full rounded-[28px] p-[30px] flex items-stretch flex-wrap justify-center">
           <div className="direction">
-            {" "}
-            {/* <>
-              {data?.map((item) => {
-                <span key={item}>{description}</span>;
-              })}
-            </> */}
-            <span className="directions-name ">Йога для новичков</span>
-            <span className="directions-name">Классическая йога</span>
-            <span className="directions-name">Кундалини-йога</span>
-            <span className="directions-name">Йогатерапия</span>
-            <span className="directions-name">Хатха-йога</span>
-            <span className="directions-name">Аштанга-йога</span>
+            <>
+              {data?.directions.map((item) => (
+                <span className="directions-name " key={item}>
+                  {item}
+                </span>
+              ))}
+            </>
           </div>
         </div>
       </section>
