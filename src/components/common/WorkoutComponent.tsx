@@ -11,7 +11,8 @@ const WorkoutComponent = () => {
   const NameSelectedCourse = "Йога";
   const workoutNumber = "2";
   const topicWorkout = "Красота и здоровье";
-  const titleWorkout = "Йога на каждый день / 2 день "
+  const titleWorkout = "Йога на каждый день / 2 день";
+  const video = "https://www.youtube.com/embed/v-xTLFDhoD0"
 
 
   return (
@@ -28,7 +29,7 @@ const WorkoutComponent = () => {
       <iframe
           width="1160"
           height="639"
-          src="https://www.youtube.com/embed/v-xTLFDhoD0"
+          src={video}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
