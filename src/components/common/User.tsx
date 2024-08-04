@@ -4,7 +4,6 @@ import { paths } from "../../lib/paths";
 import { useUserContext } from "../../context/hooks/useUser";
 
 const User = () => {
-  // const [user, setUser] = useState<string | null>("julia");
   const { user, logout } = useUserContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ToggleDropdown = () => setIsOpen((prevState) => !prevState);
@@ -23,8 +22,13 @@ const User = () => {
       )}
       {user && (
         <div className="">
-          <div className="flex gap-x-3 items-center relative">
-            <img src="/images/Profile.svg" alt="profile" />
+          <div className="flex gap-[5px] sm:gap-x-3 items-center relative">
+            <img
+              width={40}
+              height={40}
+              src="/images/Profile.svg"
+              alt="profile"
+            />
             <p className="hidden sm:block py-4 text-2xl text-black font-normal">
               {user?.name}
             </p>
@@ -52,7 +56,7 @@ const User = () => {
           <div className="flex flex-col items-center justify-center gap-2.5 my-7">
             <p className="text-lg font-normal  text-black">{user?.name}</p>
             <p className="text-lg font-normal text-headerPopLinkColor mb-8">
-             {user?.email}
+              {user?.email}
             </p>
             <Link to={paths.PROFILE}>
               <button

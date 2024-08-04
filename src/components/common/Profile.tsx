@@ -69,7 +69,20 @@ const Profile = () => {
           <CourseCard key={course._id} course={course} />
         ))}
       </div>
+    <div className="flex justify-end">
+    <button
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
+            className="sm:hidden bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center"
+          >
+            Наверх ↑
+          </button>
     </div>
+
+    
+    </div>
+    
   );
 };
 

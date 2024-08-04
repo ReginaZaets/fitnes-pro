@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header>
       <div className="flex flex-row justify-between items-center py-4 sm:py-12 ">
-        <div className="flex flex-col items-center md:items-start text-center md:text-left">
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
           <Link to={paths.MAIN}>
           <img
             src="/images/logo.svg"
@@ -14,7 +14,7 @@ const Header = () => {
             className="w-[220px] h-[35px]"
           />
           </Link>
-          <p className="hidden py-2 md:py-4 text-sm md:text-lg text-black font-normal opacity-70 md:opacity-50 sm:block">
+          <p className="hidden py-2 text-sm  text-black font-normal opacity-70  sm:block">
             Онлайн-тренировки для занятий дома
           </p>
         </div>
