@@ -11,8 +11,7 @@ import UserProfile from "./pages/UserProfile";
 import WorkoutModal from "./components/popups/workoutPopups/WorkoutModal";
 import MyProgressModal from "./components/popups/myProgressPopups/MyProgressModal";
 import WorkoutPage from "./pages/WorkoutVideoPage";
-import CourseInfo from "./components/CourseInfo/CourseInfo";
-import { Course } from "./types/types";
+import CourseInfoPage from "./pages/CourseInfo";
 
 export const AppRoutes = () => {
   return (
@@ -27,7 +26,7 @@ export const AppRoutes = () => {
           />
           <Route path={paths.NEW_PASSWORD_MODAL} element={<ResetPassword />} />
         </Route>
-        <Route path={paths.COURSE} element={<CourseInfo />}>
+        <Route path={paths.COURSE} element={<CourseInfoPage />}>
           <Route path={paths.SIGN_IN_MODAL} element={<SigninModal />} />
           <Route path={paths.SIGN_UP_MODAL} element={<SignupModal />} />
           <Route
