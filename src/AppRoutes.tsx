@@ -10,7 +10,7 @@ import ResetPassword from "./components/popups/ResetPassword";
 import UserProfile from "./pages/UserProfile";
 import WorkoutModal from "./components/popups/workoutPopups/WorkoutModal";
 import MyProgressModal from "./components/popups/myProgressPopups/MyProgressModal";
-import WorkoutVideoPage from "./pages/WorkoutVideoPage";
+import WorkoutPage from "./pages/WorkoutVideoPage";
 import CourseInfo from "./components/CourseInfo/CourseInfo";
 import CourseInfoPage from "./pages/CourseInfo";
 
@@ -48,7 +48,7 @@ export const AppRoutes = () => {
             />
             <Route path={paths.WORKOUT_MODAL} element={<WorkoutModal />} />
           </Route>
-          <Route path={paths.WORKOUT} element={<WorkoutVideoPage />}>
+          <Route path={paths.WORKOUT} element={<WorkoutPage />}>
             <Route
               path={paths.WORKOUT_PROGRESS_MODAL}
               element={<MyProgressModal />}
