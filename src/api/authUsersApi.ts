@@ -52,12 +52,15 @@ export const login = async (email: string, password: string) => {
     console.log(error.message);
     switch (error.code) {
       case "auth/user-not-found":
+        throw new Error("Недействительный логин");
       case "auth/wrong-password":
-        throw new Error("Недействительный логин или пароль");
+        throw new Error("Недействительный пароль");
       case "auth/invalid-email":
         throw new Error("Неверный формат email");
       case "auth/invalid-credential":
-        throw new Error("Пароль введен неверно, попробуйте еще раз. Восстановить пароль?")
+        throw new Error(
+          "Пароль введен неверно, попробуйте еще раз. Восстановить пароль?"
+        );
       default:
         throw new Error("Ошибка входа. Попробуйте еще раз.");
     }

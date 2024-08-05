@@ -45,7 +45,7 @@ const SignupModal = () => {
       setError("Введите пароль");
       return false;
     } else if (formData.password !== formData.repeatPassword) {
-      setError("Не совпадает пароль");
+      setError("Пароль не совпадает");
       return false;
     }
     return true;
@@ -55,28 +55,29 @@ const SignupModal = () => {
     e.preventDefault();
     if (!validateForm(e)) return;
     try {
-      const user = await register(
-        formData.email,
-        formData.password,
-        formData.name
-      );
-      console.log("Registered user:", user);
+      await register(formData.email, formData.password, formData.name);
       navigate("/signin");
     } catch (error: any) {
-      console.error("Error registering:", error);
       setError(error.message);
     }
   }
 
   const getInputColor = (inputName: string) => {
     if (error) {
-      if (inputName === "email" && error.includes("логин")) {
+      const ErrorLowerCase = error.toLowerCase();
+      if (inputName === "email" && ErrorLowerCase.includes("логин")) {
         return "border-[#DB0030]";
-      } else if (inputName === "password" && error.includes("пароль")) {
+      } else if (
+        inputName === "password" &&
+        ErrorLowerCase.includes("пароль")
+      ) {
         return "border-[#DB0030]";
-      } else if (inputName === "repeatPassword" && error.includes("пароль")) {
+      } else if (
+        inputName === "repeatPassword" &&
+        ErrorLowerCase.includes("пароль")
+      ) {
         return "border-[#DB0030]";
-      } else if (inputName === "name" && error.includes("имя")) {
+      } else if (inputName === "name" && ErrorLowerCase.includes("имя")) {
         return "border-[#DB0030]";
       }
     }
