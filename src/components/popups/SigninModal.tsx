@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../api/authUsersApi";
 import { paths } from "../../lib/paths";
 import ResetPasswordEmail from "./ResetPasswordEmail";
+import { sanitizeHtml } from "../../lib/sanitizeHtml";
 
 const SigninModal = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const SigninModal = () => {
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
-        [name]: value,
+        [name]: sanitizeHtml(value),
       };
     });
     setError(null);

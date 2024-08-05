@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../api/authUsersApi";
+import { sanitizeHtml } from "../../lib/sanitizeHtml";
 
 const SignupModal = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const SignupModal = () => {
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
-        [name]: value,
+        [name]: sanitizeHtml(value),
       };
     });
     setError(null);
