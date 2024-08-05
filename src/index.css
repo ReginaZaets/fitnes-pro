@@ -12,6 +12,7 @@ body {
   background-color: #fafafa;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 header {
@@ -61,13 +62,13 @@ main {
 
 @media (max-width: 375px) {
   header {
-    width: 375px;
+    width: 343px;
     margin: 0 auto;
     padding: 0 16px;
   }
 
   main {
-    width: 375px;
+    width: 343px;
     margin: 0 auto;
     padding: 0 16px;
   }
