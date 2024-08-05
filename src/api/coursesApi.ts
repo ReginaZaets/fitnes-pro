@@ -108,7 +108,7 @@ export const fetchGetWorkouts = async () => {
     return data;
 };
 
-// Получение картинок по пути (свойство src в объекте Course)
+// Получение картинок по пути (свойство img в объекте Course)
 export const fetchGetCourseImage = async (src: string) => {
     try {
       const storage = getStorage();

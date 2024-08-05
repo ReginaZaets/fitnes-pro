@@ -1,9 +1,23 @@
+import { useEffect, useState } from "react";
 import { Course } from "../../types/types";
+import { fetchGetCourseImage } from "../../api/coursesApi";
 
 
 export const CourseCard = ({ course }: { course: Course }) => {
+  const [url, setUrl] = useState("")
+  useEffect (()=> {
+    const fetchImg = async  () => {
+      try {
+      const res = await fetchGetCourseImage(course.img)
+      setUrl(res)
+      } catch {
+        console.log("error")
+      }
+    } 
+    fetchImg()
+  }, [])
   return (
-    <div className="w-[360px] min-h-[501px]  flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg">
+    <div className="w-[360px] h-[501px]  flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg">
       <div className="flex justify-end ">
         <svg
           className="absolute mx-[18px] my-[12px]"
@@ -20,10 +34,10 @@ export const CourseCard = ({ course }: { course: Course }) => {
             fill="white"
           />
         </svg>
-        <img src="" className="rounded-[30px]" />
+        <img src={url} className="rounded-[30px] w-[360px] h-[325px]" />
       </div>
 
-      <div className="flex flex-col gap-[17px] pl-[25px] mt-[20px] pb-[20px]">
+      <div className="flex flex-col gap-[10px] mt-[10px] pl-[15px]">
         <div className="font-medium text-[32px] leading-[35px]">
           {course.nameRU}
         </div>
