@@ -3,6 +3,9 @@ export default {
   content: ["./src/**/*.{html,js,ts,tsx}"],
   theme: {
     extend: {
+      content: {
+        itemIcon: 'url("/icones/iconDirections.svg")',
+      },
       screens: {
         sm: "480px",
         md: "768px",
@@ -19,7 +22,9 @@ export default {
         btnInactiveText: "#999999",
         btnInactiveBg: "#F7F7F7",
         inputModal: "#D0CECE",
+        courseInfoBlock: "#151720",
       },
+
       borderRadius: {
         small: "46px",
         radiusModal: "30px",
@@ -53,8 +58,8 @@ export default {
         textHeight: "19.8px",
       },
       lineHeight: {
-        'title': '60px',
-      }
+        title: "60px",
+      },
     },
   },
   plugins: [],
