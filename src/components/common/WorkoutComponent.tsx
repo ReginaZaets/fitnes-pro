@@ -26,16 +26,16 @@ const WorkoutComponent = () => {
   }, []);
 
   return (
-    <main className="flex flex-col justify-start gap-10 ">
-      <div className="w-[810px] h-[119px] flex flex-col justify-start ">
-        <h1 className="font-[Roboto] text-[60px] font-medium text-black ">
+    <main className="max-h-[1131px] flex flex-col justify-start gap-6 md:gap-10 ">
+      <div className="max-w-[810px] max-h-[119px] flex flex-col justify-start ">
+        <h1 className="font-[Roboto] text-[24px] font-medium text-black md:text-[60px]">
           {NameSelectedCourse}
         </h1>
-        <h3 className="font-[Roboto] text-[32px] font-normal ">
+        <h3 className="font-[Roboto] text-[18px] font-normal md:text-[32px]">
           {topicWorkout} / {titleWorkout}
         </h3>
       </div>
-      <div className="max-h-[639px] max-w-[1160px] w-full overflow-hidden rounded-[30px] shadow-[customShadow] ">
+      <div className="max-h-[189px] md:max-h-[639px] max-w-[1160px] w-full overflow-hidden rounded-[30px] shadow-[customShadow] sm:max-h-[189px]">
         <iframe
           width="1160"
           height="639"
@@ -45,11 +45,11 @@ const WorkoutComponent = () => {
           allowFullScreen
         ></iframe>
       </div>
-      <div className="rounded-[30px] bg-white shadow-[customShadow] w-full h-[395px] p-10 flex flex-col justify-start items-start ">
+      <div className="rounded-[30px] bg-white shadow-[customShadow] w-full max-h-[838px] p-[30px] md:p-10 flex flex-col justify-start items-start ">
         <h2 className="font-[StratosSkyeng, sans-serif] text-[32px] font-normal mb-5">
           Упражнения тренировки {workoutNumber}
         </h2>
-        <div className="mb-[40px] h-[168px] grid grid-cols-1 gap-x-[60px] gap-y-[24px] md:grid-cols-3 md:gap-y-[20px]">
+        <div className="mb-[40px] max-h-[606px] grid grid-cols-1 gap-x-[60px] gap-y-[24px] md:grid-cols-3 md:gap-y-[20px]">
           {Exercise.map((item) => {
             return (
               <ExerciseItem
@@ -61,8 +61,8 @@ const WorkoutComponent = () => {
           })}
         </div>
         <Link to={paths.WORKOUT_PROGRESS_MODAL}>
-          <button className="w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-medium leading-[110%]">
-            <p className="mx-[37px] my-[16px]">Заполнить свой прогресс</p>
+          <button className="w-[283px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%]">
+            <p className="mx-[35px] my-[16px]">Заполнить свой прогресс</p>
           </button>
         </Link>
       </div>

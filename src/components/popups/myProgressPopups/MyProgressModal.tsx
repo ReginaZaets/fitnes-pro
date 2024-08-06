@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import { MyProgress } from "../../../lib/myProgress";
+import { paths } from "../../../lib/paths";
 
 const MyProgressModal = () => {
   return (
@@ -27,9 +29,11 @@ const MyProgressModal = () => {
               })}
             </div>
           </div>
+          <Link to={paths.WORKOUT}>
           <button className="w-[346px] h-inputHeight border rounded-small bg-btnColor text-lg font-normal text-black leading-textHeight mt-btnModalMargin hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]">
             Сохранить
           </button>
+          </Link>
         </div>
       </div>
     </div>
