@@ -25,8 +25,9 @@ const WorkoutComponent = () => {
     });
   }, []);
 
+  
   return (
-    <main className="max-h-[1131px] flex flex-col justify-start gap-6 md:gap-10 ">
+    <main className="max-h-[1262px] flex flex-col justify-start gap-6 md:gap-10 mb-[131px]">
       <div className="max-w-[810px] max-h-[119px] flex flex-col justify-start ">
         <h1 className="font-[Roboto] text-[24px] font-medium text-black md:text-[60px]">
           {NameSelectedCourse}
@@ -35,10 +36,11 @@ const WorkoutComponent = () => {
           {topicWorkout} / {titleWorkout}
         </h3>
       </div>
-      <div className="max-h-[189px] md:max-h-[639px] max-w-[1160px] w-full overflow-hidden rounded-[30px] shadow-[customShadow] sm:max-h-[189px]">
+      <div className="h-[0px]  max-w-[1160px] relative pb-[56%] pt-[30px] overflow-hidden rounded-[30px] shadow-[customShadow]">
         <iframe
-          width="1160"
-          height="639"
+          className="w-full h-full absolute top-0 left-0"
+          // width="100%"
+          // height="100%"
           src={video}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -61,7 +63,7 @@ const WorkoutComponent = () => {
           })}
         </div>
         <Link to={paths.WORKOUT_PROGRESS_MODAL}>
-          <button className="w-[283px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%]">
+          <button className="w-[283px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] ">
             <p className="mx-[35px] my-[16px]">Заполнить свой прогресс</p>
           </button>
         </Link>
