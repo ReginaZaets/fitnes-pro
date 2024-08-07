@@ -22,7 +22,7 @@ const Profile = () => {
     }
   }, [user]);
   const clickResetPassword = () => {
-    navigate(paths.RESET_PASSWORD_MODAL);
+    navigate(paths.NEW_PASSWORD_MODAL);
   };
 
   return (
@@ -73,11 +73,11 @@ const Profile = () => {
       </h2>
 
       {/* Здесь будут карточки */}
-      <div className="flex flex-row flex-wrap items-center gap-[40px]">
+      {/* <div className="flex flex-row flex-wrap items-center gap-[40px]">
         {coursesUser.map((course) => (
           <CourseCard key={course._id} course={course} />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
