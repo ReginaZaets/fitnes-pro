@@ -2,20 +2,21 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useUserContext } from "../../context/hooks/useUser";
+import { logout } from "../../api/authUsersApi";
 
 const User = () => {
   // const [user, setUser] = useState<string | null>("julia");
-  const { user, logout } = useUserContext();
+  const user = useUserContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ToggleDropdown = () => setIsOpen((prevState) => !prevState);
-  const clickExit = () => {
-    logout();
+  const clickExit = async () => {
     setIsOpen(false);
+    await logout();
   };
   return (
     <div className="flex gap-x-3 items-center relative">
       {!user && (
-        <Link to={paths.SIGN_UP_MODAL}>
+        <Link to={paths.SIGN_IN_MODAL}>
           <button className="bg-btnColor  hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small w-[83px] h-[36px] sm:w-[103px] sm:h-[52px] text-black text-lg">
             Войти
           </button>
@@ -26,7 +27,7 @@ const User = () => {
           <div className="flex gap-x-3 items-center relative">
             <img src="/images/Profile.svg" alt="profile" />
             <p className="hidden sm:block py-4 text-2xl text-black font-normal">
-              {user?.name}
+              {user?.displayName}
             </p>
             <svg
               onClick={ToggleDropdown}
@@ -50,9 +51,11 @@ const User = () => {
       {isOpen && (
         <div className="absolute z-10 top-24 right-0 rounded-3xl bg-white w-[266px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]">
           <div className="flex flex-col items-center justify-center gap-2.5 my-7">
-            <p className="text-lg font-normal  text-black">{user?.name}</p>
+            <p className="text-lg font-normal  text-black">
+              {user?.displayName}
+            </p>
             <p className="text-lg font-normal text-headerPopLinkColor mb-8">
-             {user?.email}
+              {user?.email}
             </p>
             <Link to={paths.PROFILE}>
               <button
@@ -77,5 +80,4 @@ const User = () => {
     </div>
   );
 };
-
 export default User;
