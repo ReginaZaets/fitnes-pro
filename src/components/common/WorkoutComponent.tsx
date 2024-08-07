@@ -39,8 +39,6 @@ const WorkoutComponent = () => {
       <div className="h-[0px]  max-w-[1160px] relative pb-[56%] pt-[30px] overflow-hidden rounded-[30px] shadow-[customShadow]">
         <iframe
           className="w-full h-full absolute top-0 left-0"
-          // width="100%"
-          // height="100%"
           src={video}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
