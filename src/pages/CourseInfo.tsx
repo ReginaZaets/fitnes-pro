@@ -4,8 +4,8 @@ import CourseInfo from "../components/CourseInfo/CourseInfo";
 const CourseInfoPage = () => {
   return (
     <main>
-      <Outlet />
       <CourseInfo />
+      <Outlet />
     </main>
   );
 };
