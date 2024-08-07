@@ -1,13 +1,10 @@
-import { Outlet } from "react-router-dom";
-import { Main } from "../components/common/Main";
+import Header from "../components/common/Header"
+
 const MainPage = () => {
   return (
-    <>
-      <main>
-      <Main/>
-      </main>
-      <Outlet />
-    </>
+    <div className="bg-mainColor ">
+      <Header/>
+    </div>
   );
 };
 
