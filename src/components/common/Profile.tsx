@@ -22,7 +22,7 @@ const Profile = () => {
     }
   }, [user]);
   const clickResetPassword = () => {
-    navigate(paths.RESET_PASSWORD_MODAL);
+    navigate(paths.NEW_PASSWORD_MODAL);
   };
 
   return (
