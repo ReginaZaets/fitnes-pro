@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchGetCourse } from "../../api/coursesApi";
+import { fetchGetCourse, fetchGetCourseImage } from "../../api/coursesApi";
 import { useParams } from "react-router-dom";
 import { Course } from "../../types/types";
 
@@ -7,14 +7,41 @@ const CourseInfo = () => {
   const { id } = useParams<{ id: string }>();
 
   const [data, setData] = useState<Course | null>(null);
+  const [url, setUrl] = useState<string>("");
 
   useEffect(() => {
     if (id) {
       fetchGetCourse(id).then((res) => {
         setData(res);
       });
+      if (data?.img) {
+        fetchGetCourseImage(data?.img).then((img) => {
+          setUrl(img);
+        });
+      }
     }
   }, []);
+  console.log(data?.img);
+
+  // useEffect(() => {
+  //   const fetchInfo = async () => {
+  //     try {
+  //       if (id) {
+  //         const courses = await fetchGetCourse(id).then((res) => {
+  //           setData(res);
+  //         });
+  //         return courses;
+  //       }
+  //       if (data?.img) {
+  //         const img = await fetchGetCourseImage(data?.img);
+  //         setUrl(img);
+  //       }
+  //     } catch {
+  //       console.log("error");
+  //     }
+  //   };
+  //   fetchInfo();
+  // }, []);
 
   return (
     <main>
@@ -22,12 +49,7 @@ const CourseInfo = () => {
         <p className="p-10 text-[60px] absolute z-10 text-white font-semibold ">
           {data?.nameRU}
         </p>
-        <img
-          src="/images/skillCards/yoga.png"
-          alt=""
-          className="relative"
-          md:w-32
-        />
+        <img src={url} alt="" className="relative" md:w-32 />
       </div>
 
       <section className="my-[20px] pb-[40px] flex flex-col">
