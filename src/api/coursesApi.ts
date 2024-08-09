@@ -151,9 +151,8 @@ export const fetchDataUser = async (userID: string, courseID: string) => {
   try {
     // получаем курс
     const course = await fetchGetCourse(courseID);
-    if (!course) {
-      return;
-    }
+    if (!course) return;
+
     // получаем тренировки курса
     const workout: string[] = course.workouts;
     // получаем все упражнения
@@ -164,17 +163,13 @@ export const fetchDataUser = async (userID: string, courseID: string) => {
       workout.includes(item._id)
     );
     // создаем массив из упражнений, который включает айди тренировки, имя и количество подходов
-    const fetchExercises = filterWorkouts
-      .map((item) => ({
-        workoutsID: item._id,
-        exercises: item.exercises.map((i) => ({ name: i.name, quantity: 0 })),
-        done: false,
-      }))
-      .filter((item) => item !== undefined);
-    if (fetchExercises.length === 0) {
-      console.log("нет доступных разминок");
-      return;
-    }
+    const fetchExercises = filterWorkouts.map((item) => ({
+      workoutsID: item._id,
+      exercises: item.exercises
+        ? item.exercises.map((i) => ({ name: i.name, quantity: 0 }))
+        : [],
+      done: false,
+    }));
     //записываем все необходимые данные для базы данных
     await fetchAddCourseUser(userID, courseID, fetchExercises);
   } catch (error) {
