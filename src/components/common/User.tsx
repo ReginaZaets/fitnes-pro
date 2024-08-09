@@ -55,11 +55,11 @@ const User = () => {
 
       {isOpen && (
         <div className="absolute z-10 top-24 right-0 rounded-3xl bg-white w-[266px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]">
-          <div className="flex flex-col items-center justify-center gap-2.5 my-7">
-            <p className="text-lg font-normal  text-black">
+          <div className="flex flex-col items-center justify-center gap-[10px] my-[30px]">
+            <p className="text-[18px] leading-[19px] font-normal  text-black">
               {user?.displayName}
             </p>
-            <p className="text-lg font-normal text-headerPopLinkColor mb-8">
+            <p className="text-[18px] leading-[19px] font-normal text-headerPopLinkColor mb-[30px]">
               {user?.email}
             </p>
             <Link to={paths.PROFILE}>
