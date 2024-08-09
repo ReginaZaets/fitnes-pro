@@ -1,34 +1,44 @@
-import { fetchDataUser, fetchDeleteCourseUser } from "../../api/coursesApi";
+import { useEffect, useState } from "react";
+import {
+  fetchDataUser,
+  fetchDeleteCourseUser,
+  fetchGetCourseImage,
+} from "../../api/coursesApi";
 import { useUserContext } from "../../context/hooks/useUser";
+import { Course } from "../../types/types";
 
-type CourseType = {
-  name: string;
-  img: string;
-  duration: string;
-  days: number;
-  difficulty: number;
-  id: string;
-};
 
-export const CourseCard = ({ course }: { course: CourseType }) => {
+
+export const CourseCard = ({ course }: { course: Course }) => {
   const user = useUserContext();
   async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
     e.preventDefault();
     if (user?.uid) {
       try {
-        await fetchDataUser(user?.uid, course.id);
+        await fetchDataUser(user?.uid, course._id);
         console.log("курс добавлен");
       } catch (error: any) {
         console.log(error.message);
       }
     }
   }
-
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    const fetchImg = async () => {
+      try {
+        const res = await fetchGetCourseImage(course.img);
+        setUrl(res);
+      } catch {
+        console.log("error");
+      }
+    };
+    fetchImg();
+  }, []);
   async function handleRemoveCourse(e: React.MouseEvent<HTMLDivElement>) {
     e.preventDefault();
     if (user?.uid) {
       try {
-        await fetchDeleteCourseUser(user?.uid, course.id);
+        await fetchDeleteCourseUser(user?.uid, course._id);
         console.log("курс удален");
       } catch (error: any) {
         console.log(error.message);
