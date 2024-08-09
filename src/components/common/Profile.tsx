@@ -3,10 +3,11 @@ import { CourseCard } from "./CourseCard";
 import { Link, useNavigate } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
-import { fetchGetCoursesUser } from "../../api/coursesApi";
+
 import { Course } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
+import { fetchGetCoursesUser } from "../../api/coursesApi";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Profile = () => {
     }
   }, [user]);
   const clickResetPassword = () => {
-    navigate(paths.RESET_PASSWORD_MODAL);
+    navigate(paths.NEW_PASSWORD_MODAL);
   };
 
   return (
