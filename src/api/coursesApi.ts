@@ -53,8 +53,7 @@ export const fetchGetCoursesUser = async (userID: string) => {
       filteredCourses = allCourses.filter((course) =>
         Object.keys(userCourses).some((userCourse) => userCourse === course._id)
       );
-
-     } else {
+    } else {
       console.warn("Нет приобретенных курсов");
     }
   } catch (error) {
