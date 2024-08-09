@@ -1,29 +1,35 @@
 import { Link, useParams } from "react-router-dom";
 import { Exercise } from "../../lib/exercises";
-// import { Workout } from "../../lib/workout";
-// import WorkoutItem from "../popups/workoutPopups/WorkoutItem";
 import ExerciseItem from "./ExerciseItem";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
 import { fetchGetWorkouts } from "../../api/coursesApi";
 import { Workout } from "../../types/types";
 
+
 const WorkoutComponent = () => {
+  const { id } = useParams();
+  
+
   const NameSelectedCourse = "Йога";
   const workoutNumber = "2";
   const topicWorkout = "Красота и здоровье";
   const titleWorkout = "Йога на каждый день / 2 день";
   const video = "https://www.youtube.com/embed/v-xTLFDhoD0";
 
-  const [allWorkouts, setAllWorkouts] = useState<Workout[]>([]);
+  
 
-  const workoutID = "hfgxlo";
+  // const [Workouts, setWorkouts] = useState<Workout[]>([]);
+  // const currentWorkout = Workouts.find((Workout) => Workout._id == `${id}`);
 
-  useEffect(() => {
-    fetchGetWorkouts().then((data) => {
-      setAllWorkouts(data);
-    });
-  }, []);
+  // const workoutID = "hfgxlo";
+
+  // useEffect(() => {
+  //   fetchGetWorkouts().then((workoutID) => {
+  //     setWorkouts(data);
+  //   });
+  // }, []);
+
 
   
   return (
@@ -45,7 +51,7 @@ const WorkoutComponent = () => {
           allowFullScreen
         ></iframe>
       </div>
-      <div className="rounded-[30px] bg-white shadow-[customShadow] w-full max-h-[838px] p-[30px] md:p-10 flex flex-col justify-start items-start ">
+      <div className="rounded-[30px] bg-white shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] w-full max-h-[838px] p-[30px] md:p-10 flex flex-col justify-start items-start ">
         <h2 className="font-[StratosSkyeng, sans-serif] text-[32px] font-normal mb-5">
           Упражнения тренировки {workoutNumber}
         </h2>
@@ -66,6 +72,7 @@ const WorkoutComponent = () => {
           </button>
         </Link>
       </div>
+      
     </main>
   );
 };

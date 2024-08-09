@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom";
 import { MyProgress } from "../../../lib/myProgress";
 import { paths } from "../../../lib/paths";
+import { useState } from "react";
+import MyProgressDone from "./MyProgressDone";
+
+const [isOpenMyProgressModal, setIsOpenMyProgressModal] =
+useState<boolean>(false);
+
+const handleClickAddProgress = () => {
+
+  setIsOpenMyProgressModal(true);
+};
 
 const MyProgressModal = () => {
   return (
@@ -29,11 +39,12 @@ const MyProgressModal = () => {
               })}
             </div>
           </div>
-          <Link to={paths.WORKOUT}>
-          <button className="w-[263px] md:w-[346px] h-inputHeight border rounded-small bg-btnColor text-lg font-normal text-black leading-textHeight mt-btnModalMargin hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]">
+          <Link to={paths.WORKOUT}> 
+          <button onClick={handleClickAddProgress} className="w-[263px] md:w-[346px] h-inputHeight border rounded-small bg-btnColor text-lg font-normal text-black leading-textHeight mt-btnModalMargin hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]">
             Сохранить
           </button>
           </Link>
+          {isOpenMyProgressModal && <MyProgressDone />}
         </div>
       </div>
     </div>
