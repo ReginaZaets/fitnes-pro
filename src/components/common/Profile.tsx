@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
 
-import { Course } from "../../types/types";
+import { Course, UserCourse } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
 import { fetchGetCoursesUser } from "../../api/coursesApi";
@@ -14,11 +14,13 @@ const Profile = () => {
 
   const user = useUserContext();
   const [coursesUser, setCoursesUser] = useState<Course[]>([]);
+  
 
   useEffect(() => {
     if (user) {
-      fetchGetCoursesUser(user.uid).then(({ filteredCourses }) => {
-        setCoursesUser(filteredCourses);
+      fetchGetCoursesUser(user.uid).then((data) => {
+       setCoursesUser(data.filteredCourses);
+           
       });
     }
   }, [user]);
@@ -84,7 +86,7 @@ const Profile = () => {
             onClick={() => {
               window.scrollTo(0, 0);
             }}
-            className="sm:hidden bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center"
+            className="sm:hidden bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center mb-[40px] mt-[24px]"
           >
             Наверх ↑
           </button>
