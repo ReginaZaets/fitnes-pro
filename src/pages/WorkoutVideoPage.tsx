@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-import Workout from "../components/common/Workout";
+import WorkoutComponent from "../components/common/WorkoutComponent";
 const WorkoutPage = () => {
   return (
     <>
-      <Workout />
+      <WorkoutComponent />
       <Outlet />
     </>
   );
