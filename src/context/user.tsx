@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { auth } from "../api/firebaseConfig";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
+import { auth } from "../api/firebaseConfig";
 
 type User = FirebaseUser | null;
 type ContextState = { user: User };

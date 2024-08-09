@@ -1,24 +1,53 @@
 import { useEffect, useState } from "react";
+import {
+  fetchDataUser,
+  fetchDeleteCourseUser,
+  fetchGetCourseImage,
+} from "../../api/coursesApi";
+import { useUserContext } from "../../context/hooks/useUser";
 import { Course } from "../../types/types";
-import { fetchGetCourseImage } from "../../api/coursesApi";
+
 
 
 export const CourseCard = ({ course }: { course: Course }) => {
-  const [url, setUrl] = useState("")
-  useEffect (()=> {
-    const fetchImg = async  () => {
+  const user = useUserContext();
+  async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    if (user?.uid) {
       try {
-      const res = await fetchGetCourseImage(course.img)
-      setUrl(res)
-      } catch {
-        console.log("error")
+        await fetchDataUser(user?.uid, course._id);
+        console.log("курс добавлен");
+      } catch (error: any) {
+        console.log(error.message);
       }
-    } 
-    fetchImg()
-  }, [])
+    }
+  }
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    const fetchImg = async () => {
+      try {
+        const res = await fetchGetCourseImage(course.img);
+        setUrl(res);
+      } catch {
+        console.log("error");
+      }
+    };
+    fetchImg();
+  }, []);
+  async function handleRemoveCourse(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    if (user?.uid) {
+      try {
+        await fetchDeleteCourseUser(user?.uid, course._id);
+        console.log("курс удален");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  }
   return (
-    <div className="w-[360px] h-[501px]  flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg">
-      <div className="flex justify-end ">
+    <div className="w-[360px] min-h-[501px]  flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg">
+      <div onClick={handleAddCourse} className="flex justify-end ">
         <svg
           className="absolute mx-[18px] my-[12px]"
           width="28"
