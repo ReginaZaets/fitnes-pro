@@ -3,10 +3,10 @@ import { CourseCard } from "./CourseCard";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
-import { fetchGetCoursesUser } from "../../api/coursesApi";
 import { Course } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
+import { fetchGetCoursesUser } from "../../api/coursesApi";
 
 const Profile = () => {
 

@@ -69,6 +69,7 @@ export const fetchAddCourseUser = async (
   workouts: {
     workoutsID: string;
     exercises: { name: string; quantity: number }[];
+    done: boolean;
   }[]
 ) => {
   try {
@@ -84,10 +85,13 @@ export const fetchAddCourseUser = async (
 
 // Удаление курса из приобретенных
 
-export const fetchDeleteCourseUser = async (userID: string, courseID: string) => {
+export const fetchDeleteCourseUser = async (
+  userID: string,
+  courseID: string
+) => {
   try {
     const dbRef = ref(db, `users/${userID}/courses/${courseID}`);
-    await remove(dbRef)
+    await remove(dbRef);
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
   }
@@ -145,7 +149,7 @@ export const fetchGetCourseImage = async (src: string) => {
 
 export const fetchDataUser = async (userID: string, courseID: string) => {
   try {
-    // получаем все курсы
+    // получаем курс
     const course = await fetchGetCourse(courseID);
     if (!course) {
       return;
@@ -164,6 +168,7 @@ export const fetchDataUser = async (userID: string, courseID: string) => {
       .map((item) => ({
         workoutsID: item._id,
         exercises: item.exercises.map((i) => ({ name: i.name, quantity: 0 })),
+        done: false,
       }))
       .filter((item) => item !== undefined);
     if (fetchExercises.length === 0) {
