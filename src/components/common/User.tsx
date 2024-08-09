@@ -24,8 +24,13 @@ const User = () => {
       )}
       {user && (
         <div className="">
-          <div className="flex gap-x-3 items-center relative">
-            <img src="/images/Profile.svg" alt="profile" />
+          <div className="flex gap-[5px] sm:gap-x-3 items-center relative">
+            <img
+              width={40}
+              height={40}
+              src="/images/Profile.svg"
+              alt="profile"
+            />
             <p className="hidden sm:block py-4 text-2xl text-black font-normal">
               {user?.displayName}
             </p>
