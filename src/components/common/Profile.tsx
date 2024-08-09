@@ -1,6 +1,6 @@
 import { CourseCard } from "./CourseCard";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
 import { fetchGetCoursesUser } from "../../api/coursesApi";
@@ -9,7 +9,6 @@ import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
 
 const Profile = () => {
-  const navigate = useNavigate();
 
   const user = useUserContext();
   const [coursesUser, setCoursesUser] = useState<Course[]>([]);
@@ -21,9 +20,9 @@ const Profile = () => {
       });
     }
   }, [user]);
-  const clickResetPassword = () => {
-    navigate(paths.RESET_PASSWORD_MODAL);
-  };
+  // const clickResetPassword = () => {
+  //   navigate(paths.NEW_PASSWORD_MODAL);
+  // };
 
   return (
     <div>
@@ -51,7 +50,6 @@ const Profile = () => {
           <div className="flex flex-col items-center gap-[10px] sm:flex-row ">
             <Link to={paths.NEW_PASSWORD_MODAL}>
               <button
-                onClick={clickResetPassword}
                 className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]"
               >
                 Изменить пароль

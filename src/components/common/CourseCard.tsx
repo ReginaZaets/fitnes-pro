@@ -1,15 +1,43 @@
+import { fetchDataUser, fetchDeleteCourseUser } from "../../api/coursesApi";
+import { useUserContext } from "../../context/hooks/useUser";
+
 type CourseType = {
   name: string;
   img: string;
   duration: string;
   days: number;
   difficulty: number;
+  id: string;
 };
 
 export const CourseCard = ({ course }: { course: CourseType }) => {
+  const user = useUserContext();
+  async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    if (user?.uid) {
+      try {
+        await fetchDataUser(user?.uid, course.id);
+        console.log("курс добавлен");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  }
+
+  async function handleRemoveCourse(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    if (user?.uid) {
+      try {
+        await fetchDeleteCourseUser(user?.uid, course.id);
+        console.log("курс удален");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  }
   return (
     <div className="w-[360px] min-h-[501px]  flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg">
-      <div className="flex justify-end ">
+      <div onClick={handleRemoveCourse} className="flex justify-end ">
         <svg
           className="absolute mx-[18px] my-[12px]"
           width="28"
