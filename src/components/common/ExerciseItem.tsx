@@ -1,8 +1,3 @@
-// type PropsExerciseItem = {
-//   title: string;
-//   progress: number;
-// };
-
 import { Exercise } from "../../types/types";
 
 const ExerciseItem = ({ name, quantity }: Exercise) => {
