@@ -5,8 +5,8 @@ import { Course } from "../types/types";
 const CourseInfoPage = () => {
   return (
     <main>
-      <Outlet />
       <CourseInfo />
+      <Outlet />
     </main>
   );
 };

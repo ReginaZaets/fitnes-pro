@@ -1,15 +1,53 @@
-type CourseType = {
-  name: string;
-  img: string;
-  duration: string;
-  days: number;
-  difficulty: number;
-};
+import { useEffect, useState } from "react";
+import {
+  fetchDataUser,
+  fetchDeleteCourseUser,
+  fetchGetCourseImage,
+} from "../../api/coursesApi";
+import { useUserContext } from "../../context/hooks/useUser";
+import { Course } from "../../types/types";
 
-export const CourseCard = ({ course }: { course: CourseType }) => {
+
+
+export const CourseCard = ({ course }: { course: Course }) => {
+  const user = useUserContext();
+  async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    if (user?.uid) {
+      try {
+        await fetchDataUser(user?.uid, course._id);
+        console.log("курс добавлен");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  }
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    const fetchImg = async () => {
+      try {
+        const res = await fetchGetCourseImage(course.img);
+        setUrl(res);
+      } catch {
+        console.log("error");
+      }
+    };
+    fetchImg();
+  }, []);
+  async function handleRemoveCourse(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    if (user?.uid) {
+      try {
+        await fetchDeleteCourseUser(user?.uid, course._id);
+        console.log("курс удален");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  }
   return (
     <div className="w-[360px] min-h-[501px]  flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg">
-      <div className="flex justify-end ">
+      <div onClick={handleAddCourse} className="flex justify-end ">
         <svg
           className="absolute mx-[18px] my-[12px]"
           width="28"
@@ -25,12 +63,12 @@ export const CourseCard = ({ course }: { course: CourseType }) => {
             fill="white"
           />
         </svg>
-        <img src={course.img} className="rounded-[30px]" />
+        <img src={url} className="rounded-[30px] w-[360px] h-[325px]" />
       </div>
 
-      <div className="flex flex-col gap-[17px] pl-[25px] mt-[20px] pb-[20px]">
+      <div className="flex flex-col gap-[10px] mt-[10px] pl-[15px]">
         <div className="font-medium text-[32px] leading-[35px]">
-          {course.name}
+          {course.nameRU}
         </div>
         <div className=" flex flex-row gap-[5px] ">
           <div className="flex gap-[5px] bg-[#F7F7F7] w-[103px] h-[38px] justify-center items-center rounded-[50px]">
@@ -52,7 +90,7 @@ export const CourseCard = ({ course }: { course: CourseType }) => {
                 fill="#202020"
               />
             </svg>
-            <div className="дни">{course.days} дней</div>
+            <div className="дни">{course.workouts.length} дней</div>
           </div>
           <div className="flex gap-[5px] bg-[#F7F7F7] w-[163px] h-[38px] justify-center items-center rounded-[50px]">
             <svg
@@ -69,10 +107,10 @@ export const CourseCard = ({ course }: { course: CourseType }) => {
                 fill="#202020"
               />
             </svg>
-            <div className="min">{course.duration} мин/день</div>
+            <div className="min">20-50 мин/день</div>
           </div>
         </div>
-        <div className="bg-[#F7F7F7] flex bg-[#F7F7F7] w-[129px] h-[38px] justify-center items-center rounded-[50px] ">
+        <div className="flex bg-[#F7F7F7] w-[129px] h-[38px] justify-center items-center rounded-[50px] gap-[5px]">
           <svg
             width="18"
             height="18"
