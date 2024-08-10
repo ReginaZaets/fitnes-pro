@@ -1,9 +1,26 @@
 import { useEffect, useState } from "react";
 import { fetchGetCourse, fetchGetCourseImage } from "../../api/coursesApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Course } from "../../types/types";
 
 const CourseInfo = () => {
+  const getBackgroundColor = (courseName: string) => {
+    switch (courseName) {
+      case "Йога":
+        return "bg-yoga";
+      case "Стретчинг":
+        return "bg-sterch";
+      case "Зумба":
+        return "bg-zumba";
+      case "Степ-аэробика":
+        return "bg-step";
+      default:
+        return "bg-white";
+    }
+  };
+
+  const nav = useNavigate();
+  const user = false;
   const { id } = useParams<{ id: string }>();
 
   const [data, setData] = useState<Course | null>(null);
@@ -14,42 +31,35 @@ const CourseInfo = () => {
       fetchGetCourse(id).then((res) => {
         setData(res);
       });
-      if (data?.img) {
-        fetchGetCourseImage(data?.img).then((img) => {
-          setUrl(img);
-        });
-      }
     }
   }, []);
   console.log(data?.img);
 
-  // useEffect(() => {
-  //   const fetchInfo = async () => {
-  //     try {
-  //       if (id) {
-  //         const courses = await fetchGetCourse(id).then((res) => {
-  //           setData(res);
-  //         });
-  //         return courses;
-  //       }
-  //       if (data?.img) {
-  //         const img = await fetchGetCourseImage(data?.img);
-  //         setUrl(img);
-  //       }
-  //     } catch {
-  //       console.log("error");
-  //     }
-  //   };
-  //   fetchInfo();
-  // }, []);
+  useEffect(() => {
+    if (data?.img) {
+      fetchGetCourseImage(data?.img).then((img) => {
+        setUrl(img);
+      });
+    }
+  }, [data]);
+
+  // const addCourse = (event) => {
+  //   event.preventDefault();
+  //   if (!user) {
+  //     return;
+  //   } else {
+  //   }
+  // };
 
   return (
     <main>
-      <div>
-        <p className="p-10 text-[60px] absolute z-10 text-white font-semibold ">
-          {data?.nameRU}
-        </p>
-        <img src={url} alt="" className="relative" md:w-32 />
+      <div className={` rounded-[28px] ${getBackgroundColor(data?.nameRU)}`}>
+        <div className="flex justify-between">
+          <p className="p-10 text-[60px] z-10 text-white font-semibold ">
+            {data?.nameRU}
+          </p>
+          <img src={url} alt="" md:w-32 />
+        </div>
       </div>
 
       <section className="my-[20px] pb-[40px] flex flex-col">
@@ -71,27 +81,6 @@ const CourseInfo = () => {
               </div>
             ))}
           </>
-          {/* </div>
-          </div> */}
-
-          {/* <div className="card ">
-            <div className="flex gap-6">
-              <span className="text-btnColor number-reasons">2</span>
-              <p className="text-reasons">
-                Хотите укрепить <br />
-                позвоночник, избавиться <br />
-                от болей в спине и суставах
-              </p>
-            </div>
-          </div>
-          <div className="card ">
-            <div className="flex gap-6 w-full">
-              <span className="text-btnColor number-reasons">3</span>
-              <p className="text-reasons w-full">
-                Ищете активность, полезную для тела и души
-              </p>
-            </div>
-          </div> */}
         </section>
       </section>
       <section className="flex flex-col">
@@ -121,7 +110,11 @@ const CourseInfo = () => {
             <li className="items">помогают противостоять стрессам</li>
           </ul>
           <button className="bg-btnColor rounded-small w-[437px] h-btnHeight text-black text-lg my-[28px]">
-            <p className="text-[18px]">Войдите, чтобы добавить курс</p>
+            {user ? (
+              <p className="text-[18px]">Добавить курс</p>
+            ) : (
+              <p className="text-[18px]">Войдите, чтобы добавить курс</p>
+            )}
           </button>
         </div>
         <img

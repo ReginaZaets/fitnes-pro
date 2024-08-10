@@ -45,6 +45,7 @@ main {
   .items {
     @apply text-black opacity-50 text-2xl font-normal  before:content-['•'] leading-tight;
   }
+
 }
 
 @media (max-width: 1160px) {

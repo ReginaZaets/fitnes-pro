@@ -23,6 +23,10 @@ export default {
         btnInactiveBg: "#F7F7F7",
         inputModal: "#D0CECE",
         courseInfoBlock: "#151720",
+        yoga: "#FFC700",
+        zumba: "#ff4800",
+        sterch: "#00C1FF",
+        step: "#df5d40",
       },
 
       borderRadius: {
