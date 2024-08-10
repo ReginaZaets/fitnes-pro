@@ -42,6 +42,7 @@ export type UserCourse = {
 // Типизация для объекта тренировки пользовательского курса
 export type UserCourseWorkout = {
   _id: string;
+  name: string;
   exercises: Exercise[];
   done: boolean;
 }

@@ -128,6 +128,42 @@ export const fetchGetWorkouts = async () => {
   return data;
 };
 
+// Получение списка всех тренировок курса
+
+export const fetchGetWorkoutsCourse = async (userID: string, courseID: string) => {
+  let data: Workout[] = [];
+  try {
+    const dbRef = ref(db, `users/${userID}/courses/${courseID}/workouts`);
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      data = snapshot.val();
+    } else {
+      console.warn("Нет доступных тренировок");
+    }
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+  return data;
+};
+
+// Получение данных тренировки по ID
+
+export const fetchGetWorkout = async (workoutID: string) => {
+  let data: Workout | null = null;
+  try {
+    const dbRef = ref(db, `workouts/${workoutID}`);
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      data = snapshot.val();
+    } else {
+      console.warn("Нет данных о тренировке");
+    }
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+  return data;
+};
+
 // Получение картинок по пути (свойство img в объекте Course)
 export const fetchGetCourseImage = async (src: string) => {
   try {
