@@ -70,6 +70,7 @@ export const fetchAddCourseUser = async (
     workoutsID: string;
     exercises: { name: string; quantity: number }[];
     done: boolean;
+    name: string;
   }[]
 ) => {
   try {
@@ -155,13 +156,21 @@ export const fetchDataUser = async (userID: string, courseID: string) => {
 
     // получаем тренировки курса
     const workout: string[] = course.workouts;
+    console.log(workout);
     // получаем все упражнения
     const fetchWorkout = await fetchGetWorkouts();
     const workoutArray = Object.values(fetchWorkout);
-    // отфильтровываем упражнения курса от всех упражнений
-    const filterWorkouts = workoutArray.filter((item) =>
-      workout.includes(item._id)
-    );
+    // отфильтровываем упражнения курса от всех упражнений и сортурем по индексу
+
+    const filterWorkouts = workoutArray
+      .filter((item) => workout.includes(item._id))
+      .sort(
+        (a, b) =>
+          workout.findIndex((id) => id === a._id) -
+          workout.findIndex((id) => id === b._id)
+      );
+
+    console.log(filterWorkouts);
     // создаем массив из упражнений, который включает айди тренировки, имя и количество подходов
     const fetchExercises = filterWorkouts.map((item) => ({
       workoutsID: item._id,
@@ -169,6 +178,7 @@ export const fetchDataUser = async (userID: string, courseID: string) => {
         ? item.exercises.map((i) => ({ name: i.name, quantity: 0 }))
         : [],
       done: false,
+      name: item.name,
     }));
     //записываем все необходимые данные для базы данных
     await fetchAddCourseUser(userID, courseID, fetchExercises);
