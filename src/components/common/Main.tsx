@@ -4,13 +4,14 @@ import { fetchGetCourses } from "../../api/coursesApi";
 import { Course } from "../../types/types";
 
 export const Main = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState<Course[]>([]);
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const data = await fetchGetCourses();
         setCourses(data);
-        console.log(data);
+        setIsLoading(false)
       } catch (err) {
         console.error(err);
       }
@@ -18,6 +19,7 @@ export const Main = () => {
 
     fetchCourses();
   }, []);
+
 
   return (
     <>
@@ -30,11 +32,27 @@ export const Main = () => {
           <p>Измени своё тело за полгода!</p>
         </div>
       </div>
-      <div className="flex flex-row flex-wrap items-center gap-[40px]">
-        {courses.map((course) => (
-          <CourseCard key={course._id} course={course} />
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="w-full flex justify-center">
+        <div
+          className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
+          role="status"
+        >
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+        </div>
+      ) : (
+        <div className="flex flex-row flex-wrap items-center gap-[40px]">
+          {courses.map((course) => (
+            <CourseCard
+              key={course._id}
+              course={course}
+            />
+          ))}
+        </div>
+      )}
       <section className="mt-[20px] mb-[20px] flex justify-center">
         <button
           onClick={() => {
