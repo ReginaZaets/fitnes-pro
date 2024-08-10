@@ -46,11 +46,12 @@ export const fetchGetCoursesUser = async (userID: string) => {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       userCourses = snapshot.val();
-      console.log(userCourses);
+      console.log(Object.values(userCourses));
       const allCourses = await fetchGetCourses();
+      console.log(allCourses);
       // Фильтрация курсов по ID
       filteredCourses = allCourses.filter((course) =>
-        userCourses.some((userCourse) => userCourse.course_id === course._id)
+        Object.keys(userCourses).some((userCourse) => userCourse === course._id)
       );
     } else {
       console.warn("Нет приобретенных курсов");
