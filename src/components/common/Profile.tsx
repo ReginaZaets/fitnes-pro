@@ -1,5 +1,4 @@
 import { CourseCard } from "./CourseCard";
-
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
@@ -9,20 +8,16 @@ import { logout } from "../../api/authUsersApi";
 import { fetchGetCoursesUser } from "../../api/coursesApi";
 
 const Profile = () => {
-
   const user = useUserContext();
   const [coursesUser, setCoursesUser] = useState<Course[]>([]);
 
   useEffect(() => {
     if (user) {
-      fetchGetCoursesUser(user.uid).then(({ filteredCourses }) => {
-        setCoursesUser(filteredCourses);
+      fetchGetCoursesUser(user.uid).then((data) => {
+        setCoursesUser(data.filteredCourses);
       });
     }
   }, [user]);
-  // const clickResetPassword = () => {
-  //   navigate(paths.NEW_PASSWORD_MODAL);
-  // };
 
   return (
     <div>
@@ -49,9 +44,7 @@ const Profile = () => {
 
           <div className="flex flex-col items-center gap-[10px] sm:flex-row ">
             <Link to={paths.NEW_PASSWORD_MODAL}>
-              <button
-                className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]"
-              >
+              <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]">
                 Изменить пароль
               </button>
             </Link>
@@ -70,12 +63,21 @@ const Profile = () => {
         Мои курсы
       </h2>
 
-      {/* Здесь будут карточки */}
-      {/* <div className="flex flex-row flex-wrap items-center gap-[40px]">
+      <div className="flex flex-row flex-wrap items-center gap-[40px]">
         {coursesUser.map((course) => (
           <CourseCard key={course._id} course={course} />
         ))}
-      </div> */}
+      </div>
+      <div className="flex justify-end">
+        <button
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+          className="sm:hidden bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center mb-[40px] mt-[24px]"
+        >
+          Наверх ↑
+        </button>
+      </div>
     </div>
   );
 };
