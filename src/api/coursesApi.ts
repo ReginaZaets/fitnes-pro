@@ -61,6 +61,30 @@ export const fetchGetCoursesUser = async (userID: string) => {
   return { userCourses, filteredCourses };
 };
 
+// // Получение данных по упражнениям пользователя из отдельной тренировки
+// export const fetchGetExercisesWorkoutUser = async (userID: string) => {
+//   let userCourses: UserCourse[] = [];
+//   let filteredCourses: Course[] = [];
+//   try {
+//     const dbRef = ref(db, `users/${userID}/courses/${courseID}/workouts/`);
+//     const snapshot = await get(dbRef);
+//     if (snapshot.exists()) {
+//       userCourses = snapshot.val();
+//       console.log(userCourses);
+//       const allCourses = await fetchGetCourses();
+//       // Фильтрация курсов по ID
+//       filteredCourses = allCourses.filter((course) =>
+//         userCourses.some((userCourse) => userCourse.course_id === course._id)
+//       );
+//     } else {
+//       console.warn("Нет приобретенных курсов");
+//     }
+//   } catch (error) {
+//     console.log(`Ошибка получения данных: ${error}`);
+//   }
+//   return { userCourses, filteredCourses };
+// };
+
 // Добавление курса в приобретенные к юзеру
 
 export const fetchAddCourseUser = async (
@@ -129,7 +153,10 @@ export const fetchGetWorkouts = async () => {
 
 // Получение списка всех тренировок курса
 
-export const fetchGetWorkoutsCourse = async (userID: string, courseID: string) => {
+export const fetchGetWorkoutsCourse = async (
+  userID: string,
+  courseID: string
+) => {
   let data: Workout[] = [];
   try {
     const dbRef = ref(db, `users/${userID}/courses/${courseID}/workouts`);
