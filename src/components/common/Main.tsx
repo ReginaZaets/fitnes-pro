@@ -46,7 +46,7 @@ export const Main = () => {
       ) : (
         <div className="flex flex-row flex-wrap items-center gap-[40px]">
           {courses.map((course) => (
-            <CourseCard key={course._id} course={course} />
+            <CourseCard key={course._id} course={course} progress={0}/>
           ))}
         </div>
       )}
