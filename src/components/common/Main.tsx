@@ -10,7 +10,7 @@ export const Main = () => {
       try {
         const data = await fetchGetCourses();
         setCourses(data);
-        console.log(data);
+        //console.log(data);
       } catch (err) {
         console.error(err);
       }
