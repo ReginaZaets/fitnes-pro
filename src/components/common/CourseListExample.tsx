@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Course, UserCourse, Workout } from "../../types/types";
+import { Course, Exercise, UserCourse, Workout } from "../../types/types";
 import {
   fetchGetCourse,
   fetchGetCourseImage,
   fetchGetCourses,
   fetchGetCoursesUser,
+  fetchGetExercisesWorkoutUser,
   fetchGetWorkout,
   fetchGetWorkouts,
   fetchGetWorkoutsCourse,
@@ -38,32 +39,47 @@ const CourseListExample = () => {
   // Состояние для хранения тренировки
   const [workout, setWorkout] = useState<Workout | null>(null);
 
-  // // Пока хардкодим ID курса. В последствии ID нужно будет получать из адреса с помощью useParams
-  // //const { courseID } = useParams<{ courseID: string }>();
-  const courseID = "6i67sm";
+  // Состояние для хранения упражнений тренировки
+  const [exercises, setExercises] = useState<Exercise[]>([]);
 
-  // Пока хардкодим ID тренировки. В последствии ID нужно будет получать из адреса с помощью useParams
-  //const { workoutID } = useParams<{ courseID: string }>();
-  const workoutID = "17oz5f";
-
-  // Получение тренировки по ID при загрузке
+  const userID = "SjButaRUOBNfpLRxzMjCSvUTowd2";
+  const workoutID = "kcx5ai";
+  const courseID = "ab1c3f";
+  // Получение массива упражнений по ID пользователя, курса и тренировки
   useEffect(() => {
-    fetchGetWorkout(workoutID).then((data) => {
-      setWorkout(data);
+    fetchGetExercisesWorkoutUser(userID, courseID, workoutID).then((data) => {
+      setExercises(data);
     });
   }, []);
 
-  //console.log(workout);
+  console.log(exercises);
+
+  // // Пока хардкодим ID курса. В последствии ID нужно будет получать из адреса с помощью useParams
+  // //const { courseID } = useParams<{ courseID: string }>();
+  //const courseID = "6i67sm";
+
+  // Пока хардкодим ID тренировки. В последствии ID нужно будет получать из адреса с помощью useParams
+  //const { workoutID } = useParams<{ courseID: string }>();
+  //const workoutID = "17oz5f";
 
   // Получение тренировки по ID при загрузке
-  useEffect(() => {
-    user &&
-      fetchGetWorkoutsCourse(user?.uid, courseID).then((data) => {
-        setWorkoutsCourse(data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetchGetWorkout(workoutID).then((data) => {
+  //     setWorkout(data);
+  //   });
+  // }, []);
 
-  console.log(workoutsCourse);
+  // //console.log(workout);
+
+  // // Получение тренировки по ID при загрузке
+  // useEffect(() => {
+  //   user &&
+  //     fetchGetWorkoutsCourse(user?.uid, courseID).then((data) => {
+  //       setWorkoutsCourse(data);
+  //     });
+  // }, []);
+
+  //console.log(workoutsCourse);
 
   // // Получение всех курсов при загрузке
   // useEffect(() => {

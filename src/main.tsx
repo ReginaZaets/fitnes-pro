@@ -4,13 +4,16 @@ import App from "./App.tsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./context/user.tsx";
+import { UserCoursesProvider } from "./context/userCourses.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-        <UserProvider>
-          <App />
-        </UserProvider>
+    <UserCoursesProvider>
+    <UserProvider>
+      <App />
+      </UserProvider>
+      </UserCoursesProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
