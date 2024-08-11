@@ -1,6 +1,6 @@
 import { get, ref, remove, set } from "firebase/database";
 import { db } from "./firebaseConfig";
-import { Course, Exercise, UserCourse, Workout } from "../types/types";
+import { Course, UserCourse,Exercise, UserCourseWorkout, Workout } from "../types/types";
 import { getBlob, ref as storageRef, getStorage } from "firebase/storage";
 
 // Получение всех курсов
@@ -88,24 +88,20 @@ export const fetchGetExercisesWorkoutUser = async (
 };
 
 // Добавление курса в приобретенные к юзеру
-
 export const fetchAddCourseUser = async (
   userID: string,
   courseID: string,
-  workouts: {
-    workoutsID: string;
-    exercises: { name: string; quantity: number }[];
-    done: boolean;
-  }[]
+  workouts: UserCourseWorkout[]
 ) => {
   try {
+    // Запись данных в базу
     const dbRef = ref(db, `users/${userID}/courses/${courseID}`);
     await set(dbRef, {
       _id: courseID,
       workouts: workouts,
     });
   } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+    console.error("Ошибка получения данных:", error);
   }
 };
 
@@ -218,30 +214,38 @@ export const fetchDataUser = async (userID: string, courseID: string) => {
   try {
     // получаем курс
     const course = await fetchGetCourse(courseID);
-    if (!course) {
-      return;
-    }
+    if (!course) return;
+
     // получаем тренировки курса
     const workout: string[] = course.workouts;
+    console.log(workout);
     // получаем все упражнения
     const fetchWorkout = await fetchGetWorkouts();
     const workoutArray = Object.values(fetchWorkout);
-    // отфильтровываем упражнения курса от всех упражнений
-    const filterWorkouts = workoutArray.filter((item) =>
-      workout.includes(item._id)
-    );
+    // отфильтровываем упражнения курса от всех упражнений и сортурем по индексу
+
+    const filterWorkouts = workoutArray
+      .filter((item) => workout.includes(item._id))
+      .sort(
+        (a, b) =>
+          workout.findIndex((id) => id === a._id) -
+          workout.findIndex((id) => id === b._id)
+      );
+
+    console.log(filterWorkouts);
     // создаем массив из упражнений, который включает айди тренировки, имя и количество подходов
-    const fetchExercises = filterWorkouts
-      .map((item) => ({
-        workoutsID: item._id,
-        exercises: item.exercises.map((i) => ({ name: i.name, quantity: 0 })),
+    const fetchExercises = filterWorkouts.map((item) => {
+      return {
+        _id: item._id,
+        exercises: item.exercises
+          ? item.exercises.map((i) => ({ name: i.name, quantity: 0 }))
+          : [],
         done: false,
-      }))
-      .filter((item) => item !== undefined);
-    if (fetchExercises.length === 0) {
-      console.log("нет доступных разминок");
-      return;
-    }
+        name: item.name,
+      };
+    });
+
+    console.log(fetchExercises);
     //записываем все необходимые данные для базы данных
     await fetchAddCourseUser(userID, courseID, fetchExercises);
   } catch (error) {
