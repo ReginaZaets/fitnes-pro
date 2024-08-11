@@ -1,4 +1,4 @@
-import { Link, Route, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // import { Exercise } from "../../lib/exercises";
 import ExerciseItem from "./ExerciseItem";
 import { paths } from "../../lib/paths";
@@ -8,18 +8,17 @@ import { Exercise, Workout } from "../../types/types";
 
 
 const WorkoutComponent = () => {
-  // <Route path="http://localhost:5173/workout/:id" component={id} exact />
   
-  const { id } = useParams<{ id: string }>();
-  //const { workoutID } = useParams<{ courseID: string }>();
-  
-  const NameSelectedCourse = "Йога";
-  // const workoutNumber = "2";
-  // const topicWorkout = "Красота и здоровье";
-  // const titleWorkout = "Йога на каждый день / 2 день";
-  // const video = "https://www.youtube.com/embed/v-xTLFDhoD0";
-  const workoutID = "hfgxlo";
+  // const { id } = useParams<{ id: string }>()
 
+  // const workoutID = { id }
+
+  // console.log(workoutID)
+    
+  const NameSelectedCourse = "Йога";
+ 
+  const workoutID = "hfgxlo";
+  
   const [workout, setWorkout] = useState<Workout | null>(null);
   
 

@@ -1,6 +1,11 @@
+import { Link } from "react-router-dom";
+import { paths } from "../../../lib/paths";
+
 const MyProgressDone = () => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
+    <>
+      <Link to={paths.WORKOUT}>
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
       <div className="absolute bg-white border w-[343px] h-[252px] md:w-[426px] md:h-[278px] shadow-customShadow rounded-radiusModal p-10">
         <p className="text-[32px] md:text-[40px] leading-[48px] text-center">
           Ваш прогресс засчитан!
@@ -12,6 +17,10 @@ const MyProgressDone = () => {
         />
       </div>
     </div>
+      </Link>
+      
+    </>
+    
   );
 };
 
