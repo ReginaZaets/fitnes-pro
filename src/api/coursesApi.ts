@@ -1,6 +1,6 @@
 import { get, ref, remove, set } from "firebase/database";
 import { db } from "./firebaseConfig";
-import { Course, UserCourse, Workout } from "../types/types";
+import { Course, UserCourse, UserCourseWorkout, Workout } from "../types/types";
 import { getBlob, ref as storageRef, getStorage } from "firebase/storage";
 
 // Получение всех курсов
@@ -63,25 +63,20 @@ export const fetchGetCoursesUser = async (userID: string) => {
 };
 
 // Добавление курса в приобретенные к юзеру
-
 export const fetchAddCourseUser = async (
   userID: string,
   courseID: string,
-  workouts: {
-    workoutsID: string;
-    exercises: { name: string; quantity: number }[];
-    done: boolean;
-    name: string;
-  }[]
+  workouts: UserCourseWorkout[]
 ) => {
   try {
+    // Запись данных в базу
     const dbRef = ref(db, `users/${userID}/courses/${courseID}`);
     await set(dbRef, {
       _id: courseID,
       workouts: workouts,
     });
   } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+    console.error("Ошибка получения данных:", error);
   }
 };
 
@@ -131,7 +126,10 @@ export const fetchGetWorkouts = async () => {
 
 // Получение списка всех тренировок курса
 
-export const fetchGetWorkoutsCourse = async (userID: string, courseID: string) => {
+export const fetchGetWorkoutsCourse = async (
+  userID: string,
+  courseID: string
+) => {
   let data: Workout[] = [];
   try {
     const dbRef = ref(db, `users/${userID}/courses/${courseID}/workouts`);
@@ -209,14 +207,18 @@ export const fetchDataUser = async (userID: string, courseID: string) => {
 
     console.log(filterWorkouts);
     // создаем массив из упражнений, который включает айди тренировки, имя и количество подходов
-    const fetchExercises = filterWorkouts.map((item) => ({
-      workoutsID: item._id,
-      exercises: item.exercises
-        ? item.exercises.map((i) => ({ name: i.name, quantity: 0 }))
-        : [],
-      done: false,
-      name: item.name,
-    }));
+    const fetchExercises = filterWorkouts.map((item) => {
+      return {
+        _id: item._id,
+        exercises: item.exercises
+          ? item.exercises.map((i) => ({ name: i.name, quantity: 0 }))
+          : [],
+        done: false,
+        name: item.name,
+      };
+    });
+
+    console.log(fetchExercises);
     //записываем все необходимые данные для базы данных
     await fetchAddCourseUser(userID, courseID, fetchExercises);
   } catch (error) {
