@@ -1,32 +1,53 @@
 import { useEffect, useState } from "react";
+import { useUserContext } from "../../context/hooks/useUser";
+import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
 import { Course, UserCourse } from "../../types/types";
-import { fetchGetCourseImage, fetchGetCoursesUser, fetchGetWorkouts } from "../../api/coursesApi";
+import {
+  fetchGetCourseImage,
+  fetchGetCoursesUser,
+  fetchGetWorkouts,
+  fetchDataUser,
+  fetchDeleteCourseUser,
+} from "../../api/coursesApi";
 import ProgressBar from "./ProgressBar";
 import { useLocation } from "react-router-dom";
-
 type CourseCardProps = {
   course: Course;
   progress: number;
 };
+
 export const CourseCard = ({ course, progress }: CourseCardProps) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [clickModal, setClickModal] = useState<boolean>(false);
   const [url, setUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
+  const user = useUserContext();
+  async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    if (user?.uid) {
+      try {
+        await fetchDataUser(user?.uid, course._id);
+        console.log("курс добавлен");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  }
+
   useEffect(() => {
     const fetchImg = async () => {
       try {
         const res = await fetchGetCourseImage(course.img);
         setUrl(res);
-        setIsLoading(false);
       } catch {
         console.log("error");
       }
     };
     fetchImg();
-  }, []);  
+  }, []);
   return (
     <div className="w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg ">
-      <div className="flex justify-end ">
+      <div onClick={handleAddCourse}  className="flex justify-end ">
         {location.pathname === "/profile" ? (
           <svg
             className="absolute mx-[18px] mt-[18px] mb-[12px]"
@@ -165,7 +186,9 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
         {location.pathname === "/profile" && (
           <>
             <div className="pb-[20px] w-full flex flex-col gap-2">
-              <div className="text-[18px] front-normal">Прогресс {progress}%</div>
+              <div className="text-[18px] front-normal">
+                Прогресс {progress}%
+              </div>
               <ProgressBar progress={progress} />
             </div>
             <button className="w-full h-[52px] bg-[#BCEC30] rounded-[46px] mb-[10px]">
@@ -174,6 +197,7 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
           </>
         )}
       </div>
+      {clickModal && <WorkoutModal course={course} />}
     </div>
   );
 };

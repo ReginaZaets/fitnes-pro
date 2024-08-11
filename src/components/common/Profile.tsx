@@ -1,6 +1,5 @@
 import { CourseCard } from "./CourseCard";
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
 import { fetchGetCoursesUser } from "../../api/coursesApi";
@@ -54,10 +53,7 @@ const Profile = () => {
 
           <div className="flex flex-col items-center gap-[10px] sm:flex-row ">
             <Link to={paths.NEW_PASSWORD_MODAL}>
-              <button
-                onClick={clickResetPassword}
-                className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]"
-              >
+              <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]">
                 Изменить пароль
               </button>
             </Link>
@@ -76,11 +72,20 @@ const Profile = () => {
         Мои курсы
       </h2>
 
-      {/* Здесь будут карточки */}
       <div className="flex flex-row flex-wrap items-center gap-[40px]">
         {userCourses.map((course) => (
           <CourseCard key={course._id} course={course} progress={getCourseProgress(course._id, course.workouts, userCoursesData)}/>
         ))}
+      </div>
+      <div className="flex justify-end">
+        <button
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+          className="sm:hidden bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center mb-[40px] mt-[24px]"
+        >
+          Наверх ↑
+        </button>
       </div>
     </div>
   );

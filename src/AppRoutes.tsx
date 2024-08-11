@@ -7,7 +7,6 @@ import SigninModal from "./components/popups/SigninModal";
 import SignupModal from "./components/popups/SignupModal";
 import ResetPassword from "./components/popups/ResetPassword";
 import UserProfile from "./pages/UserProfile";
-import WorkoutModal from "./components/popups/workoutPopups/WorkoutModal";
 import MyProgressModal from "./components/popups/myProgressPopups/MyProgressModal";
 import WorkoutPage from "./pages/WorkoutVideoPage";
 import CourseInfoPage from "./pages/CourseInfo";
@@ -32,7 +31,7 @@ export const AppRoutes = () => {
               path={paths.NEW_PASSWORD_MODAL}
               element={<ResetPassword />}
             />
-            <Route path={paths.WORKOUT_MODAL} element={<WorkoutModal />} />
+            {/* <Route path={paths.WORKOUT_MODAL} element={<WorkoutModal />} /> */}
           </Route>
           <Route path={paths.WORKOUT} element={<WorkoutPage />}>
             <Route
