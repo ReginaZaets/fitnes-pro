@@ -3,21 +3,24 @@ import { Link, useParams } from "react-router-dom";
 import ExerciseItem from "./ExerciseItem";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
-import { fetchGetWorkout } from "../../api/coursesApi";
+import { fetchGetExercisesWorkoutUser, fetchGetWorkout } from "../../api/coursesApi";
 import { Exercise, Workout } from "../../types/types";
 
 
 const WorkoutComponent = () => {
   
-  const { id } = useParams<{ id: string }>()
-  const workoutID = id 
+  const { id } = useParams<{ id: string }>();
+  const workoutID = id;
   console.log(workoutID)
     
   const NameSelectedCourse = "Йога";
  
   // const workoutID = "hfgxlo";
+  const userID = "SjButaRUOBNfpLRxzMjCSvUTowd2";
+  const courseID = "ab1c3f";
   
   const [workout, setWorkout] = useState<Workout | null>(null);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   
 
   useEffect(() => {
@@ -32,6 +35,15 @@ const WorkoutComponent = () => {
   console.log(workout);
 
   const exercise: Exercise[] | undefined = workout?.exercises;
+
+  useEffect(() => {
+    if (workoutID)
+    fetchGetExercisesWorkoutUser(userID, courseID, workoutID).then((data) => {
+      setExercises(data);
+    });
+  }, []);
+
+  console.log(exercises);
 
   return (
     <main className="max-h-[1262px] flex flex-col justify-start gap-6 md:gap-10 mb-[131px]">
