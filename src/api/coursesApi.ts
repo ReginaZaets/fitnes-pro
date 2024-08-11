@@ -1,6 +1,6 @@
 import { get, ref, remove, set } from "firebase/database";
 import { db } from "./firebaseConfig";
-import { Course, UserCourse, Workout } from "../types/types";
+import { Course, Exercise, UserCourse, Workout } from "../types/types";
 import { getBlob, ref as storageRef, getStorage } from "firebase/storage";
 
 // Получение всех курсов
@@ -61,6 +61,31 @@ export const fetchGetCoursesUser = async (userID: string) => {
   return { userCourses, filteredCourses };
 };
 
+// // Получение данных по упражнениям пользователя из отдельной тренировки
+export const fetchGetExercisesWorkoutUser = async (
+  userID: string,
+  courseID: string,
+  workoutID: string
+) => {
+  let exercises: Exercise[] = [];
+  try {
+    const dbRef = ref(
+      db,
+      `users/${userID}/courses/${courseID}/workouts/${workoutID}/exercises`
+    );
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      exercises = snapshot.val();
+      //console.log(exercises);
+    } else {
+      console.warn("В тренировки нет упражнений");
+    }
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+  return exercises;
+};
+
 // Добавление курса в приобретенные к юзеру
 
 export const fetchAddCourseUser = async (
@@ -97,10 +122,12 @@ export const fetchDeleteCourseUser = async (
   }
 };
 
-// Добавление прогресса в занятие курса
+// Добавление прогресса в тренировку курса
 
-export const fetchAddProgressCourseUser = async (
+export const fetchAddProgressWorkoutCourseUser = async (
+  userID: string,
   courseID: string,
+  workoutID: string,
   progress: number
 ) => {
   try {
@@ -120,6 +147,45 @@ export const fetchGetWorkouts = async () => {
       data = snapshot.val();
     } else {
       console.warn("Нет доступных тренировок");
+    }
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+  return data;
+};
+
+// Получение списка всех тренировок курса
+
+export const fetchGetWorkoutsCourse = async (
+  userID: string,
+  courseID: string
+) => {
+  let data: Workout[] = [];
+  try {
+    const dbRef = ref(db, `users/${userID}/courses/${courseID}/workouts`);
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      data = snapshot.val();
+    } else {
+      console.warn("Нет доступных тренировок");
+    }
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+  return data;
+};
+
+// Получение данных тренировки по ID
+
+export const fetchGetWorkout = async (workoutID: string) => {
+  let data: Workout | null = null;
+  try {
+    const dbRef = ref(db, `workouts/${workoutID}`);
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      data = snapshot.val();
+    } else {
+      console.warn("Нет данных о тренировке");
     }
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
