@@ -6,10 +6,10 @@ import {
 } from "../../api/coursesApi";
 import { useUserContext } from "../../context/hooks/useUser";
 import { Course } from "../../types/types";
-
-
+import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
 
 export const CourseCard = ({ course }: { course: Course }) => {
+  const [clickModal, setClickModal] = useState<boolean>(false);
   const user = useUserContext();
   async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
     e.preventDefault();
@@ -45,6 +45,9 @@ export const CourseCard = ({ course }: { course: Course }) => {
       }
     }
   }
+  const click = () => {
+    setClickModal(true);
+  };
   return (
     <div className="w-[360px] min-h-[501px]  flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg">
       <div onClick={handleAddCourse} className="flex justify-end ">
@@ -66,7 +69,10 @@ export const CourseCard = ({ course }: { course: Course }) => {
         <img src={url} className="rounded-[30px] w-[360px] h-[325px]" />
       </div>
 
-      <div className="flex flex-col gap-[10px] mt-[10px] pl-[15px]">
+      <div
+        onClick={click}
+        className="flex flex-col gap-[10px] mt-[10px] pl-[15px]"
+      >
         <div className="font-medium text-[32px] leading-[35px]">
           {course.nameRU}
         </div>
@@ -153,6 +159,7 @@ export const CourseCard = ({ course }: { course: Course }) => {
           <div className="slognost">Сложность</div>
         </div>
       </div>
+      {clickModal && <WorkoutModal course={course} />}
     </div>
   );
 };

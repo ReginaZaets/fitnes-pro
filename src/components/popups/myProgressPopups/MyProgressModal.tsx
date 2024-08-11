@@ -49,6 +49,9 @@ const MyProgressModal = () => {
                 </button>
             </div>
           </div>
+          <button onClick={handleClickAddProgress} className="w-[263px] md:w-[346px] h-inputHeight border rounded-small bg-btnColor text-lg font-normal text-black leading-textHeight mt-btnModalMargin hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]">
+            Сохранить
+          </button>
         </div>
       )}
       {isOpenedMyProgressDone && <MyProgressDone />}
