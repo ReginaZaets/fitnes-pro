@@ -9,15 +9,13 @@ import { Exercise, Workout } from "../../types/types";
 
 const WorkoutComponent = () => {
   
-  // const { id } = useParams<{ id: string }>()
-
-  // const workoutID: string = { id }
-
-  // console.log(workoutID)
+  const { id } = useParams<{ id: string }>()
+  const workoutID = id 
+  console.log(workoutID)
     
   const NameSelectedCourse = "Йога";
  
-  const workoutID = "hfgxlo";
+  // const workoutID = "hfgxlo";
   
   const [workout, setWorkout] = useState<Workout | null>(null);
   
