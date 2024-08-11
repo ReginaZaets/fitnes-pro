@@ -61,13 +61,13 @@ main {
 
 @media (max-width: 375px) {
   header {
-    width: 375px;
+    max-width: 343px;
     margin: 0 auto;
     padding: 0 16px;
   }
 
   main {
-    width: 375px;
+    max-width: 343px;
     margin: 0 auto;
     padding: 0 16px;
   }
