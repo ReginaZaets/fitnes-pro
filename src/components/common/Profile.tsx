@@ -4,26 +4,30 @@ import { Link, useNavigate } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
 import { fetchGetCoursesUser } from "../../api/coursesApi";
-import { Course } from "../../types/types";
+import { Course, UserCourse } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
+import { getCourseProgress } from "../../lib/courseProgress";
 
 const Profile = () => {
   const navigate = useNavigate();
-
   const user = useUserContext();
-  const [coursesUser, setCoursesUser] = useState<Course[]>([]);
-
-  useEffect(() => {
-    if (user) {
-      fetchGetCoursesUser(user.uid).then(({ filteredCourses }) => {
-        setCoursesUser(filteredCourses);
-      });
-    }
-  }, [user]);
+  // Состояние для хранения курсов пользователя
+  const [userCourses, setUserCourses] = useState<Course[]>([]);
+  // Состояние для хранения курсов, тренировок и прогресса тренировок пользователя
+  const [userCoursesData, setUserCoursesData] = useState<UserCourse[]>([]);
+  const userID = "s6EFazgbKeWUnq2QzYrcva7ByvJ2"
   const clickResetPassword = () => {
     navigate(paths.RESET_PASSWORD_MODAL);
   };
+  useEffect(() => {
+    if (user) {
+      fetchGetCoursesUser(userID).then((data) => {
+        setUserCourses(data.filteredCourses);
+        setUserCoursesData(data.userCourses);
+      });
+    }
+  }, [user]);
 
   return (
     <div>
@@ -74,8 +78,8 @@ const Profile = () => {
 
       {/* Здесь будут карточки */}
       <div className="flex flex-row flex-wrap items-center gap-[40px]">
-        {coursesUser.map((course) => (
-          <CourseCard key={course._id} course={course} />
+        {userCourses.map((course) => (
+          <CourseCard key={course._id} course={course} progress={getCourseProgress(course._id, course.workouts, userCoursesData)}/>
         ))}
       </div>
     </div>

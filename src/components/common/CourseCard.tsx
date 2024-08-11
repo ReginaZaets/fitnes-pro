@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Course } from "../../types/types";
-import { fetchGetCourseImage } from "../../api/coursesApi";
+import { Course, UserCourse } from "../../types/types";
+import { fetchGetCourseImage, fetchGetCoursesUser, fetchGetWorkouts } from "../../api/coursesApi";
 import ProgressBar from "./ProgressBar";
 import { useLocation } from "react-router-dom";
 
 type CourseCardProps = {
   course: Course;
+  progress: number;
 };
-export const CourseCard = ({ course }: CourseCardProps) => {
+export const CourseCard = ({ course, progress }: CourseCardProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [url, setUrl] = useState("");
   const location = useLocation();
@@ -22,7 +23,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
       }
     };
     fetchImg();
-  }, []);
+  }, []);  
   return (
     <div className="w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg ">
       <div className="flex justify-end ">
@@ -164,8 +165,8 @@ export const CourseCard = ({ course }: CourseCardProps) => {
         {location.pathname === "/profile" && (
           <>
             <div className="pb-[20px] w-full flex flex-col gap-2">
-              <div className="text-[18px] front-normal">Прогресс 40%</div>
-              <ProgressBar width={40} />
+              <div className="text-[18px] front-normal">Прогресс {progress}%</div>
+              <ProgressBar progress={progress} />
             </div>
             <button className="w-full h-[52px] bg-[#BCEC30] rounded-[46px] mb-[10px]">
               Продолжить
