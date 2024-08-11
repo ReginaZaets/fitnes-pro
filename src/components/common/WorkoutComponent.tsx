@@ -11,7 +11,7 @@ const WorkoutComponent = () => {
   
   // const { id } = useParams<{ id: string }>()
 
-  // const workoutID = { id }
+  // const workoutID: string = { id }
 
   // console.log(workoutID)
     
@@ -23,9 +23,12 @@ const WorkoutComponent = () => {
   
 
   useEffect(() => {
-    fetchGetWorkout(workoutID).then((data) => {
-      setWorkout(data);
-    });
+    if (workoutID){
+      fetchGetWorkout(workoutID).then((data) => {
+        setWorkout(data);
+      });
+    }
+    
   }, []);
 
   console.log(workout);
