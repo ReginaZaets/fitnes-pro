@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
-import { fetchGetCourse, fetchGetCourseImage } from "../../api/coursesApi";
+import {
+  fetchDataUser,
+  fetchGetCourse,
+  fetchGetCourseImage,
+} from "../../api/coursesApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { Course } from "../../types/types";
+import { paths } from "../../lib/paths";
+import { useUserContext } from "../../context/hooks/useUser";
+import { auth } from "../../api/firebaseConfig";
 
 const CourseInfo = () => {
+  // const user = useUserContext();
+  const user = auth.currentUser;
+  const [message, setMessage] = useState(false);
   const getBackgroundColor = (courseName: string) => {
     switch (courseName) {
       case "Йога":
@@ -20,7 +30,7 @@ const CourseInfo = () => {
   };
 
   const nav = useNavigate();
-  const user = false;
+  // const user = true;
   const { id } = useParams<{ id: string }>();
 
   const [data, setData] = useState<Course | null>(null);
@@ -43,11 +53,19 @@ const CourseInfo = () => {
     }
   }, [data]);
 
-  // const addCourse = (event) => {
+  const addCourse = async () => {
+    if (user?.uid && data?._id) {
+      await fetchDataUser(user?.uid, data?._id);
+      console.log("курс добавлен");
+    }
+  };
+  // const addCourse = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   event.preventDefault();
   //   if (!user) {
   //     return;
   //   } else {
+  //     setMessage(true);
+  //     nav(paths.PROFILE);
   //   }
   // };
 
@@ -109,13 +127,17 @@ const CourseInfo = () => {
             <li className="items">упражнения заряжают бодростью</li>
             <li className="items">помогают противостоять стрессам</li>
           </ul>
-          <button className="bg-btnColor rounded-small w-[437px] h-btnHeight text-black text-lg my-[28px]">
+          <button
+            className="bg-btnColor rounded-small w-[437px] h-btnHeight text-black text-lg my-[28px]"
+            onClick={addCourse}
+          >
             {user ? (
               <p className="text-[18px]">Добавить курс</p>
             ) : (
               <p className="text-[18px]">Войдите, чтобы добавить курс</p>
             )}
           </button>
+          {message && <p>Курс добавлен</p>}
         </div>
         <img
           src="/images/infoCourse.svg"
