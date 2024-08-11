@@ -96,7 +96,7 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
 
       <div
         onClick={click}
-        className="flex flex-col gap-[10px] mt-[10px] pl-[15px] pr-[15px]"
+        className="flex flex-col gap-[10px] mt-[10px] pl-[10px] pr-[10px]"
       >
         <div className="font-medium text-[32px] leading-[35px]">
           {course.nameRU}
