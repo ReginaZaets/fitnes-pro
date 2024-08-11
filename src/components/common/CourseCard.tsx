@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
 import { useUserContext } from "../../context/hooks/useUser";
 import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
-import { Course, UserCourse } from "../../types/types";
-import {
-  fetchGetCourseImage,
-  fetchGetCoursesUser,
-  fetchGetWorkouts,
-  fetchDataUser,
-  fetchDeleteCourseUser,
-} from "../../api/coursesApi";
+import { Course } from "../../types/types";
+import { fetchGetCourseImage, fetchDataUser } from "../../api/coursesApi";
 import ProgressBar from "./ProgressBar";
 import { useLocation } from "react-router-dom";
 type CourseCardProps = {
@@ -33,12 +27,15 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
       }
     }
   }
-
+  const click = () => {
+    setClickModal(true);
+  };
   useEffect(() => {
     const fetchImg = async () => {
       try {
         const res = await fetchGetCourseImage(course.img);
         setUrl(res);
+        setIsLoading(false);
       } catch {
         console.log("error");
       }
@@ -47,7 +44,7 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
   }, []);
   return (
     <div className="w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg ">
-      <div onClick={handleAddCourse}  className="flex justify-end ">
+      <div onClick={handleAddCourse} className="flex justify-end ">
         {location.pathname === "/profile" ? (
           <svg
             className="absolute mx-[18px] mt-[18px] mb-[12px]"
@@ -97,7 +94,10 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
         )}
       </div>
 
-      <div className="flex flex-col gap-[10px] mt-[10px] pl-[15px] pr-[15px]">
+      <div
+        onClick={click}
+        className="flex flex-col gap-[10px] mt-[10px] pl-[15px] pr-[15px]"
+      >
         <div className="font-medium text-[32px] leading-[35px]">
           {course.nameRU}
         </div>
@@ -192,7 +192,7 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
               <ProgressBar progress={progress} />
             </div>
             <button className="w-full h-[52px] bg-[#BCEC30] rounded-[46px] mb-[10px]">
-              Продолжить
+              {progress == 0 ? "Начать тренировку" : "Продолжить"}
             </button>
           </>
         )}

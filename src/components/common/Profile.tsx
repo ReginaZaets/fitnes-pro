@@ -9,21 +9,16 @@ import { logout } from "../../api/authUsersApi";
 import { getCourseProgress } from "../../lib/courseProgress";
 
 const Profile = () => {
-  const navigate = useNavigate();
   const user = useUserContext();
   // Состояние для хранения курсов пользователя
   const [userCourses, setUserCourses] = useState<Course[]>([]);
   // Состояние для хранения курсов, тренировок и прогресса тренировок пользователя
-  const [userCoursesData, setUserCoursesData] = useState<UserCourse[]>([]);
-  const userID = "s6EFazgbKeWUnq2QzYrcva7ByvJ2"
-  const clickResetPassword = () => {
-    navigate(paths.RESET_PASSWORD_MODAL);
-  };
+  const [userCoursesData, setUserCoursesData] = useState<Course[]>([]);
   useEffect(() => {
     if (user) {
-      fetchGetCoursesUser(userID).then((data) => {
+      fetchGetCoursesUser(user.uid).then((data) => {
         setUserCourses(data.filteredCourses);
-        setUserCoursesData(data.userCourses);
+        setUserCoursesData(data.filteredCourses);
       });
     }
   }, [user]);
@@ -74,7 +69,15 @@ const Profile = () => {
 
       <div className="flex flex-row flex-wrap items-center gap-[40px]">
         {userCourses.map((course) => (
-          <CourseCard key={course._id} course={course} progress={getCourseProgress(course._id, course.workouts, userCoursesData)}/>
+          <CourseCard
+            key={course._id}
+            course={course}
+            progress={getCourseProgress(
+              course._id,
+              course.workouts,
+              userCoursesData
+            )}
+          />
         ))}
       </div>
       <div className="flex justify-end">

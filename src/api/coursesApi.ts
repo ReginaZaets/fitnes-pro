@@ -1,23 +1,16 @@
 import { get, ref, remove, set } from "firebase/database";
 import { db } from "./firebaseConfig";
-import { Course, UserCourse,Exercise, UserCourseWorkout, Workout } from "../types/types";
+import {
+  Course,
+  UserCourse,
+  Exercise,
+  UserCourseWorkout,
+  Workout,
+} from "../types/types";
 import { getBlob, ref as storageRef, getStorage } from "firebase/storage";
 
 // Получение всех курсов
 export const fetchGetCourses = async () => {
-  let data: Course[] = [];
-  try {
-    const dbRef = ref(db, "courses");
-    const snapshot = await get(dbRef);
-    if (snapshot.exists()) {
-      data = Object.values(snapshot.val());
-    } else {
-      console.warn("Нет доступных курсов");
-    }
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
-  }
-  return data;
   let data: Course[] = [];
   try {
     const dbRef = ref(db, "courses");
