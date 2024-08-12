@@ -4,11 +4,11 @@ import { Course } from "../types/types";
 export const UserCoursesContext = createContext<{
   coursesUser: Course[] | null;
   setCoursesUser: React.Dispatch<React.SetStateAction<Course[]>>;
-}>({ 
-   coursesUser: null,
-   setCoursesUser: () => {} 
-  });
-  
+}>({
+  coursesUser: null,
+  setCoursesUser: () => {},
+});
+
 interface UserProviderProps {
   children: ReactNode;
 }
