@@ -34,7 +34,6 @@ const WorkoutComponent = () => {
 
   console.log(workout);
 
-  const exercise: Exercise[] | undefined = workout?.exercises;
 
   useEffect(() => {
     if (workoutID)
@@ -44,6 +43,8 @@ const WorkoutComponent = () => {
   }, []);
 
   console.log(exercises);
+
+  // const exercises: Exercise[] | undefined = workout?.exercises;
 
   return (
     <main className="max-h-[1262px] flex flex-col justify-start gap-6 md:gap-10 mb-[131px]">
@@ -69,7 +70,7 @@ const WorkoutComponent = () => {
           Упражнения тренировки
         </h2>
         <div className="mb-[40px] max-h-[606px] grid grid-cols-1 gap-x-[60px] gap-y-[24px] md:grid-cols-3 md:gap-y-[20px]">
-          {exercise && exercise.map((item, index) => {
+          {exercises && exercises.map((item, index) => {
             return (
               <ExerciseItem
                 key={index}
@@ -80,8 +81,8 @@ const WorkoutComponent = () => {
           })}
         </div>
         <Link to={paths.WORKOUT_PROGRESS_MODAL}>
-          <button className="w-[283px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] ">
-            <p className="mx-[35px] my-[16px]">Заполнить свой прогресс</p>
+          <button className="w-[251px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] ">
+            <p className="mx-[20px] my-[16px]">Заполнить свой прогресс</p>
           </button>
         </Link>
       </div>
