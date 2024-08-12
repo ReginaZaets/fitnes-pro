@@ -1,27 +1,14 @@
 import { CourseCard } from "./CourseCard";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
-import { useEffect, useState } from "react";
-import { fetchGetCoursesUser } from "../../api/coursesApi";
-import { Course, UserCourse } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
 import { getCourseProgress } from "../../lib/courseProgress";
+import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 
 const Profile = () => {
   const user = useUserContext();
-  // Состояние для хранения курсов пользователя
-  const [userCourses, setUserCourses] = useState<Course[]>([]);
-  // Состояние для хранения курсов, тренировок и прогресса тренировок пользователя
-  const [userCoursesData, setUserCoursesData] = useState<Course[]>([]);
-  useEffect(() => {
-    if (user) {
-      fetchGetCoursesUser(user.uid).then((data) => {
-        setUserCourses(data.filteredCourses);
-        setUserCoursesData(data.filteredCourses);
-      });
-    }
-  }, [user]);
+  const { coursesUser } = useUserCoursesContext();
 
   return (
     <div>
@@ -68,14 +55,14 @@ const Profile = () => {
       </h2>
 
       <div className="flex flex-row flex-wrap items-center gap-[40px]">
-        {userCourses.map((course) => (
+        {coursesUser?.map((course) => (
           <CourseCard
             key={course._id}
             course={course}
             progress={getCourseProgress(
               course._id,
               course.workouts,
-              userCoursesData
+              coursesUser
             )}
           />
         ))}
