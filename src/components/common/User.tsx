@@ -14,15 +14,17 @@ const User = () => {
     setIsOpen(false);
     await logout();
   };
-  const { setCoursesUser } = useUserCoursesContext();
+  const { setCoursesUserDefault } = useUserCoursesContext();
+  const { setCoursesUserFull } = useUserCoursesContext();
 
   useEffect(() => {
     if (user) {
       fetchGetCoursesUser(user.uid).then((data) => {
-        setCoursesUser(data.filteredCourses);
+        setCoursesUserDefault(data.filteredCourses);
+        setCoursesUserFull(data.userCourses);
       });
     }
-  }, [user, setCoursesUser]);
+  }, []);
 
   return (
     <div className="flex gap-x-3 items-center relative">

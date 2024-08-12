@@ -1,12 +1,16 @@
 import { createContext, ReactNode, useState } from "react";
-import { Course } from "../types/types";
+import { Course, UserCourse } from "../types/types";
 
 export const UserCoursesContext = createContext<{
-  coursesUser: Course[] | null;
-  setCoursesUser: React.Dispatch<React.SetStateAction<Course[]>>;
+  coursesUserDefault: Course[] | null;
+  setCoursesUserDefault: React.Dispatch<React.SetStateAction<Course[]>>;
+  coursesUserFull: UserCourse[] | null;
+  setCoursesUserFull: React.Dispatch<React.SetStateAction<UserCourse[]>>;
 }>({
-  coursesUser: null,
-  setCoursesUser: () => {},
+  coursesUserDefault: null,
+  setCoursesUserDefault: () => {},
+  coursesUserFull: null,
+  setCoursesUserFull: () => {},
 });
 
 interface UserProviderProps {
@@ -14,10 +18,18 @@ interface UserProviderProps {
 }
 
 export function UserCoursesProvider({ children }: UserProviderProps) {
-  const [coursesUser, setCoursesUser] = useState<Course[]>([]);
+  const [coursesUserDefault, setCoursesUserDefault] = useState<Course[]>([]);
+  const [coursesUserFull, setCoursesUserFull] = useState<UserCourse[]>([]);
 
   return (
-    <UserCoursesContext.Provider value={{ coursesUser, setCoursesUser }}>
+    <UserCoursesContext.Provider
+      value={{
+        coursesUserDefault,
+        setCoursesUserDefault,
+        coursesUserFull,
+        setCoursesUserFull,
+      }}
+    >
       {children}
     </UserCoursesContext.Provider>
   );
