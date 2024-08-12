@@ -8,7 +8,7 @@ export const getCourseProgress = (courseID: string, workouts: [], userCoursesDat
     const countWorkouts = workouts.length;
     // Находим массив тренировок из объект курса с полной информацией о тренировках
     const currentWorkouts = userCoursesData.find((course) => {
-      return course.course_id === courseID;
+      return course._id === courseID;
     })?.workouts;
 
     // Объявляем переменную для хранения количества завершенных тренировок в курсе

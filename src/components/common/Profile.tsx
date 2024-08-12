@@ -2,20 +2,23 @@ import { CourseCard } from "./CourseCard";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
+import { fetchGetCoursesUser } from "../../api/coursesApi";
+import { Course, UserCourse } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
-import { fetchGetCoursesUser } from "../../api/coursesApi";
-import { Course } from "../../types/types";
+import { getCourseProgress } from "../../lib/courseProgress";
 
 const Profile = () => {
   const user = useUserContext();
-  //const {coursesUser, setCoursesUser} = useUserCoursesContext();
-    const [coursesUser, setCoursesUser] = useState<Course[]>([]);
-
+  // Состояние для хранения курсов пользователя
+  const [userCourses, setUserCourses] = useState<Course[]>([]);
+  // Состояние для хранения курсов, тренировок и прогресса тренировок пользователя
+  const [userCoursesData, setUserCoursesData] = useState<Course[]>([]);
   useEffect(() => {
     if (user) {
       fetchGetCoursesUser(user.uid).then((data) => {
-        setCoursesUser(data.filteredCourses);
+        setUserCourses(data.filteredCourses);
+        setUserCoursesData(data.filteredCourses);
       });
     }
   }, [user]);
@@ -65,8 +68,16 @@ const Profile = () => {
       </h2>
 
       <div className="flex flex-row flex-wrap items-center gap-[40px]">
-        {coursesUser.map((course:Course) => (
-          <CourseCard key={course._id} course={course} />
+        {userCourses.map((course) => (
+          <CourseCard
+            key={course._id}
+            course={course}
+            progress={getCourseProgress(
+              course._id,
+              course.workouts,
+              userCoursesData
+            )}
+          />
         ))}
       </div>
       <div className="flex justify-end">

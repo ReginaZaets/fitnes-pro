@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
-import {
-  fetchDataUser,
-  fetchDeleteCourseUser,
-  fetchGetCourseImage,
-} from "../../api/coursesApi";
 import { useUserContext } from "../../context/hooks/useUser";
-import { Course } from "../../types/types";
 import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
+import { Course } from "../../types/types";
+import { fetchGetCourseImage, fetchDataUser } from "../../api/coursesApi";
+import ProgressBar from "./ProgressBar";
+import { useLocation } from "react-router-dom";
+type CourseCardProps = {
+  course: Course;
+  progress: number;
+};
 
-export const CourseCard = ({ course }: { course: Course }) => {
+export const CourseCard = ({ course, progress }: CourseCardProps) => {
   const [clickModal, setClickModal] = useState<boolean>(false);
+  const [url, setUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
   const user = useUserContext();
   async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
     e.preventDefault();
@@ -22,56 +27,76 @@ export const CourseCard = ({ course }: { course: Course }) => {
       }
     }
   }
-  const [url, setUrl] = useState("");
+  const click = () => {
+    setClickModal(true);
+  };
   useEffect(() => {
     const fetchImg = async () => {
       try {
         const res = await fetchGetCourseImage(course.img);
         setUrl(res);
+        setIsLoading(false);
       } catch {
         console.log("error");
       }
     };
     fetchImg();
   }, []);
-  async function handleRemoveCourse(e: React.MouseEvent<HTMLDivElement>) {
-    e.preventDefault();
-    if (user?.uid) {
-      try {
-        await fetchDeleteCourseUser(user?.uid, course._id);
-        console.log("курс удален");
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    }
-  }
-  const click = () => {
-    setClickModal(true);
-  };
   return (
-    <div className="w-[360px] min-h-[501px]  flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg">
+    <div className="w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg ">
       <div onClick={handleAddCourse} className="flex justify-end ">
-        <svg
-          className="absolute mx-[18px] my-[12px]"
-          width="28"
-          height="28"
-          viewBox="0 0 28 28"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M14 27.3333C21.3638 27.3333 27.3333 21.3638 27.3333 14C27.3333 6.63616 21.3638 0.666626 14 0.666626C6.63619 0.666626 0.666656 6.63616 0.666656 14C0.666656 21.3638 6.63619 27.3333 14 27.3333ZM12.6667 12.6666V7.33329H15.3333V12.6666H20.6667V15.3333H15.3333V20.6666H12.6667V15.3333H7.33332V12.6666H12.6667Z"
-            fill="white"
-          />
-        </svg>
-        <img src={url} className="rounded-[30px] w-[360px] h-[325px]" />
+        {location.pathname === "/profile" ? (
+          <svg
+            className="absolute mx-[18px] mt-[18px] mb-[12px]"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M13.9998 27.3333C21.3636 27.3333 27.3332 21.3638 27.3332 14C27.3332 6.63616 21.3636 0.666626 13.9998 0.666626C6.63604 0.666626 0.666504 6.63616 0.666504 14C0.666504 21.3638 6.63604 27.3333 13.9998 27.3333ZM7.33317 12.6666V15.3333H20.6665V12.6666H7.33317Z"
+              fill="white"
+            />
+          </svg>
+        ) : (
+          <svg
+            className="absolute mx-[18px] my-[12px]"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M14 27.3333C21.3638 27.3333 27.3333 21.3638 27.3333 14C27.3333 6.63616 21.3638 0.666626 14 0.666626C6.63619 0.666626 0.666656 6.63616 0.666656 14C0.666656 21.3638 6.63619 27.3333 14 27.3333ZM12.6667 12.6666V7.33329H15.3333V12.6666H20.6667V15.3333H15.3333V20.6666H12.6667V15.3333H7.33332V12.6666H12.6667Z"
+              fill="white"
+            />
+          </svg>
+        )}
+        {isLoading ? (
+          <div className=" flex justify-center w-[360px] h-[325px] items-center">
+            <div
+              className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
+              role="status"
+            >
+              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                Loading...
+              </span>
+            </div>
+          </div>
+        ) : (
+          <img src={url} className="rounded-[30px] w-[360px] h-[325px]" />
+        )}
       </div>
 
       <div
         onClick={click}
-        className="flex flex-col gap-[10px] mt-[10px] pl-[15px]"
+        className="flex flex-col gap-[10px] mt-[10px] pl-[10px] pr-[10px]"
       >
         <div className="font-medium text-[32px] leading-[35px]">
           {course.nameRU}
@@ -158,6 +183,19 @@ export const CourseCard = ({ course }: { course: Course }) => {
 
           <div className="slognost">Сложность</div>
         </div>
+        {location.pathname === "/profile" && (
+          <>
+            <div className="pb-[20px] w-full flex flex-col gap-2">
+              <div className="text-[18px] front-normal">
+                Прогресс {progress}%
+              </div>
+              <ProgressBar progress={progress} />
+            </div>
+            <button className="w-full h-[52px] bg-[#BCEC30] rounded-[46px] mb-[10px]">
+              {progress == 0 ? "Начать тренировку" : "Продолжить"}
+            </button>
+          </>
+        )}
       </div>
       {clickModal && <WorkoutModal course={course} />}
     </div>
