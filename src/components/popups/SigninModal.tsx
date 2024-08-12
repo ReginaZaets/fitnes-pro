@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../api/authUsersApi";
 import { paths } from "../../lib/paths";
 import ResetPasswordEmail from "./ResetPasswordEmail";
 import { sanitizeHtml } from "../../lib/sanitizeHtml";
+import { useOnClickOutside } from "../../context/hooks/useOnClickToCloseModal";
 
 const SigninModal = () => {
   const navigate = useNavigate();
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const [isOpenSignin, setIsOpenSignin] = useState<boolean>(true);
   const [isOpenResetPassword, setIsOpenResetPassword] =
@@ -14,6 +16,11 @@ const SigninModal = () => {
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
+
+  useOnClickOutside(modalRef, () => {
+    setIsOpenSignin(false);
+    navigate(-1);
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,7 +32,6 @@ const SigninModal = () => {
     });
     setError(null);
   };
-
   const validateForm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const validateEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -107,7 +113,10 @@ const SigninModal = () => {
     <>
       {isOpenSignin && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10 transition-opacity duration-300">
-          <div className="absolute bg-white border w-auto max-w-lg h-auto shadow-customShadow rounded-radiusModal p-4 md:p-10">
+          <div
+            ref={modalRef}
+            className="absolute bg-white border w-auto max-w-lg h-auto shadow-customShadow rounded-radiusModal p-4 md:p-10"
+          >
             <img
               src="/images/logo.svg"
               alt="imageLogo"

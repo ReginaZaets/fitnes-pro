@@ -159,7 +159,12 @@ export const CourseCard = ({ course }: { course: Course }) => {
           <div className="slognost">Сложность</div>
         </div>
       </div>
-      {clickModal && <WorkoutModal course={course} />}
+      {clickModal && (
+        <WorkoutModal
+          course={course}
+          setClickModal={() => setClickModal(false)}
+        />
+      )}
     </div>
   );
 };
