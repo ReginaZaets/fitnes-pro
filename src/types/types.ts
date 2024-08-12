@@ -45,4 +45,5 @@ export type UserCourseWorkout = {
   name: string;
   exercises: Exercise[];
   done: boolean;
+  order: number;
 };
