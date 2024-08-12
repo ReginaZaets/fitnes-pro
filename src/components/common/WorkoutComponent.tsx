@@ -3,43 +3,41 @@ import { Link, useParams } from "react-router-dom";
 import ExerciseItem from "./ExerciseItem";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
-import { fetchGetExercisesWorkoutUser, fetchGetWorkout } from "../../api/coursesApi";
+import {
+  fetchGetExercisesWorkoutUser,
+  fetchGetWorkout,
+} from "../../api/coursesApi";
 import { Exercise, Workout } from "../../types/types";
 
-
 const WorkoutComponent = () => {
-  
   const { id } = useParams<{ id: string }>();
   const workoutID = id;
-  console.log(workoutID)
-    
+  console.log(workoutID);
+
   const NameSelectedCourse = "Йога";
- 
+
   // const workoutID = "hfgxlo";
   const userID = "SjButaRUOBNfpLRxzMjCSvUTowd2";
   const courseID = "ab1c3f";
-  
+
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [exercises, setExercises] = useState<Exercise[]>([]);
-  
 
   useEffect(() => {
-    if (workoutID){
+    if (workoutID) {
       fetchGetWorkout(workoutID).then((data) => {
         setWorkout(data);
       });
     }
-    
   }, []);
 
   console.log(workout);
 
-
   useEffect(() => {
     if (workoutID)
-    fetchGetExercisesWorkoutUser(userID, courseID, workoutID).then((data) => {
-      setExercises(data);
-    });
+      fetchGetExercisesWorkoutUser(userID, courseID, workoutID).then((data) => {
+        setExercises(data);
+      });
   }, []);
 
   console.log(exercises);
@@ -70,15 +68,18 @@ const WorkoutComponent = () => {
           Упражнения тренировки
         </h2>
         <div className="mb-[40px] max-h-[606px] grid grid-cols-1 gap-x-[60px] gap-y-[24px] md:grid-cols-3 md:gap-y-[20px]">
-          {exercises && exercises.map((item, index) => {
-            return (
-              <ExerciseItem
-                key={index}
-                name={item.name}
-                quantity={item.quantity}
-              />
-            );
-          })}
+          {exercises &&
+            workout &&
+            exercises.map((item, index) => {
+              return (
+                <ExerciseItem
+                  key={index}
+                  name={item.name}
+                  quantity={item.quantity}
+                  maxQuantity={workout?.exercises[index].quantity}
+                />
+              );
+            })}
         </div>
         <Link to={paths.WORKOUT_PROGRESS_MODAL}>
           <button className="w-[251px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] ">
@@ -86,7 +87,6 @@ const WorkoutComponent = () => {
           </button>
         </Link>
       </div>
-      
     </main>
   );
 };
