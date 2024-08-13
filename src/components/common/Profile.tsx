@@ -8,7 +8,10 @@ import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 
 const Profile = () => {
   const user = useUserContext();
-  const { coursesUser } = useUserCoursesContext();
+  const { coursesUserDefault } = useUserCoursesContext();
+  const { coursesUserFull } = useUserCoursesContext();
+
+  //console.log(coursesUserFull);
 
   return (
     <div>
@@ -55,17 +58,19 @@ const Profile = () => {
       </h2>
 
       <div className="flex flex-row flex-wrap items-center gap-[40px]">
-        {coursesUser?.map((course) => (
-          <CourseCard
-            key={course._id}
-            course={course}
-            progress={getCourseProgress(
-              course._id,
-              course.workouts,
-              coursesUser
-            )}
-          />
-        ))}
+        {coursesUserDefault &&
+          coursesUserFull &&
+          coursesUserDefault.map((course) => (
+            <CourseCard
+              key={course._id}
+              course={course}
+              progress={getCourseProgress(
+                course._id,
+                course.workouts,
+                coursesUserFull
+              )}
+            />
+          ))}
       </div>
       <div className="flex justify-end">
         <button

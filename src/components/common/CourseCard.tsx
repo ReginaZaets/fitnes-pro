@@ -5,6 +5,7 @@ import { Course } from "../../types/types";
 import { fetchGetCourseImage, fetchDataUser } from "../../api/coursesApi";
 import ProgressBar from "./ProgressBar";
 import { useLocation } from "react-router-dom";
+import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 type CourseCardProps = {
   course: Course;
   progress: number;
@@ -16,11 +17,18 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const user = useUserContext();
+  const { setCoursesUserDefault } = useUserCoursesContext();
+  const { setCoursesUserFull } = useUserCoursesContext();
   async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
     e.preventDefault();
     if (user?.uid) {
       try {
-        await fetchDataUser(user?.uid, course._id);
+        await fetchDataUser(
+          user?.uid,
+          course._id,
+          setCoursesUserDefault,
+          setCoursesUserFull
+        );
         console.log("курс добавлен");
       } catch (error: any) {
         console.log(error.message);
@@ -197,7 +205,12 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
           </>
         )}
       </div>
-      {clickModal && <WorkoutModal course={course} />}
+      {clickModal && (
+        <WorkoutModal
+          course={course}
+          setClickModal={() => setClickModal(false)}
+        />
+      )}
     </div>
   );
 };

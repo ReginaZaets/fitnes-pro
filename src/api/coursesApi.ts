@@ -8,6 +8,8 @@ import {
   Workout,
 } from "../types/types";
 import { getBlob, ref as storageRef, getStorage } from "firebase/storage";
+import { useUserCoursesContext } from "../context/hooks/useUserCourses";
+import { useUserContext } from "../context/hooks/useUser";
 
 // Получение всех курсов
 export const fetchGetCourses = async () => {
@@ -217,7 +219,12 @@ export const fetchGetCourseImage = async (src: string) => {
 
 // Получение курса пользователя и обновление данных курса, в зависимости от его тренировках и упражнениях
 
-export const fetchDataUser = async (userID: string, courseID: string) => {
+export const fetchDataUser = async (
+  userID: string,
+  courseID: string,
+  setCoursesUserDefault: React.Dispatch<React.SetStateAction<Course[]>>,
+  setCoursesUserFull: React.Dispatch<React.SetStateAction<UserCourse[]>>
+) => {
   try {
     // получаем курс
     const course = await fetchGetCourse(courseID);
@@ -260,7 +267,12 @@ export const fetchDataUser = async (userID: string, courseID: string) => {
 
     console.log(fetchExercises);
     //записываем все необходимые данные для базы данных
-    await fetchAddCourseUser(userID, courseID, fetchExercises);
+    await fetchAddCourseUser(userID, courseID, fetchExercises).then(() => {
+      fetchGetCoursesUser(userID).then((data) => {
+        setCoursesUserDefault(data.filteredCourses);
+        setCoursesUserFull(data.userCourses);
+      });
+    });
   } catch (error) {
     console.log(error);
   }
