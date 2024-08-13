@@ -205,7 +205,12 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
           </>
         )}
       </div>
-      {clickModal && <WorkoutModal course={course} />}
+      {clickModal && (
+        <WorkoutModal
+          course={course}
+          setClickModal={() => setClickModal(false)}
+        />
+      )}
     </div>
   );
 };
