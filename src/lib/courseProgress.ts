@@ -18,8 +18,6 @@ export const getCourseProgress = (
     return course._id === courseID;
   })?.workouts;
 
-  console.log(currentWorkouts);
-
   // Объявляем переменную для хранения количества завершенных тренировок в курсе
   let countWorkoutsDone = 0;
 

@@ -123,7 +123,20 @@ const WorkoutComponent = () => {
   }
 
   const toggleModalAddProgress = () => {
-    setIsOpenedMyProgressModal(true);
+    setIsOpenedMyProgressModal((prev) => !prev);
+  };
+
+  const handleProgressUpdate = () => {
+    if (user && workoutID && courseID) {
+      fetchGetExercisesWorkoutUser(user.uid, courseID, workoutID)
+        .then((data) => {
+          setExercises(data);
+        })
+        .catch((error) => {
+          console.error("Ошибка при загрузке упражнений:", error);
+          setIsError("Ошибка при загрузке упражнений");
+        });
+    }
   };
 
   return (
@@ -168,7 +181,12 @@ const WorkoutComponent = () => {
           <p className="mx-[20px] my-[16px]">Заполнить свой прогресс</p>
         </button>
         {isOpenedMyProgress && (
-          <MyProgressModal courseID={courseID} workoutID={workoutID} />
+          <MyProgressModal
+            courseID={courseID}
+            workoutID={workoutID}
+            onProgressUpdated={handleProgressUpdate}
+            toggleModalAddProgress={toggleModalAddProgress}
+          />
         )}
       </div>
     </main>

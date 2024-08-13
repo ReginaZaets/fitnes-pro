@@ -1,4 +1,4 @@
-import { get, ref, remove, set } from "firebase/database";
+import { get, ref, remove, set, update } from "firebase/database";
 import { db } from "./firebaseConfig";
 import {
   Course,
@@ -131,9 +131,23 @@ export const fetchAddProgressWorkoutCourseUser = async (
   userID: string,
   courseID: string,
   workoutID: string,
-  progress: number
+  progress: Exercise[]
 ) => {
   try {
+    // Запись данных в базу
+    const dbRef = ref(
+      db,
+      `users/${userID}/courses/${courseID}/workouts/${workoutID}/exercises`
+    );
+    // Преобразуем массив в объект с уникальными ключами
+    const progressObject = progress.reduce(
+      (acc, exercise, index) => {
+        acc[index] = exercise; // `exercise${index}` создаст уникальные ключи
+        return acc;
+      },
+      {} as { [key: string]: Exercise }
+    );
+    await update(dbRef, progressObject);
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
   }

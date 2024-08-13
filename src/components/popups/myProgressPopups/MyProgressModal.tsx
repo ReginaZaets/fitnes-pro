@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 import MyProgressDone from "./MyProgressDone";
-import { Exercise, User } from "../../../types/types";
-import { fetchGetExercisesWorkoutUser } from "../../../api/coursesApi";
+import { Exercise } from "../../../types/types";
+import {
+  fetchAddProgressWorkoutCourseUser,
+  fetchGetExercisesWorkoutUser,
+} from "../../../api/coursesApi";
 import { useUserContext } from "../../../context/hooks/useUser";
 
 const MyProgressModal = ({
   courseID,
   workoutID,
+  onProgressUpdated,
+  toggleModalAddProgress,
 }: {
   courseID: string | undefined;
   workoutID: string | undefined;
+  onProgressUpdated: () => void;
+  toggleModalAddProgress: () => void;
 }) => {
   const user = useUserContext();
   const [isOpenedMyProgressModal, setIsOpenedMyProgressModal] =
@@ -17,10 +24,33 @@ const MyProgressModal = ({
   const [isOpenedMyProgressDone, setIsOpenedMyProgressDone] =
     useState<boolean>(false);
   const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [inputValues, setInputValues] = useState<{ [key: number]: number }>({});
+
+  // Обработка изменения значения инпута
+  const handleInputChange = (index: number, value: number) => {
+    setInputValues((prev) => ({ ...prev, [index]: value }));
+  };
 
   const handleClickAddProgress = () => {
-    setIsOpenedMyProgressModal(false);
-    setIsOpenedMyProgressDone(true);
+    const progress: Exercise[] = exercises.map((item, index) => ({
+      ...item,
+      quantity: inputValues[index] || 0, // Используем значение из состояния или 0, если значение отсутствует
+    }));
+
+    console.log(progress);
+
+    if (user && courseID && workoutID) {
+      fetchAddProgressWorkoutCourseUser(
+        user?.uid,
+        courseID,
+        workoutID,
+        progress
+      ).finally(() => {
+        onProgressUpdated();
+        toggleModalAddProgress();
+        setIsOpenedMyProgressDone(true);
+      });
+    }
   };
 
   useEffect(() => {
@@ -28,6 +58,12 @@ const MyProgressModal = ({
       fetchGetExercisesWorkoutUser(user?.uid, courseID, workoutID).then(
         (data) => {
           setExercises(data);
+          // Инициализируем состояние значений инпутов
+          const initialValues: { [key: number]: number } = {};
+          data.forEach((exercise, index) => {
+            initialValues[index] = exercise.quantity || 0; // Инициализируем значением из данных или 0, если данных нет
+          });
+          setInputValues(initialValues);
         }
       );
   }, []);
@@ -55,6 +91,10 @@ const MyProgressModal = ({
                             type="number"
                             name={`exerciseQuantity${index}`}
                             placeholder="0"
+                            value={inputValues[index] || ""}
+                            onChange={(e) =>
+                              handleInputChange(index, Number(e.target.value))
+                            }
                           />
                         </div>
                       );
