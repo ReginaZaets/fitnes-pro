@@ -3,7 +3,7 @@ import { UserCourse } from "../types/types";
 // Функция подсчета прогресса
 export const getCourseProgress = (
   courseID: string,
-  workouts: [],
+  workouts: string[],
   userCoursesData: UserCourse[]
 ) => {
   // Объявляем переменную для хранения прогресс курса

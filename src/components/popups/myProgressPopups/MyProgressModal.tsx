@@ -3,7 +3,7 @@ import MyProgressDone from "./MyProgressDone";
 import { Exercise, User } from "../../../types/types";
 import { fetchGetExercisesWorkoutUser } from "../../../api/coursesApi";
 
-const MyProgressModal = ({ workoutID }: {workoutID: string | undefined}) => {
+const MyProgressModal = ({ workoutID }: { workoutID: string | undefined }) => {
   const [isOpenedMyProgressModal, setIsOpenedMyProgressModal] =
     useState<boolean>(true);
   const [isOpenedMyProgressDone, setIsOpenedMyProgressDone] =
@@ -39,19 +39,19 @@ const MyProgressModal = ({ workoutID }: {workoutID: string | undefined}) => {
               <div className="w-[263px] h-[337px] md:w-[346px] md:h-[346.5px] mt-[34px] md:mt-[48px] overflow-y-auto">
                 <div className="w-[263px] h-[337px] md:w-[320px] md:h-[346px] ">
                   {exercises &&
-                    exercises.map((item) => {
+                    exercises.map((item, index) => {
                       return (
-                        <>
+                        <div key={index}>
                           <h1 className="max-w-[237px] md:max-w-[320px] md:text-lg leading-textHeight text-black">
                             {item.name}
                           </h1>
                           <input
                             className="border w-[237px] h-[47px] md:w-[320px] md:h-[52px] rounded-lg mt-[10px] mb-[20px] pl-inputPadding py-4 text-lg leading-textHeight"
                             type="number"
-                            name="number"
+                            name={`exerciseQuantity${index}`}
                             placeholder="0"
                           />
-                        </>
+                        </div>
                       );
                     })}
                 </div>

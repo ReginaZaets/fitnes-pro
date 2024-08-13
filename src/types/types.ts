@@ -7,7 +7,7 @@ export type Course = {
   directions: [];
   fitting: [];
   order: number;
-  workouts: [];
+  workouts: string[];
   img: string;
 };
 

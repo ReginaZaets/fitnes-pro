@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useUserContext } from "../../context/hooks/useUser";
@@ -14,17 +14,20 @@ const User = () => {
     setIsOpen(false);
     await logout();
   };
-  const { setCoursesUserDefault } = useUserCoursesContext();
-  const { setCoursesUserFull } = useUserCoursesContext();
+  const { setCoursesUserDefault, setCoursesUserFull } = useUserCoursesContext();
+
+  // Мемоизируем функции
+  const fetchCourses = useCallback(async () => {
+    if (user) {
+      const data = await fetchGetCoursesUser(user.uid);
+      setCoursesUserDefault(data.filteredCourses);
+      setCoursesUserFull(data.userCourses);
+    }
+  }, [user, setCoursesUserDefault, setCoursesUserFull]);
 
   useEffect(() => {
-    if (user) {
-      fetchGetCoursesUser(user.uid).then((data) => {
-        setCoursesUserDefault(data.filteredCourses);
-        setCoursesUserFull(data.userCourses);
-      });
-    }
-  }, []);
+    fetchCourses();
+  }, [fetchCourses]);
 
   return (
     <div className="flex gap-x-3 items-center relative">

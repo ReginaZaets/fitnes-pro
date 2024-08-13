@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useMemo, useState } from "react";
 import { Course, UserCourse } from "../types/types";
 
 export const UserCoursesContext = createContext<{
@@ -21,15 +21,19 @@ export function UserCoursesProvider({ children }: UserProviderProps) {
   const [coursesUserDefault, setCoursesUserDefault] = useState<Course[]>([]);
   const [coursesUserFull, setCoursesUserFull] = useState<UserCourse[]>([]);
 
+  // Мемоизация значения контекста
+  const value = useMemo(
+    () => ({
+      coursesUserDefault,
+      setCoursesUserDefault,
+      coursesUserFull,
+      setCoursesUserFull,
+    }),
+    [coursesUserDefault, coursesUserFull]
+  );
+
   return (
-    <UserCoursesContext.Provider
-      value={{
-        coursesUserDefault,
-        setCoursesUserDefault,
-        coursesUserFull,
-        setCoursesUserFull,
-      }}
-    >
+    <UserCoursesContext.Provider value={value}>
       {children}
     </UserCoursesContext.Provider>
   );
