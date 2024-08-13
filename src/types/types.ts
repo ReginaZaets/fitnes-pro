@@ -35,8 +35,15 @@ export type User = {
 
 // Типизация для объекта курса пользователя
 export type UserCourse = {
-  course_id: string;
+  _id: string;
+  nameRU: string;
+  nameEN: string;
+  description: string;
+  directions: [];
+  fitting: [];
+  order: number;
   workouts: UserCourseWorkout[];
+  img: string;
 };
 
 // Типизация для объекта тренировки пользовательского курса
@@ -45,4 +52,5 @@ export type UserCourseWorkout = {
   name: string;
   exercises: Exercise[];
   done: boolean;
+  order: number;
 };

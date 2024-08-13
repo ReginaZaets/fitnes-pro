@@ -1,7 +1,15 @@
 import { get, ref, remove, set } from "firebase/database";
 import { db } from "./firebaseConfig";
-import { Course, UserCourse,Exercise, UserCourseWorkout, Workout } from "../types/types";
+import {
+  Course,
+  UserCourse,
+  Exercise,
+  UserCourseWorkout,
+  Workout,
+} from "../types/types";
 import { getBlob, ref as storageRef, getStorage } from "firebase/storage";
+import { useUserCoursesContext } from "../context/hooks/useUserCourses";
+import { useUserContext } from "../context/hooks/useUser";
 
 // Получение всех курсов
 export const fetchGetCourses = async () => {
@@ -46,9 +54,7 @@ export const fetchGetCoursesUser = async (userID: string) => {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       userCourses = snapshot.val();
-      console.log(Object.values(userCourses));
       const allCourses = await fetchGetCourses();
-      console.log(allCourses);
       // Фильтрация курсов по ID
       filteredCourses = allCourses.filter((course) =>
         Object.keys(userCourses).some((userCourse) => userCourse === course._id)
@@ -91,7 +97,7 @@ export const fetchGetExercisesWorkoutUser = async (
 export const fetchAddCourseUser = async (
   userID: string,
   courseID: string,
-  workouts: UserCourseWorkout[]
+  workouts: { [key: string]: UserCourseWorkout }
 ) => {
   try {
     // Запись данных в базу
@@ -157,12 +163,13 @@ export const fetchGetWorkoutsCourse = async (
   userID: string,
   courseID: string
 ) => {
-  let data: Workout[] = [];
+  let data: UserCourseWorkout[] = [];
   try {
     const dbRef = ref(db, `users/${userID}/courses/${courseID}/workouts`);
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
-      data = snapshot.val();
+      data = Object.values(snapshot.val());
+      data.sort((a, b) => a.order - b.order);
     } else {
       console.warn("Нет доступных тренировок");
     }
@@ -210,7 +217,12 @@ export const fetchGetCourseImage = async (src: string) => {
 
 // Получение курса пользователя и обновление данных курса, в зависимости от его тренировках и упражнениях
 
-export const fetchDataUser = async (userID: string, courseID: string) => {
+export const fetchDataUser = async (
+  userID: string,
+  courseID: string,
+  setCoursesUserDefault: React.Dispatch<React.SetStateAction<Course[]>>,
+  setCoursesUserFull: React.Dispatch<React.SetStateAction<UserCourse[]>>
+) => {
   try {
     // получаем курс
     const course = await fetchGetCourse(courseID);
@@ -218,11 +230,11 @@ export const fetchDataUser = async (userID: string, courseID: string) => {
 
     // получаем тренировки курса
     const workout: string[] = course.workouts;
-    console.log(workout);
+    //console.log(workout);
     // получаем все упражнения
     const fetchWorkout = await fetchGetWorkouts();
     const workoutArray = Object.values(fetchWorkout);
-    // отфильтровываем упражнения курса от всех упражнений и сортурем по индексу
+    // отфильтровываем упражнения курса от всех упражнений и сортируем по индексу
 
     const filterWorkouts = workoutArray
       .filter((item) => workout.includes(item._id))
@@ -233,21 +245,32 @@ export const fetchDataUser = async (userID: string, courseID: string) => {
       );
 
     console.log(filterWorkouts);
-    // создаем массив из упражнений, который включает айди тренировки, имя и количество подходов
-    const fetchExercises = filterWorkouts.map((item) => {
-      return {
-        _id: item._id,
-        exercises: item.exercises
-          ? item.exercises.map((i) => ({ name: i.name, quantity: 0 }))
-          : [],
-        done: false,
-        name: item.name,
-      };
-    });
+
+    // создаем объект из упражнений, ключом которого будет _id
+    const fetchExercises = filterWorkouts.reduce(
+      (acc, item, index) => {
+        acc[item._id] = {
+          _id: item._id,
+          name: item.name,
+          exercises: item.exercises
+            ? item.exercises.map((i) => ({ name: i.name, quantity: 0 }))
+            : [],
+          done: false,
+          order: index,
+        };
+        return acc;
+      },
+      {} as { [key: string]: UserCourseWorkout }
+    );
 
     console.log(fetchExercises);
     //записываем все необходимые данные для базы данных
-    await fetchAddCourseUser(userID, courseID, fetchExercises);
+    await fetchAddCourseUser(userID, courseID, fetchExercises).then(() => {
+      fetchGetCoursesUser(userID).then((data) => {
+        setCoursesUserDefault(data.filteredCourses);
+        setCoursesUserFull(data.userCourses);
+      });
+    });
   } catch (error) {
     console.log(error);
   }

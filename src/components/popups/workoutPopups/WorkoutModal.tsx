@@ -1,12 +1,28 @@
 import WorkoutItem from "./WorkoutItem";
 import { fetchGetWorkoutsCourse } from "../../../api/coursesApi";
 import { useUserContext } from "../../../context/hooks/useUser";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Course } from "../../../types/types";
+import { useOnClickOutside } from "../../../context/hooks/useOnClickToCloseModal";
+import { useLocation } from "react-router-dom";
 
-const WorkoutModal = ({ course }: { course: Course }) => {
+const WorkoutModal = ({
+  course,
+  setClickModal,
+}: {
+  course: Course;
+  setClickModal: (state: boolean) => void;
+}) => {
   const [userWorkout, setUserWorkout] = useState<any[]>([]);
+
+  const modalRef = useRef<HTMLDivElement>(null);
   const user = useUserContext();
+  const location = useLocation();
+
+  useOnClickOutside(modalRef, () => {
+    setClickModal(false);
+  });
+
   useEffect(() => {
     console.log("User:", user);
     console.log("Course:", course);
@@ -19,10 +35,15 @@ const WorkoutModal = ({ course }: { course: Course }) => {
     };
     userData();
   }, [user, course]);
-
+  if (!location.pathname.startsWith("/profile")) {
+    return null;
+  }
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
-      <div className="absolute bg-white border w-auto max-w-lg h-auto shadow-customShadow rounded-radiusModal p-10">
+      <div
+        ref={modalRef}
+        className="absolute bg-white border w-auto max-w-lg h-auto shadow-customShadow rounded-radiusModal p-10"
+      >
         <h1 className="text-[32px] leading-[35.2px] ml-[17px]">
           Выберите тренировку
         </h1>

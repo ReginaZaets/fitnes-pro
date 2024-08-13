@@ -1,12 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { updatePassword } from "firebase/auth";
 import { paths } from "../../lib/paths";
 import { auth } from "../../api/firebaseConfig";
+import { useOnClickOutside } from "../../context/hooks/useOnClickToCloseModal";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
+  const modalRef = useRef<HTMLDivElement>(null);
   const user = auth.currentUser;
+
+  useOnClickOutside(modalRef, () => {
+    navigate(-1);
+  });
 
   const [formData, setFormData] = useState({
     password: "",
@@ -43,10 +49,7 @@ const ResetPassword = () => {
   const getInputColor = (inputName: string) => {
     if (error) {
       const ErrorLowerCase = error.toLowerCase();
-      if (
-        inputName === "password" &&
-        ErrorLowerCase.includes("пароль")
-      ) {
+      if (inputName === "password" && ErrorLowerCase.includes("пароль")) {
         return "border-[#DB0030]";
       } else if (
         inputName === "repeatPassword" &&
@@ -77,7 +80,10 @@ const ResetPassword = () => {
   }
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
-      <div className="absolute bg-white border w-auto h-auto shadow-customShadow rounded-radiusModal p-10">
+      <div
+        ref={modalRef}
+        className="absolute bg-white border w-auto h-auto shadow-customShadow rounded-radiusModal p-10"
+      >
         <img
           src="/images/logo.svg"
           alt="imageLogo"

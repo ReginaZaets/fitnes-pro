@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
+import { fetchGetCoursesUser } from "../../api/coursesApi";
+import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 
 const User = () => {
-  // const [user, setUser] = useState<string | null>("julia");
   const user = useUserContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ToggleDropdown = () => setIsOpen((prevState) => !prevState);
@@ -13,6 +14,18 @@ const User = () => {
     setIsOpen(false);
     await logout();
   };
+  const { setCoursesUserDefault } = useUserCoursesContext();
+  const { setCoursesUserFull } = useUserCoursesContext();
+
+  useEffect(() => {
+    if (user) {
+      fetchGetCoursesUser(user.uid).then((data) => {
+        setCoursesUserDefault(data.filteredCourses);
+        setCoursesUserFull(data.userCourses);
+      });
+    }
+  }, []);
+
   return (
     <div className="flex gap-x-3 items-center relative">
       {!user && (
@@ -36,7 +49,7 @@ const User = () => {
             </p>
             <svg
               onClick={ToggleDropdown}
-              className="mx-2"
+              className="mx-2 cursor-pointer"
               width="14"
               height="9"
               viewBox="0 0 14 9"
