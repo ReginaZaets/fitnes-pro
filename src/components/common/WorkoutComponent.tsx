@@ -1,13 +1,12 @@
-import { Link, useParams } from "react-router-dom";
-// import { Exercise } from "../../lib/exercises";
+import { useParams } from "react-router-dom";
 import ExerciseItem from "./ExerciseItem";
-import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
 import {
   fetchGetExercisesWorkoutUser,
   fetchGetWorkout,
 } from "../../api/coursesApi";
 import { Exercise, Workout } from "../../types/types";
+import MyProgressModal from "../popups/myProgressPopups/MyProgressModal";
 
 const WorkoutComponent = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,6 +21,12 @@ const WorkoutComponent = () => {
 
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [isOpenedMyProgress, setIsOpenedMyProgressModal] =
+    useState<boolean>(false);
+
+  const toggleModalAddProgress = () => {
+    setIsOpenedMyProgressModal(true);
+  };
 
   useEffect(() => {
     if (workoutID) {
@@ -42,8 +47,7 @@ const WorkoutComponent = () => {
 
   console.log(exercises);
 
-  // const exercises: Exercise[] | undefined = workout?.exercises;
-
+ 
   return (
     <main className="max-h-[1262px] flex flex-col justify-start gap-6 md:gap-10 mb-[131px]">
       <div className="max-w-[810px] max-h-[175px] flex flex-col justify-start ">
@@ -81,11 +85,14 @@ const WorkoutComponent = () => {
               );
             })}
         </div>
-        <Link to={paths.WORKOUT_PROGRESS_MODAL}>
-          <button className="w-[251px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] ">
-            <p className="mx-[20px] my-[16px]">Заполнить свой прогресс</p>
-          </button>
-        </Link>
+
+        <button
+          onClick={toggleModalAddProgress}
+          className="w-[251px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] "
+        >
+          <p className="mx-[20px] my-[16px]">Заполнить свой прогресс</p>
+        </button>
+        {isOpenedMyProgress && <MyProgressModal workoutID={workoutID} />}
       </div>
     </main>
   );
