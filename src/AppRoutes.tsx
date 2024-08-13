@@ -36,7 +36,7 @@ export const AppRoutes = () => {
           <Route path={paths.WORKOUT} element={<WorkoutPage />}>
             <Route
               path={paths.WORKOUT_PROGRESS_MODAL}
-              element={<MyProgressModal />}
+              element={<MyProgressModal workoutID=""/>}
             />
           </Route>
         </Route>

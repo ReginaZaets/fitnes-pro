@@ -4,7 +4,7 @@ export const paths = {
   SIGN_UP_MODAL: "signup",
   NEW_PASSWORD_MODAL: "new-password",
   COURSE: "/course/:id",
-  WORKOUT: "/workout/:id",
+  WORKOUT: "/profile/:courseID/workout/:id",
   WORKOUT_PROGRESS_MODAL: "progress",
   PROFILE: "/profile",
   WORKOUT_MODAL: "choose-workout",
