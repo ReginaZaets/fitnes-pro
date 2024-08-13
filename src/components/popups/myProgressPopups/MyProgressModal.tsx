@@ -2,18 +2,21 @@ import { useEffect, useState } from "react";
 import MyProgressDone from "./MyProgressDone";
 import { Exercise, User } from "../../../types/types";
 import { fetchGetExercisesWorkoutUser } from "../../../api/coursesApi";
+import { useUserContext } from "../../../context/hooks/useUser";
 
-const MyProgressModal = ({ workoutID }: { workoutID: string | undefined }) => {
+const MyProgressModal = ({
+  courseID,
+  workoutID,
+}: {
+  courseID: string | undefined;
+  workoutID: string | undefined;
+}) => {
+  const user = useUserContext();
   const [isOpenedMyProgressModal, setIsOpenedMyProgressModal] =
     useState<boolean>(true);
   const [isOpenedMyProgressDone, setIsOpenedMyProgressDone] =
     useState<boolean>(false);
   const [exercises, setExercises] = useState<Exercise[]>([]);
-  // const { id } = useParams<{ id: string }>();
-  // const workoutID = id;
-  const userID = "uVMizlYTetg0NcshQaZbys1bMQr2";
-  const courseID = "ab1c3f";
-  console.log(workoutID);
 
   const handleClickAddProgress = () => {
     setIsOpenedMyProgressModal(false);
@@ -21,10 +24,12 @@ const MyProgressModal = ({ workoutID }: { workoutID: string | undefined }) => {
   };
 
   useEffect(() => {
-    if (workoutID)
-      fetchGetExercisesWorkoutUser(userID, courseID, workoutID).then((data) => {
-        setExercises(data);
-      });
+    if (user && courseID && workoutID)
+      fetchGetExercisesWorkoutUser(user?.uid, courseID, workoutID).then(
+        (data) => {
+          setExercises(data);
+        }
+      );
   }, []);
 
   return (

@@ -167,7 +167,9 @@ const WorkoutComponent = () => {
         >
           <p className="mx-[20px] my-[16px]">Заполнить свой прогресс</p>
         </button>
-        {isOpenedMyProgress && <MyProgressModal workoutID={workoutID} />}
+        {isOpenedMyProgress && (
+          <MyProgressModal courseID={courseID} workoutID={workoutID} />
+        )}
       </div>
     </main>
   );
