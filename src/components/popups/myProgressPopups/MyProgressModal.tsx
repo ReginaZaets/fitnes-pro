@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MyProgressDone from "./MyProgressDone";
-import { Exercise } from "../../../types/types";
+import { Exercise, User } from "../../../types/types";
 import { fetchGetExercisesWorkoutUser } from "../../../api/coursesApi";
 
 const MyProgressModal = ({ workoutID }: {workoutID: string | undefined}) => {
@@ -11,7 +11,7 @@ const MyProgressModal = ({ workoutID }: {workoutID: string | undefined}) => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   // const { id } = useParams<{ id: string }>();
   // const workoutID = id;
-  const userID = "SjButaRUOBNfpLRxzMjCSvUTowd2";
+  const userID = "uVMizlYTetg0NcshQaZbys1bMQr2";
   const courseID = "ab1c3f";
   console.log(workoutID);
 
