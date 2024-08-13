@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   fetchDataUser,
+  fetchDeleteCourseUser,
   fetchGetCourse,
   fetchGetCourseImage,
 } from "../../api/coursesApi";
@@ -56,35 +57,39 @@ const CourseInfo = () => {
   const addCourse = async () => {
     if (user?.uid && data?._id) {
       await fetchDataUser(user?.uid, data?._id);
+      nav(paths.PROFILE);
       console.log("курс добавлен");
     }
   };
   // const addCourse = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   event.preventDefault();
-  //   if (!user) {
-  //     return;
-  //   } else {
-  //     setMessage(true);
-  //     nav(paths.PROFILE);
-  //   }
   // };
 
+  const deleteCourse = async () => {
+    if (user?.uid && data?._id) {
+      await fetchDeleteCourseUser(user?.uid, data?._id);
+      console.log("курс удален");
+    }
+  };
+
   return (
-    <main>
-      <div className={` rounded-[28px] ${getBackgroundColor(data?.nameRU)}`}>
-        <div className="flex justify-between">
-          <p className="p-10 text-[60px] z-10 text-white font-semibold ">
+    <>
+      <div
+        className={` opacity-0 rounded-[28px] md:w-full  md:opacity-100 ${data && getBackgroundColor(data?.nameRU)}`}
+      >
+        <div className="flex items-center md:justify-between md:items-start">
+          <p className="p-10 text-[60px] opacity-0 text-white font-semibold md:opacity-100	">
             {data?.nameRU}
           </p>
-          <img src={url} alt="" md:w-32 />
+          <img src={url} alt="courseColor" md:w-32 className="" />
         </div>
       </div>
 
       <section className="my-[20px] pb-[40px] flex flex-col">
-        <p className=" text-[40px] text-black font-semibold my-10">
+        <p className="text-[24px] md:text-[40px] text-black font-semibold my-10">
           Подойдет для вас, если:
         </p>
-        <section className="flex gap-[17px]  flex-wrap justify-center items-stretch">
+        <section className="flex gap-[17px] flex-col md:flex-row md:flex-wrap md:justify-center md:items-stretch">
           <>
             {data?.fitting.map((item, index) => (
               <div className=" card">
@@ -102,8 +107,10 @@ const CourseInfo = () => {
         </section>
       </section>
       <section className="flex flex-col">
-        <p className=" text-[40px] text-black font-semibold">Направления</p>
-        <div className="bg-btnColor mt-[40px] w-full rounded-[28px] p-[30px] flex items-stretch flex-wrap justify-center">
+        <p className="text-[24px] md:text-[40px] text-black font-semibold">
+          Направления
+        </p>
+        <div className="bg-btnColor mt-6 md:mt-[40px] h-full w-full rounded-[28px] p-[30px] flex wd:items-stretch wd:flex-wrap wd: justify-center">
           <div className="direction">
             <>
               {data?.directions.map((item) => (
@@ -117,10 +124,10 @@ const CourseInfo = () => {
       </section>
       <section className="flex absolute my-[142px]">
         <div className="flex flex-col items-start">
-          <p className=" leading-none text-[60px] text-black font-bold ">
+          <p className=" z-40 leading-none text-[32px] md:text-[60px] text-black font-bold ">
             Начни путь <br />к новому телу
           </p>
-          <ul className="w-[437px] my-7 flex items-start flex-col justify-start">
+          <ul className=" md:w-[437px] my-7 flex md:items-start flex-col justify-start">
             <li className="items">проработка всех групп мышц</li>
             <li className="items">тренировка суставов</li>
             <li className="items">улучшение циркуляции крови</li>
@@ -128,7 +135,7 @@ const CourseInfo = () => {
             <li className="items">помогают противостоять стрессам</li>
           </ul>
           <button
-            className="bg-btnColor rounded-small w-[437px] h-btnHeight text-black text-lg my-[28px]"
+            className="bg-btnColor rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]"
             onClick={addCourse}
           >
             {user ? (
@@ -137,25 +144,26 @@ const CourseInfo = () => {
               <p className="text-[18px]">Войдите, чтобы добавить курс</p>
             )}
           </button>
+          <button onClick={deleteCourse}>удалить</button>
           {message && <p>Курс добавлен</p>}
         </div>
         <img
           src="/images/infoCourse.svg"
           alt=""
-          className="relative left-[130px] z-10"
+          className="relative z-10 right-[175px] bottom-[270px] md:left-[130px] md:z-10 md:right-[0px] md:bottom-[100px]"
         />
         <img
           src="/images/vector1.svg"
           alt=""
-          className="relative bottom-[150px] right-[300px]"
+          className="relative bottom-[350px] right-[490px] md:bottom-[250px] md:right-[300px]"
         />
         <img
           src="/images/vector2.svg"
           alt=""
-          className="relative right-[570px] top-[120px]"
+          className="relative right-[700px] bottom-[188px] md:right-[580px] md:top-[30px] md:bottom-0"
         />
       </section>
-    </main>
+    </>
   );
 };
 
