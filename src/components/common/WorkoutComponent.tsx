@@ -9,6 +9,7 @@ import { Exercise, Workout } from "../../types/types";
 import MyProgressModal from "../popups/myProgressPopups/MyProgressModal";
 
 const WorkoutComponent = () => {
+  const { courseID } = useParams<{ courseID: string }>();
   const { id } = useParams<{ id: string }>();
   const workoutID = id;
   console.log(workoutID);
@@ -17,7 +18,6 @@ const WorkoutComponent = () => {
 
   // const workoutID = "hfgxlo";
   const userID = "uVMizlYTetg0NcshQaZbys1bMQr2";
-  const courseID = "ab1c3f";
 
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -39,7 +39,7 @@ const WorkoutComponent = () => {
   console.log(workout);
 
   useEffect(() => {
-    if (workoutID)
+    if (workoutID && courseID)
       fetchGetExercisesWorkoutUser(userID, courseID, workoutID).then((data) => {
         setExercises(data);
       });
@@ -47,7 +47,6 @@ const WorkoutComponent = () => {
 
   console.log(exercises);
 
- 
   return (
     <main className="max-h-[1262px] flex flex-col justify-start gap-6 md:gap-10 mb-[131px]">
       <div className="max-w-[810px] max-h-[175px] flex flex-col justify-start ">
