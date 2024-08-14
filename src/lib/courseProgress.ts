@@ -31,6 +31,6 @@ export const getCourseProgress = (
     }
   }
 
-  currentProgress = (countWorkoutsDone / countWorkouts) * 100;
+  currentProgress = Math.round((countWorkoutsDone / countWorkouts) * 100);
   return currentProgress;
 };
