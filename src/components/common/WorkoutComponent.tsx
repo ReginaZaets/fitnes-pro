@@ -24,10 +24,6 @@ const WorkoutComponent = () => {
 
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [isWorkoutProgressModal, setIsWorkoutProgressModal] =
-    useState<boolean>(false);
-  const [isWorkoutProgressModalDone, setIsWorkoutProgressModalDone] =
-    useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
   const [coursesLoaded, setCoursesLoaded] = useState(false);
@@ -194,15 +190,7 @@ const WorkoutComponent = () => {
         >
           <p className="mx-[20px] my-[16px]">Заполнить свой прогресс</p>
         </button>
-        {isOpenedMyProgress && workout && (
-          <MyProgressModal
-            courseID={courseID}
-            workoutID={workoutID}
-            onProgressUpdated={handleProgressUpdate}
-            toggleModalAddProgress={toggleModalAddProgress}
-            exercisesDefault={workout?.exercises}
-          />
-        )}
+
         {isWorkoutProgressModal && workout && (
           <MyProgressModal
             courseID={courseID}

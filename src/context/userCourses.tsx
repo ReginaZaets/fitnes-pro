@@ -1,6 +1,4 @@
 import { createContext, ReactNode, useMemo, useState } from "react";
-import { Course, UserCourse } from "../types/types";
-import { createContext, ReactNode, useState } from "react";
 import { Course, UserCourse, UserCourseWorkout } from "../types/types";
 
 export const UserCoursesContext = createContext<{
