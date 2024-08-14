@@ -292,7 +292,7 @@ export const fetchDataUser = async (
           exercises: item.exercises
             ? item.exercises.map((i) => ({
                 name: i.name,
-                quantity: i.quantity,
+                quantity: 0,
               }))
             : [],
           done: false,
