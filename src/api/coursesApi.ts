@@ -1,4 +1,4 @@
-import { get, ref, remove, set } from "firebase/database";
+import { get, ref, remove, set, update } from "firebase/database";
 import { db } from "./firebaseConfig";
 import {
   Course,
@@ -127,15 +127,50 @@ export const fetchDeleteCourseUser = async (
   }
 };
 
+// Добавление прогресса в упражнения курса
+
+export const fetchAddProgressExercisesCourseUser = async (
+  userID: string,
+  courseID: string,
+  workoutID: string,
+  progress: Exercise[]
+) => {
+  try {
+    // Запись данных в базу
+    const dbRef = ref(
+      db,
+      `users/${userID}/courses/${courseID}/workouts/${workoutID}/exercises`
+    );
+    // Преобразуем массив в объект с уникальными ключами
+    const progressObject = progress.reduce(
+      (acc, exercise, index) => {
+        acc[index] = exercise; // `exercise${index}` создаст уникальные ключи
+        return acc;
+      },
+      {} as { [key: string]: Exercise }
+    );
+    await update(dbRef, progressObject);
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+};
+
 // Добавление прогресса в тренировку курса
 
 export const fetchAddProgressWorkoutCourseUser = async (
   userID: string,
   courseID: string,
   workoutID: string,
-  progress: number
+  isDoneWorkout: boolean
 ) => {
   try {
+    // Запись данных в базу
+    const dbRef = ref(
+      db,
+      `users/${userID}/courses/${courseID}/workouts/${workoutID}`
+    );
+
+    await update(dbRef, { done: isDoneWorkout });
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
   }

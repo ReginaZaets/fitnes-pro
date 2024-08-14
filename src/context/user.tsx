@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState, useMemo } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
@@ -11,7 +11,7 @@ function checkCookie(): User {
   try {
     const cookie = Cookies.get("user");
     if (!cookie) return null;
-    //расшифровка cookie
+    // расшифровка cookie
     const bytes = CryptoJS.AES.decrypt(cookie, "secret user");
     const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
     const decryptedData = JSON.parse(decryptedText);
@@ -30,21 +30,23 @@ interface UserProviderProps {
 
 export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<User>(checkCookie());
-  const value = { user };
+
+  // Мемоизация значения контекста
+  const value = useMemo(() => ({ user }), [user]);
 
   useEffect(() => {
     const exitUser = onAuthStateChanged(auth, (user) => {
       setUser(user);
       if (user) {
-        //шифруем данные пользователя
+        // шифруем данные пользователя
         const EncryptedText = CryptoJS.AES.encrypt(
           JSON.stringify(user),
           "secret user"
         ).toString();
         Cookies.set("user", EncryptedText, {
-          expires: 7, //хранятся 7дней
-          secure: true, //cookie отправляются по HTTPS
-          sameSite: "Strict", //отправка с того же сайта
+          expires: 7, // хранятся 7 дней
+          secure: true, // cookie отправляются по HTTPS
+          sameSite: "Strict", // отправка с того же сайта
         });
       } else {
         Cookies.remove("user");

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useUserContext } from "../../context/hooks/useUser";
@@ -38,17 +38,20 @@ const User = () => {
     setIsSigninModal(false);
   };
 
-  const { setCoursesUserDefault } = useUserCoursesContext();
-  const { setCoursesUserFull } = useUserCoursesContext();
+  const { setCoursesUserDefault, setCoursesUserFull } = useUserCoursesContext();
+
+  // Мемоизируем функции
+  const fetchCourses = useCallback(async () => {
+    if (user) {
+      const data = await fetchGetCoursesUser(user.uid);
+      setCoursesUserDefault(data.filteredCourses);
+      setCoursesUserFull(data.userCourses);
+    }
+  }, [user, setCoursesUserDefault, setCoursesUserFull]);
 
   useEffect(() => {
-    if (user) {
-      fetchGetCoursesUser(user.uid).then((data) => {
-        setCoursesUserDefault(data.filteredCourses);
-        setCoursesUserFull(data.userCourses);
-      });
-    }
-  }, []);
+    fetchCourses();
+  }, [fetchCourses]);
 
   return (
     <div className="flex gap-x-3 items-center relative">
@@ -81,7 +84,10 @@ const User = () => {
       )}
       {user && (
         <div className="">
-          <div onClick={ToggleDropdown} className="cursor-pointer flex gap-[5px] sm:gap-x-3 items-center relative">
+          <div
+            onClick={ToggleDropdown}
+            className="cursor-pointer flex gap-[5px] sm:gap-x-3 items-center relative"
+          >
             <img
               width={40}
               height={40}

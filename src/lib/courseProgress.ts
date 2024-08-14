@@ -3,7 +3,7 @@ import { UserCourse } from "../types/types";
 // Функция подсчета прогресса
 export const getCourseProgress = (
   courseID: string,
-  workouts: [],
+  workouts: string[],
   userCoursesData: UserCourse[]
 ) => {
   // Объявляем переменную для хранения прогресс курса
@@ -18,8 +18,6 @@ export const getCourseProgress = (
     return course._id === courseID;
   })?.workouts;
 
-  console.log(currentWorkouts);
-
   // Объявляем переменную для хранения количества завершенных тренировок в курсе
   let countWorkoutsDone = 0;
 
@@ -33,6 +31,6 @@ export const getCourseProgress = (
     }
   }
 
-  currentProgress = (countWorkoutsDone / countWorkouts) * 100;
+  currentProgress = Math.round((countWorkoutsDone / countWorkouts) * 100);
   return currentProgress;
 };
