@@ -27,14 +27,14 @@ const ResetPasswordEmail = ({ email, setIsResetPasswordEmailModal }: Props) => {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
       <div
         ref={modalRef}
-        className="absolute bg-white border w-[360px] h-[223px] shadow-customShadow rounded-radiusModal p-10"
+        className="absolute bg-white border xl:p-10 px-8 py-10 w-auto h-auto shadow-customShadow rounded-radiusModal"
       >
         <img
           src="/images/logo.svg"
           alt="imageLogo"
-          className="w-[220px] h-logosigninModalH ml-[30px] "
+          className="ml-[30px] "
         />
-        <p className="text-lg leading-[19.8px] mt-12 text-center">
+        <p className="w-[278px] text-lg leading-[19.8px] mt-12 text-center">
           Ссылка для востановления пароля отправлена на {email}
         </p>
       </div>

@@ -25,14 +25,14 @@ const WorkoutItem = ({
   };
 
   return (
-    <label className="flex items-center border-b-2 border-[#C4C4C4] w-[354px] py-[10px]">
+    <label className="flex items-center border-b-2 border-[#C4C4C4]  w-[354px] py-[10px]">
       <img
         src={done ? "/icones/check.svg" : "/icones/ellipse.svg"}
         alt={done ? "check" : "ellipse"}
       />
       <div
         onClick={handleClickPageWorkout}
-        className="flex flex-col justify-center ml-[10px] w-[354px] h-[74px]"
+        className="flex flex-col justify-center ml-[10px] w-[354px] h-[74px]  "
       >
         <h1 className=" text-2xl leading-[26.4px]">{firstParts}</h1>
         {secondParts && (
