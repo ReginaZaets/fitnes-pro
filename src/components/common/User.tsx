@@ -37,7 +37,7 @@ const User = () => {
       )}
       {user && (
         <div className="">
-          <div className="flex gap-[5px] sm:gap-x-3 items-center relative">
+          <div onClick={ToggleDropdown} className="cursor-pointer flex gap-[5px] sm:gap-x-3 items-center relative">
             <img
               width={40}
               height={40}
@@ -48,8 +48,7 @@ const User = () => {
               {user?.displayName}
             </p>
             <svg
-              onClick={ToggleDropdown}
-              className="mx-2 cursor-pointer"
+              className="mx-2 "
               width="14"
               height="9"
               viewBox="0 0 14 9"

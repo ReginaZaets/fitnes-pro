@@ -14,7 +14,7 @@ const Profile = () => {
   //console.log(coursesUserFull);
 
   return (
-    <div>
+    <div className="mb-[80px]">
       <h2 className="text-[24px] font-semibold text-black pb-[20px] sm:pb-10 lg:text-[40px]">
         Профиль
       </h2>

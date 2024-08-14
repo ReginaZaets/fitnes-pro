@@ -55,10 +55,12 @@ export const fetchGetCoursesUser = async (userID: string) => {
     if (snapshot.exists()) {
       userCourses = snapshot.val();
       const allCourses = await fetchGetCourses();
+      console.log(allCourses)
       // Фильтрация курсов по ID
       filteredCourses = allCourses.filter((course) =>
         Object.keys(userCourses).some((userCourse) => userCourse === course._id)
       );
+      
     } else {
       console.warn("Нет приобретенных курсов");
     }
