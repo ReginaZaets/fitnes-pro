@@ -4,8 +4,9 @@ import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
 import { Course } from "../../types/types";
 import { fetchGetCourseImage, fetchDataUser } from "../../api/coursesApi";
 import ProgressBar from "./ProgressBar";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+import { paths } from "../../lib/paths";
 type CourseCardProps = {
   course: Course;
   progress: number;
@@ -51,11 +52,11 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
     fetchImg();
   }, []);
   return (
-    <div className="w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg ">
+    <div className="cursor-pointer hover:scale-[1.03] hover:ease-in duration-[300ms] w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg ">
       <div onClick={handleAddCourse} className="flex justify-end ">
         {location.pathname === "/profile" ? (
           <svg
-            className="absolute mx-[18px] mt-[18px] mb-[12px]"
+            className="hover:scale-105 cursor-pointer absolute mx-[18px] mt-[18px] mb-[12px]"
             width="28"
             height="28"
             viewBox="0 0 28 28"
@@ -71,7 +72,7 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
           </svg>
         ) : (
           <svg
-            className="absolute mx-[18px] my-[12px]"
+            className="hover:scale-105 cursor-pointer absolute mx-[18px] my-[12px]"
             width="28"
             height="28"
             viewBox="0 0 28 28"
@@ -199,7 +200,7 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
               </div>
               <ProgressBar progress={progress} />
             </div>
-            <button className="w-full h-[52px] bg-[#BCEC30] rounded-[46px] mb-[10px]">
+            <button className="w-full h-[52px] bg-[#BCEC30] rounded-[46px] mb-[10px] hover:bg-btnHoverGreen active:bg-black active:text-white">
               {progress == 0 ? "Начать тренировку" : "Продолжить"}
             </button>
           </>
