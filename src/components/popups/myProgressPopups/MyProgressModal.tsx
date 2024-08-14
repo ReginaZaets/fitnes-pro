@@ -2,21 +2,25 @@ import { useEffect, useState } from "react";
 import MyProgressDone from "./MyProgressDone";
 import { Exercise } from "../../../types/types";
 import {
+  fetchAddProgressExercisesCourseUser,
   fetchAddProgressWorkoutCourseUser,
   fetchGetExercisesWorkoutUser,
 } from "../../../api/coursesApi";
 import { useUserContext } from "../../../context/hooks/useUser";
+import { workoutProgress } from "../../../lib/workoutProgress";
 
 const MyProgressModal = ({
   courseID,
   workoutID,
   onProgressUpdated,
   toggleModalAddProgress,
+  exercisesDefault,
 }: {
   courseID: string | undefined;
   workoutID: string | undefined;
   onProgressUpdated: () => void;
   toggleModalAddProgress: () => void;
+  exercisesDefault: Exercise[];
 }) => {
   const user = useUserContext();
   const [isOpenedMyProgressModal, setIsOpenedMyProgressModal] =
@@ -36,11 +40,11 @@ const MyProgressModal = ({
       ...item,
       quantity: inputValues[index] || 0, // Используем значение из состояния или 0, если значение отсутствует
     }));
-
-    console.log(progress);
+    // Вызываем функцию подсчета прогресса тренировки и передаем в нее прогресс всех упражнений и дефлотный массив упражнений по данной тренировке
+    const isDoneWorkout = workoutProgress(progress, exercisesDefault);
 
     if (user && courseID && workoutID) {
-      fetchAddProgressWorkoutCourseUser(
+      fetchAddProgressExercisesCourseUser(
         user?.uid,
         courseID,
         workoutID,
@@ -49,6 +53,13 @@ const MyProgressModal = ({
         onProgressUpdated();
         toggleModalAddProgress();
         setIsOpenedMyProgressDone(true);
+        isDoneWorkout &&
+          fetchAddProgressWorkoutCourseUser(
+            user?.uid,
+            courseID,
+            workoutID,
+            isDoneWorkout
+          );
       });
     }
   };

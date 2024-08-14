@@ -125,9 +125,9 @@ export const fetchDeleteCourseUser = async (
   }
 };
 
-// Добавление прогресса в тренировку курса
+// Добавление прогресса в упражнения курса
 
-export const fetchAddProgressWorkoutCourseUser = async (
+export const fetchAddProgressExercisesCourseUser = async (
   userID: string,
   courseID: string,
   workoutID: string,
@@ -148,6 +148,27 @@ export const fetchAddProgressWorkoutCourseUser = async (
       {} as { [key: string]: Exercise }
     );
     await update(dbRef, progressObject);
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+};
+
+// Добавление прогресса в тренировку курса
+
+export const fetchAddProgressWorkoutCourseUser = async (
+  userID: string,
+  courseID: string,
+  workoutID: string,
+  isDoneWorkout: boolean
+) => {
+  try {
+    // Запись данных в базу
+    const dbRef = ref(
+      db,
+      `users/${userID}/courses/${courseID}/workouts/${workoutID}`
+    );
+
+    await update(dbRef, { done: isDoneWorkout });
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
   }

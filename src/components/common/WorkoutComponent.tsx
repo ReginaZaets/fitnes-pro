@@ -180,12 +180,13 @@ const WorkoutComponent = () => {
         >
           <p className="mx-[20px] my-[16px]">Заполнить свой прогресс</p>
         </button>
-        {isOpenedMyProgress && (
+        {isOpenedMyProgress && workout && (
           <MyProgressModal
             courseID={courseID}
             workoutID={workoutID}
             onProgressUpdated={handleProgressUpdate}
             toggleModalAddProgress={toggleModalAddProgress}
+            exercisesDefault={workout?.exercises}
           />
         )}
       </div>
