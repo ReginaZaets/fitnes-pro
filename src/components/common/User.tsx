@@ -62,7 +62,6 @@ const User = () => {
       )}
       {isSigninModal && (
         <SigninModal
-          isSigninModal={isSigninModal}
           setIsSigninModal={setIsSigninModal}
           openSignupModal={openSignupModal}
           openResetPasswordModal={openResetPasswordModal}
@@ -70,7 +69,6 @@ const User = () => {
       )}
       {isSignupModal && (
         <SignupModal
-          isSignupModal={isSignupModal}
           setIsSignupModal={setIsSignupModal}
           openSigninModal={openSigninModal}
         />
