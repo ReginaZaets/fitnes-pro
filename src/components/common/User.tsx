@@ -5,15 +5,39 @@ import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
 import { fetchGetCoursesUser } from "../../api/coursesApi";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+import SigninModal from "../popups/SigninModal";
+import SignupModal from "../popups/SignupModal";
+import ResetPasswordEmail from "../popups/ResetPasswordEmail";
 
 const User = () => {
   const user = useUserContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isSigninModal, setIsSigninModal] = useState<boolean>(false);
+  const [isSignupModal, setIsSignupModal] = useState<boolean>(false);
+  const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
+    useState<boolean>(false);
+  const [email, setEmail] = useState("");
+
   const ToggleDropdown = () => setIsOpen((prevState) => !prevState);
   const clickExit = async () => {
     setIsOpen(false);
     await logout();
   };
+
+  const openSigninModal = () => {
+    setIsSigninModal(true);
+    setIsSignupModal(false);
+  };
+  const openSignupModal = () => {
+    setIsSignupModal(true);
+    setIsSigninModal(false);
+  };
+  const openResetPasswordModal = (email: string) => {
+    setEmail(email);
+    setIsResetPasswordEmailModal(true);
+    setIsSigninModal(false);
+  };
+
   const { setCoursesUserDefault, setCoursesUserFull } = useUserCoursesContext();
 
   // Мемоизируем функции
@@ -32,15 +56,38 @@ const User = () => {
   return (
     <div className="flex gap-x-3 items-center relative">
       {!user && (
-        <Link to={paths.SIGN_IN_MODAL}>
-          <button className="bg-btnColor  hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small w-[83px] h-[36px] sm:w-[103px] sm:h-[52px] text-black text-lg">
-            Войти
-          </button>
-        </Link>
+        <button
+          onClick={openSigninModal}
+          className="bg-btnColor  hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small w-[83px] h-[36px] sm:w-[103px] sm:h-[52px] text-black text-lg"
+        >
+          Войти
+        </button>
+      )}
+      {isSigninModal && (
+        <SigninModal
+          setIsSigninModal={setIsSigninModal}
+          openSignupModal={openSignupModal}
+          openResetPasswordModal={openResetPasswordModal}
+        />
+      )}
+      {isSignupModal && (
+        <SignupModal
+          setIsSignupModal={setIsSignupModal}
+          openSigninModal={openSigninModal}
+        />
+      )}
+      {isResetPasswordEmailModal && (
+        <ResetPasswordEmail
+          email={email}
+          setIsResetPasswordEmailModal={setIsResetPasswordEmailModal}
+        />
       )}
       {user && (
         <div className="">
-          <div className="flex gap-[5px] sm:gap-x-3 items-center relative">
+          <div
+            onClick={ToggleDropdown}
+            className="cursor-pointer flex gap-[5px] sm:gap-x-3 items-center relative"
+          >
             <img
               width={40}
               height={40}
@@ -51,8 +98,7 @@ const User = () => {
               {user?.displayName}
             </p>
             <svg
-              onClick={ToggleDropdown}
-              className="mx-2 cursor-pointer"
+              className="mx-2 "
               width="14"
               height="9"
               viewBox="0 0 14 9"

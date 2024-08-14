@@ -5,16 +5,25 @@ import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
 import { getCourseProgress } from "../../lib/courseProgress";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+import { useState } from "react";
+import ResetPassword from "../popups/ResetPassword";
 
 const Profile = () => {
   const user = useUserContext();
   const { coursesUserDefault } = useUserCoursesContext();
   const { coursesUserFull } = useUserCoursesContext();
 
+  const [isResetPasswordModal, setIsResetPasswordModal] =
+    useState<boolean>(false);
+
+  const handleClickModal = () => {
+    setIsResetPasswordModal(true);
+  };
+
   //console.log(coursesUserFull);
 
   return (
-    <div>
+    <div className="mb-[80px]">
       <h2 className="text-[24px] font-semibold text-black pb-[20px] sm:pb-10 lg:text-[40px]">
         Профиль
       </h2>
@@ -37,11 +46,17 @@ const Profile = () => {
           </div>
 
           <div className="flex flex-col items-center gap-[10px] sm:flex-row ">
-            <Link to={paths.NEW_PASSWORD_MODAL}>
-              <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]">
-                Изменить пароль
-              </button>
-            </Link>
+            <button
+              onClick={handleClickModal}
+              className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]"
+            >
+              Изменить пароль
+            </button>
+            {isResetPasswordModal && (
+              <ResetPassword
+                setIsResetPasswordModal={setIsResetPasswordModal}
+              />
+            )}
             <Link to={paths.MAIN}>
               <button
                 onClick={logout}

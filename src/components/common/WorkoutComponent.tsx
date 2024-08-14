@@ -24,7 +24,9 @@ const WorkoutComponent = () => {
 
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [isOpenedMyProgress, setIsOpenedMyProgressModal] =
+  const [isWorkoutProgressModal, setIsWorkoutProgressModal] =
+    useState<boolean>(false);
+  const [isWorkoutProgressModalDone, setIsWorkoutProgressModalDone] =
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
