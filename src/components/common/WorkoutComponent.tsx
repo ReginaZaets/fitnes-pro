@@ -27,6 +27,8 @@ const WorkoutComponent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
   const [coursesLoaded, setCoursesLoaded] = useState(false);
+  const [nonZeroProgressExercisesCount, setNonZeroProgressExercisesCount] =
+    useState(0);
 
   const [isWorkoutProgressModal, setIsWorkoutProgressModal] =
     useState<boolean>(false);
@@ -37,10 +39,7 @@ const WorkoutComponent = () => {
     setIsWorkoutProgressModal((prev) => !prev);
   };
 
-  // const toggleModalAddProgress = () => {
-  //   setIsOpenedMyProgressModal((prev) => !prev);
-  // };
-
+  // Обновляем прогресс тренировок, если были внесены какие то изменения в модалке заполнения прогресса по упражнениям
   const handleProgressUpdate = () => {
     if (user && workoutID && courseID) {
       fetchGetExercisesWorkoutUser(user.uid, courseID, workoutID)
@@ -69,7 +68,7 @@ const WorkoutComponent = () => {
           setIsError("Ошибка при загрузке курсов");
         });
     }
-  }, [user, setCoursesUserDefault, setCoursesUserFull]);
+  }, [user, setCoursesUserDefault, setCoursesUserFull, exercises]);
 
   useEffect(() => {
     if (coursesLoaded && workoutID) {
@@ -118,6 +117,16 @@ const WorkoutComponent = () => {
       }
     }
   }, [coursesLoaded, coursesUserDefault, courseID, workoutID, navigate]);
+
+  // Находим хотя бы одно упражнение с прогрессом больше нуля, чтобы менять название кнопки
+  useEffect(() => {
+    if (exercises.length > 0) {
+      const currentProgress = exercises.filter(
+        (exercise) => exercise.quantity > 0
+      );
+      setNonZeroProgressExercisesCount(currentProgress.length);
+    }
+  }, [exercises]);
 
   if (isLoading || !coursesLoaded) {
     return (
@@ -188,7 +197,11 @@ const WorkoutComponent = () => {
           onClick={toggleModalAddProgress}
           className="w-[251px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] "
         >
-          <p className="mx-[20px] my-[16px]">Заполнить свой прогресс</p>
+          <p className="mx-[20px] my-[16px]">
+            {nonZeroProgressExercisesCount
+              ? "Обновить свой прогресс"
+              : "Заполнить свой прогресс"}
+          </p>
         </button>
 
         {isWorkoutProgressModal && workout && (
