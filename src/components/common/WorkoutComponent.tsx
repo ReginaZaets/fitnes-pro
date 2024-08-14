@@ -11,6 +11,7 @@ import MyProgressModal from "../popups/myProgressPopups/MyProgressModal";
 import { useUserContext } from "../../context/hooks/useUser";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 import { paths } from "../../lib/paths";
+import MyProgressDone from "../popups/myProgressPopups/MyProgressDone";
 
 const WorkoutComponent = () => {
   const user = useUserContext();
@@ -28,6 +29,34 @@ const WorkoutComponent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
   const [coursesLoaded, setCoursesLoaded] = useState(false);
+
+  const [isWorkoutProgressModal, setIsWorkoutProgressModal] =
+    useState<boolean>(false);
+  const [isWorkoutProgressModalDone, setIsWorkoutProgressModalDone] =
+    useState<boolean>(false);
+
+  const toggleModalAddProgress = () => {
+    setIsWorkoutProgressModal((prev) => !prev);
+  };
+
+  // const toggleModalAddProgress = () => {
+  //   setIsOpenedMyProgressModal((prev) => !prev);
+  // };
+
+  const handleProgressUpdate = () => {
+    if (user && workoutID && courseID) {
+      fetchGetExercisesWorkoutUser(user.uid, courseID, workoutID)
+        .then((data) => {
+          setExercises(data);
+          setIsWorkoutProgressModal(false);
+          setIsWorkoutProgressModalDone(true);
+        })
+        .catch((error) => {
+          console.error("Ошибка при загрузке упражнений:", error);
+          setIsError("Ошибка при загрузке упражнений");
+        });
+    }
+  };
 
   useEffect(() => {
     if (user) {
@@ -122,23 +151,6 @@ const WorkoutComponent = () => {
     return <div>Курс не найден</div>;
   }
 
-  const toggleModalAddProgress = () => {
-    setIsOpenedMyProgressModal((prev) => !prev);
-  };
-
-  const handleProgressUpdate = () => {
-    if (user && workoutID && courseID) {
-      fetchGetExercisesWorkoutUser(user.uid, courseID, workoutID)
-        .then((data) => {
-          setExercises(data);
-        })
-        .catch((error) => {
-          console.error("Ошибка при загрузке упражнений:", error);
-          setIsError("Ошибка при загрузке упражнений");
-        });
-    }
-  };
-
   return (
     <main className="flex flex-col justify-start gap-6 md:gap-10 mb-[131px]">
       <div className="max-w-[810px] max-h-[175px] flex flex-col justify-start ">
@@ -187,6 +199,20 @@ const WorkoutComponent = () => {
             onProgressUpdated={handleProgressUpdate}
             toggleModalAddProgress={toggleModalAddProgress}
             exercisesDefault={workout?.exercises}
+          />
+        )}
+        {isWorkoutProgressModal && workout && (
+          <MyProgressModal
+            courseID={courseID}
+            workoutID={workoutID}
+            onProgressUpdated={handleProgressUpdate}
+            toggleModalAddProgress={toggleModalAddProgress}
+            exercisesDefault={workout?.exercises}
+          />
+        )}
+        {isWorkoutProgressModalDone && (
+          <MyProgressDone
+            setIsWorkoutProgressModalDone={setIsWorkoutProgressModalDone}
           />
         )}
       </div>

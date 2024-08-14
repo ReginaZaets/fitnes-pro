@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MyProgressDone from "./MyProgressDone";
 import { Exercise } from "../../../types/types";
 import {
@@ -8,6 +8,7 @@ import {
 } from "../../../api/coursesApi";
 import { useUserContext } from "../../../context/hooks/useUser";
 import { workoutProgress } from "../../../lib/workoutProgress";
+import { useOnClickOutside } from "../../../context/hooks/useOnClickToCloseModal";
 
 const MyProgressModal = ({
   courseID,
@@ -29,6 +30,11 @@ const MyProgressModal = ({
     useState<boolean>(false);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [inputValues, setInputValues] = useState<{ [key: number]: number }>({});
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(modalRef, () => {
+    toggleModalAddProgress();
+  });
 
   // Обработка изменения значения инпута
   const handleInputChange = (index: number, value: number) => {
@@ -83,7 +89,10 @@ const MyProgressModal = ({
     <>
       {isOpenedMyProgressModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
-          <div className="absolute bg-white border w-[343px] h-[572px] md:w-[425px] md:h-[595.5px] shadow-customShadow rounded-radiusModal p-10">
+          <div
+            ref={modalRef}
+            className="absolute bg-white border w-[343px] h-[572px] md:w-[425px] md:h-[595.5px] shadow-customShadow rounded-radiusModal p-10"
+          >
             <h1 className="text-[32px] leading-[35.2px] ml-[17px] text-black">
               Мой прогресс
             </h1>
@@ -128,7 +137,7 @@ const MyProgressModal = ({
           </button>
         </div>
       )}
-      {isOpenedMyProgressDone && <MyProgressDone />}
+      {/* {isOpenedMyProgressDone && <MyProgressDone />} */}
     </>
   );
 };
