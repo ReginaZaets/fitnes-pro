@@ -2,31 +2,43 @@ import { useEffect, useState } from "react";
 import { useUserContext } from "../../context/hooks/useUser";
 import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
 import { Course } from "../../types/types";
-import { fetchGetCourseImage, fetchDataUser } from "../../api/coursesApi";
+import {
+  fetchGetCourseImage,
+  fetchDataUser,
+  fetchDeleteCourseUser,
+} from "../../api/coursesApi";
 import ProgressBar from "./ProgressBar";
 import { useLocation } from "react-router-dom";
 type CourseCardProps = {
   course: Course;
   progress: number;
+  isUserCourse?: boolean;
+  onAdd: (courseId: string) => void;
+  onRemove: (courseId: string) => void;
 };
 
-export const CourseCard = ({ course, progress }: CourseCardProps) => {
+export const CourseCard = ({
+  course,
+  progress,
+  isUserCourse = false,
+  onAdd,
+  onRemove,
+}: CourseCardProps) => {
   const [clickModal, setClickModal] = useState<boolean>(false);
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
-  const user = useUserContext();
-  async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
+
+  const handleAdd = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    if (user?.uid) {
-      try {
-        await fetchDataUser(user?.uid, course._id);
-        console.log("курс добавлен");
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    }
-  }
+    onAdd(course._id);
+  };
+
+  const handleRemove = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    onRemove(course._id);
+  };
+
   const click = () => {
     setClickModal(true);
   };
@@ -43,11 +55,11 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
     fetchImg();
   }, []);
   return (
-    <div className="w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg ">
-      <div onClick={handleAddCourse} className="flex justify-end ">
-        {location.pathname === "/profile" ? (
+    <div className="w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-105">
+      {isUserCourse ? (
+        <div className="flex justify-end " onClick={handleRemove}>
           <svg
-            className="absolute mx-[18px] mt-[18px] mb-[12px]"
+            className="absolute mx-[18px] mt-[18px] mb-[12px] cursor-pointer "
             width="28"
             height="28"
             viewBox="0 0 28 28"
@@ -61,9 +73,11 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
               fill="white"
             />
           </svg>
-        ) : (
+        </div>
+      ) : (
+        <div className="flex justify-end " onClick={handleAdd}>
           <svg
-            className="absolute mx-[18px] my-[12px]"
+            className="absolute mx-[18px] mt-[18px] mb-[12px] cursor-pointer "
             width="28"
             height="28"
             viewBox="0 0 28 28"
@@ -77,22 +91,22 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
               fill="white"
             />
           </svg>
-        )}
-        {isLoading ? (
-          <div className=" flex justify-center w-[360px] h-[325px] items-center">
-            <div
-              className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
-              role="status"
-            >
-              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                Loading...
-              </span>
-            </div>
+        </div>
+      )}
+      {isLoading ? (
+        <div className=" flex justify-center w-[360px] h-[325px] items-center">
+          <div
+            className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
           </div>
-        ) : (
-          <img src={url} className="rounded-[30px] w-[360px] h-[325px]" />
-        )}
-      </div>
+        </div>
+      ) : (
+        <img src={url} className="rounded-[30px] w-[360px] h-[325px]" />
+      )}
 
       <div
         onClick={click}

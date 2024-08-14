@@ -2,7 +2,12 @@ import { CourseCard } from "./CourseCard";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
 import { useEffect, useState } from "react";
-import { fetchGetCoursesUser } from "../../api/coursesApi";
+import {
+  fetchDataUser,
+  fetchDeleteCourseUser,
+  fetchGetCourses,
+  fetchGetCoursesUser,
+} from "../../api/coursesApi";
 import { Course, UserCourse } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
@@ -14,6 +19,9 @@ const Profile = () => {
   const [userCourses, setUserCourses] = useState<Course[]>([]);
   // Состояние для хранения курсов, тренировок и прогресса тренировок пользователя
   const [userCoursesData, setUserCoursesData] = useState<Course[]>([]);
+
+  const [courses, setCourses] = useState<Course[]>([]);
+
   useEffect(() => {
     if (user) {
       fetchGetCoursesUser(user.uid).then((data) => {
@@ -22,6 +30,46 @@ const Profile = () => {
       });
     }
   }, [user]);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const data = await fetchGetCourses();
+        setCourses(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+  const handleAddCourse = async (courseId: string) => {
+    if (user?.uid) {
+      try {
+        const courseToAdd = courses.find((course) => course._id === courseId);
+        if (courseToAdd) {
+          await fetchDataUser(user.uid, courseId);
+          setUserCourses((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
+          console.log("Курс добавлен");
+        }
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  };
+
+  const handleRemoveCourse = async (courseId: string) => {
+    if (user?.uid) {
+      try {
+        await fetchDeleteCourseUser(user.uid, courseId);
+        setUserCourses((prev) =>
+          prev.filter((course) => course._id !== courseId)
+        );
+        console.log("Курс удален");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  };
 
   return (
     <div>
@@ -68,17 +116,25 @@ const Profile = () => {
       </h2>
 
       <div className="flex flex-row flex-wrap items-center gap-[40px]">
-        {userCourses.map((course) => (
-          <CourseCard
-            key={course._id}
-            course={course}
-            progress={getCourseProgress(
-              course._id,
-              course.workouts,
-              userCoursesData
-            )}
-          />
-        ))}
+        {userCourses.map((course) => {
+          const isUserCourse = userCourses.some(
+            (userCourses) => userCourses._id === course._id
+          );
+          return (
+            <CourseCard
+              key={course._id}
+              course={course}
+              progress={getCourseProgress(
+                course._id,
+                course.workouts,
+                userCoursesData
+              )}
+              isUserCourse={isUserCourse}
+              onAdd={handleAddCourse}
+              onRemove={handleRemoveCourse}
+            />
+          );
+        })}
       </div>
       <div className="flex justify-end">
         <button

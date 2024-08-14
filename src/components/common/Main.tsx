@@ -1,12 +1,49 @@
 import { useEffect, useState } from "react";
 import { CourseCard } from "./CourseCard";
-import { fetchGetCourses, fetchGetCoursesUser } from "../../api/coursesApi";
-import { Course, UserCourse } from "../../types/types";
-import { getCourseProgress } from "../../lib/courseProgress";
+import {
+  fetchDataUser,
+  fetchDeleteCourseUser,
+  fetchGetCourses,
+  fetchGetCoursesUser,
+} from "../../api/coursesApi";
+import { Course } from "../../types/types";
+import { useUserContext } from "../../context/hooks/useUser";
 
 export const Main = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState<Course[]>([]);
+  // Состояние для хранения курсов пользователя
+  const [userCourses, setUserCourses] = useState<Course[]>([]);
+  const user = useUserContext();
+
+  const handleAddCourse = async (courseId: string) => {
+    if (user?.uid) {
+      try {
+        const courseToAdd = courses.find((course) => course._id === courseId);
+        if (courseToAdd) {
+          await fetchDataUser(user.uid, courseId);
+          setUserCourses((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
+          console.log("Курс добавлен");
+        }
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  };
+
+  const handleRemoveCourse = async (courseId: string) => {
+    if (user?.uid) {
+      try {
+        await fetchDeleteCourseUser(user.uid, courseId);
+        setUserCourses((prev) =>
+          prev.filter((course) => course._id !== courseId)
+        );
+        console.log("Курс удален");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  };
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -20,6 +57,14 @@ export const Main = () => {
 
     fetchCourses();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      fetchGetCoursesUser(user.uid).then((data) => {
+        setUserCourses(data.filteredCourses);
+      });
+    }
+  }, [user]);
 
   return (
     <>
@@ -45,9 +90,21 @@ export const Main = () => {
         </div>
       ) : (
         <div className="flex flex-row flex-wrap items-center gap-[40px]">
-          {courses.map((course) => (
-            <CourseCard key={course._id} course={course} progress={0}/>
-          ))}
+          {courses.map((course) => {
+            const isUserCourse = userCourses.some(
+              (userCourses) => userCourses._id === course._id
+            );
+            return (
+              <CourseCard
+                key={course._id}
+                course={course}
+                progress={0}
+                isUserCourse={isUserCourse}
+                onAdd={handleAddCourse} 
+                onRemove={handleRemoveCourse} 
+              />
+            );
+          })}
         </div>
       )}
       <section className="mt-[20px] mb-[20px] flex justify-center">
