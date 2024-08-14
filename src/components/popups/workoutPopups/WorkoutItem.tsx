@@ -32,7 +32,7 @@ const WorkoutItem = ({
       />
       <div
         onClick={handleClickPageWorkout}
-        className="flex flex-col justify-center ml-[10px] w-[354px] h-[74px]  "
+        className="flex flex-col justify-center ml-[10px] w-[354px] h-[74px]  cursor-pointer"
       >
         <h1 className=" text-2xl leading-[26.4px]">{firstParts}</h1>
         {secondParts && (
