@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ExerciseItem from "./ExerciseItem";
 import {
+  fetchAddProgressWorkoutCourseUser,
   fetchGetCoursesUser,
   fetchGetExercisesWorkoutUser,
   fetchGetWorkout,
@@ -34,6 +35,7 @@ const WorkoutComponent = () => {
     useState<boolean>(false);
   const [isWorkoutProgressModalDone, setIsWorkoutProgressModalDone] =
     useState<boolean>(false);
+  const [hasUpdated, setHasUpdated] = useState(false); // флаг для контроля вызова handleProgressUpdate
 
   const toggleModalAddProgress = () => {
     setIsWorkoutProgressModal((prev) => !prev);
@@ -47,6 +49,7 @@ const WorkoutComponent = () => {
           setExercises(data);
           setIsWorkoutProgressModal(false);
           setIsWorkoutProgressModalDone(true);
+          setHasUpdated(true); // Обновляем флаг после успешного обновления
         })
         .catch((error) => {
           console.error("Ошибка при загрузке упражнений:", error);
@@ -120,13 +123,19 @@ const WorkoutComponent = () => {
 
   // Находим хотя бы одно упражнение с прогрессом больше нуля, чтобы менять название кнопки
   useEffect(() => {
-    if (exercises.length > 0) {
-      const currentProgress = exercises.filter(
-        (exercise) => exercise.quantity > 0
-      );
-      setNonZeroProgressExercisesCount(currentProgress.length);
+    if (coursesLoaded && user && courseID && workoutID) {
+      if (exercises.length > 0) {
+        const currentProgress = exercises.filter(
+          (exercise) => exercise.quantity > 0
+        );
+        setNonZeroProgressExercisesCount(currentProgress.length);
+      } else if (!hasUpdated) {
+        // Проверка перед обновлением прогресса
+        fetchAddProgressWorkoutCourseUser(user?.uid, courseID, workoutID, true);
+        handleProgressUpdate();
+      }
     }
-  }, [exercises]);
+  }, [exercises, coursesLoaded, hasUpdated]);
 
   if (isLoading || !coursesLoaded) {
     return (
@@ -177,48 +186,50 @@ const WorkoutComponent = () => {
           allowFullScreen
         ></iframe>
       </div>
-      <div className="rounded-[30px] bg-white shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] w-full max-h-[838px] p-[30px] md:p-10 flex flex-col justify-start items-start ">
-        <h2 className="font-[StratosSkyeng, sans-serif] text-[32px] font-normal mb-5">
-          Упражнения тренировки
-        </h2>
-        <div className="mb-[40px] max-h-[606px] grid grid-cols-1 gap-x-[60px] gap-y-[24px] md:grid-cols-3 md:gap-y-[20px]">
-          {workout &&
-            exercises.map((item, index) => (
-              <ExerciseItem
-                key={index}
-                name={item.name}
-                quantity={item.quantity}
-                maxQuantity={workout?.exercises[index].quantity}
-              />
-            ))}
+      {exercises.length > 0 && (
+        <div className="rounded-[30px] bg-white shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] w-full max-h-[838px] p-[30px] md:p-10 flex flex-col justify-start items-start ">
+          <h2 className="font-[StratosSkyeng, sans-serif] text-[32px] font-normal mb-5">
+            Упражнения тренировки
+          </h2>
+          <div className="mb-[40px] max-h-[606px] grid grid-cols-1 gap-x-[60px] gap-y-[24px] md:grid-cols-3 md:gap-y-[20px]">
+            {workout &&
+              exercises.map((item, index) => (
+                <ExerciseItem
+                  key={index}
+                  name={item.name}
+                  quantity={item.quantity}
+                  maxQuantity={workout?.exercises[index].quantity}
+                />
+              ))}
+          </div>
+
+          <button
+            onClick={toggleModalAddProgress}
+            className="w-[251px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] "
+          >
+            <p className="mx-[20px] my-[16px]">
+              {nonZeroProgressExercisesCount
+                ? "Обновить свой прогресс"
+                : "Заполнить свой прогресс"}
+            </p>
+          </button>
+
+          {isWorkoutProgressModal && workout && (
+            <MyProgressModal
+              courseID={courseID}
+              workoutID={workoutID}
+              onProgressUpdated={handleProgressUpdate}
+              toggleModalAddProgress={toggleModalAddProgress}
+              exercisesDefault={workout?.exercises}
+            />
+          )}
+          {isWorkoutProgressModalDone && (
+            <MyProgressDone
+              setIsWorkoutProgressModalDone={setIsWorkoutProgressModalDone}
+            />
+          )}
         </div>
-
-        <button
-          onClick={toggleModalAddProgress}
-          className="w-[251px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] "
-        >
-          <p className="mx-[20px] my-[16px]">
-            {nonZeroProgressExercisesCount
-              ? "Обновить свой прогресс"
-              : "Заполнить свой прогресс"}
-          </p>
-        </button>
-
-        {isWorkoutProgressModal && workout && (
-          <MyProgressModal
-            courseID={courseID}
-            workoutID={workoutID}
-            onProgressUpdated={handleProgressUpdate}
-            toggleModalAddProgress={toggleModalAddProgress}
-            exercisesDefault={workout?.exercises}
-          />
-        )}
-        {isWorkoutProgressModalDone && (
-          <MyProgressDone
-            setIsWorkoutProgressModalDone={setIsWorkoutProgressModalDone}
-          />
-        )}
-      </div>
+      )}
     </main>
   );
 };
