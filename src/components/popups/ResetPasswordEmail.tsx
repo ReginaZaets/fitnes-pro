@@ -2,18 +2,15 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { useEffect, useRef } from "react";
 import { auth } from "../../api/firebaseConfig";
 import { useOnClickOutside } from "../../context/hooks/useOnClickToCloseModal";
-import { useNavigate } from "react-router-dom";
-import { paths } from "../../lib/paths";
 
 type Props = {
   email: string;
+  setIsResetPasswordEmailModal: (value: boolean) => void;
 };
-const ResetPasswordEmail = ({ email }: Props) => {
-  const navigate = useNavigate();
-
+const ResetPasswordEmail = ({ email, setIsResetPasswordEmailModal }: Props) => {
   const modalRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(modalRef, () => {
-    navigate(paths.MAIN);
+    setIsResetPasswordEmailModal(false);
   });
 
   useEffect(() => {
@@ -24,19 +21,20 @@ const ResetPasswordEmail = ({ email }: Props) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [email]);
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
       <div
         ref={modalRef}
-        className="absolute bg-white border w-[360px] h-[223px] shadow-customShadow rounded-radiusModal p-10"
+        className="absolute bg-white border xl:p-10 px-8 py-10 w-auto h-auto shadow-customShadow rounded-radiusModal"
       >
         <img
           src="/images/logo.svg"
           alt="imageLogo"
-          className="w-[220px] h-logosigninModalH ml-[30px] "
+          className="ml-[30px] "
         />
-        <p className="text-lg leading-[19.8px] mt-12 text-center">
+        <p className="w-[278px] text-lg leading-[19.8px] mt-12 text-center">
           Ссылка для востановления пароля отправлена на {email}
         </p>
       </div>
