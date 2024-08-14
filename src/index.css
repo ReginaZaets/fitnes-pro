@@ -25,6 +25,9 @@ main {
   margin-left: auto;
   margin-right: auto;
 }
+button {
+  transition: all 0.5s
+}
 @layer components {
   .card {
     @apply rounded-[28px] w-[368px] h-[141px] flex items-center justify-between text-white bg-courseInfoBlock p-[20px];
