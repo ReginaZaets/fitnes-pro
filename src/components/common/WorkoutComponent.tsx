@@ -7,6 +7,7 @@ import {
 } from "../../api/coursesApi";
 import { Exercise, Workout } from "../../types/types";
 import MyProgressModal from "../popups/myProgressPopups/MyProgressModal";
+import MyProgressDone from "../popups/myProgressPopups/MyProgressDone";
 
 const WorkoutComponent = () => {
   const { courseID } = useParams<{ courseID: string }>();
@@ -21,11 +22,17 @@ const WorkoutComponent = () => {
 
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [isOpenedMyProgress, setIsOpenedMyProgressModal] =
+  const [isWorkoutProgressModal, setIsWorkoutProgressModal] =
     useState<boolean>(false);
-
+  const [isWorkoutProgressModalDone, setIsWorkoutProgressModalDone] =
+    useState<boolean>(false);
+    
   const toggleModalAddProgress = () => {
-    setIsOpenedMyProgressModal(true);
+    setIsWorkoutProgressModal(true);
+  };
+  const openWorkoutProgressModal = () => {
+    setIsWorkoutProgressModal(false);
+    setIsWorkoutProgressModalDone(true);
   };
 
   useEffect(() => {
@@ -43,7 +50,7 @@ const WorkoutComponent = () => {
       fetchGetExercisesWorkoutUser(userID, courseID, workoutID).then((data) => {
         setExercises(data);
       });
-  }, []);
+  }, [workoutID, courseID]);
 
   console.log(exercises);
 
@@ -91,7 +98,18 @@ const WorkoutComponent = () => {
         >
           <p className="mx-[20px] my-[16px]">Заполнить свой прогресс</p>
         </button>
-        {isOpenedMyProgress && <MyProgressModal workoutID={workoutID} />}
+        {isWorkoutProgressModal && (
+          <MyProgressModal
+            workoutID={workoutID}
+            setIsWorkoutProgressModal={setIsWorkoutProgressModal}
+            openWorkoutProgressModal={openWorkoutProgressModal}
+          />
+        )}
+        {isWorkoutProgressModalDone && (
+          <MyProgressDone
+            setIsWorkoutProgressModalDone={setIsWorkoutProgressModalDone}
+          />
+        )}
       </div>
     </main>
   );

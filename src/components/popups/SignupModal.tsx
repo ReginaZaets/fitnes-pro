@@ -70,7 +70,7 @@ const SignupModal = ({
     if (!validateForm(e)) return;
     try {
       await register(formData.email, formData.password, formData.name);
-      setIsSignupModal(false);
+      openSigninModal();
     } catch (error: any) {
       setError(error.message);
     }

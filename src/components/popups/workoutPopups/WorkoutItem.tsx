@@ -12,6 +12,7 @@ const WorkoutItem = ({
   courseID,
   workoutID,
 }: PropsWorkoutItem) => {
+
   const navigate = useNavigate();
 
   const parts = title.split("/");
