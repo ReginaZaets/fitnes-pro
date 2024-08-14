@@ -1,10 +1,10 @@
 import WorkoutItem from "./WorkoutItem";
 import { fetchGetWorkoutsCourse } from "../../../api/coursesApi";
 import { useUserContext } from "../../../context/hooks/useUser";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Course } from "../../../types/types";
 import { useOnClickOutside } from "../../../context/hooks/useOnClickToCloseModal";
-import { useLocation } from "react-router-dom";
+import { useUserCoursesContext } from "../../../context/hooks/useUserCourses";
 
 const WorkoutModal = ({
   course,
@@ -13,31 +13,24 @@ const WorkoutModal = ({
   course: Course;
   setClickModal: (state: boolean) => void;
 }) => {
-  const [userWorkout, setUserWorkout] = useState<any[]>([]);
-
   const modalRef = useRef<HTMLDivElement>(null);
   const user = useUserContext();
-  const location = useLocation();
+  const { workoutUsers, setWorkoutUsers } = useUserCoursesContext();
 
   useOnClickOutside(modalRef, () => {
     setClickModal(false);
   });
 
   useEffect(() => {
-    console.log("User:", user);
-    console.log("Course:", course);
     const userData = async () => {
       if (user && course) {
         const getWorkout = await fetchGetWorkoutsCourse(user.uid, course._id);
-        console.log(getWorkout);
-        setUserWorkout(getWorkout);
+        setWorkoutUsers(getWorkout);
       }
     };
     userData();
   }, [user, course]);
-  if (!location.pathname.startsWith("/profile")) {
-    return null;
-  }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
       <div
@@ -48,13 +41,19 @@ const WorkoutModal = ({
           Выберите тренировку
         </h1>
         <div className="w-[380px] h-[360px] mt-[48px] overflow-y-auto">
-          {userWorkout.map((item, index) => {
-            return <WorkoutItem key={index} title={item.name} />;
-          })}
+          {workoutUsers &&
+            workoutUsers.map((item, index) => {
+              return (
+                <WorkoutItem
+                  key={index}
+                  title={item.name}
+                  done={item.done}
+                  courseID={course._id}
+                  workoutID={item._id}
+                />
+              );
+            })}
         </div>
-        {/* <button className="w-[380px] h-inputHeight border rounded-small bg-btnColor text-lg font-normal text-black leading-textHeight mt-btnModalMargin hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]">
-          Начать
-        </button> */}
       </div>
     </div>
   );

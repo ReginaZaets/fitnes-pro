@@ -23,6 +23,7 @@ export type Workout = {
 export type Exercise = {
   name: string;
   quantity: number;
+  userQuantity: number;
 };
 
 // Типизация для объекта пользователя

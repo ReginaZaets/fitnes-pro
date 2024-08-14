@@ -1,25 +1,27 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { login } from "../../api/authUsersApi";
-import { paths } from "../../lib/paths";
-import ResetPasswordEmail from "./ResetPasswordEmail";
 import { sanitizeHtml } from "../../lib/sanitizeHtml";
 import { useOnClickOutside } from "../../context/hooks/useOnClickToCloseModal";
 
-const SigninModal = () => {
-  const navigate = useNavigate();
+type PropsModal = {
+  isSigninModal: boolean;
+  setIsSigninModal: (value: boolean) => void;
+  openSignupModal: () => void;
+  openResetPasswordModal: (email: string) => void;
+};
+const SigninModal = ({
+  isSigninModal,
+  setIsSigninModal,
+  openSignupModal,
+  openResetPasswordModal,
+}: PropsModal) => {
   const modalRef = useRef<HTMLDivElement>(null);
-
-  const [isOpenSignin, setIsOpenSignin] = useState<boolean>(true);
-  const [isOpenResetPassword, setIsOpenResetPassword] =
-    useState<boolean>(false);
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
 
   useOnClickOutside(modalRef, () => {
-    setIsOpenSignin(false);
-    navigate(-1);
+    setIsSigninModal(false);
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,8 +59,7 @@ const SigninModal = () => {
     if (!validateForm(e)) return;
     try {
       await login(formData.email, formData.password);
-      setIsOpenSignin(false);
-      navigate(paths.MAIN);
+      setIsSigninModal(false);
     } catch (error: any) {
       setError(error.message);
     }
@@ -82,9 +83,8 @@ const SigninModal = () => {
     return "border-[#D0CECE]";
   };
 
-  const handleClickResetPassword = () => {
-    setIsOpenSignin(false);
-    setIsOpenResetPassword(true);
+  const handleClickResetPasswordEmail = () => {
+    openResetPasswordModal(formData.email);
   };
 
   const renderErrorMessage = (message: string) => {
@@ -96,7 +96,7 @@ const SigninModal = () => {
         {parts.length > 1 && (
           <span
             className="text-sm text-[#F84D4D] underline cursor-pointer"
-            onClick={handleClickResetPassword}
+            onClick={handleClickResetPasswordEmail}
           >
             {resetPasswordText}
           </span>
@@ -105,13 +105,13 @@ const SigninModal = () => {
     );
   };
 
-  const handleClickSignin = () => {
-    navigate("/signup");
+  const handleClickSignup = () => {
+    openSignupModal();
   };
 
   return (
     <>
-      {isOpenSignin && (
+      {isSigninModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10 transition-opacity duration-300">
           <div
             ref={modalRef}
@@ -161,7 +161,7 @@ const SigninModal = () => {
                 Войти
               </button>
               <button
-                onClick={handleClickSignin}
+                onClick={handleClickSignup}
                 className="w-inputWidth h-inputHeight border border-black rounded-small text-lg font-normal text-black leading-textHeight hover:bg-[#F7F7F7] active:bg-[#E9ECED]"
               >
                 Зарегистрироваться
@@ -170,7 +170,6 @@ const SigninModal = () => {
           </div>
         </div>
       )}
-      {isOpenResetPassword && <ResetPasswordEmail email={formData.email} />}
     </>
   );
 };

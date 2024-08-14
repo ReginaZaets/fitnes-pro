@@ -2,18 +2,15 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { useEffect, useRef } from "react";
 import { auth } from "../../api/firebaseConfig";
 import { useOnClickOutside } from "../../context/hooks/useOnClickToCloseModal";
-import { useNavigate } from "react-router-dom";
-import { paths } from "../../lib/paths";
 
 type Props = {
   email: string;
+  setIsResetPasswordEmailModal: (value: boolean) => void;
 };
-const ResetPasswordEmail = ({ email }: Props) => {
-  const navigate = useNavigate();
-
+const ResetPasswordEmail = ({ email, setIsResetPasswordEmailModal }: Props) => {
   const modalRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(modalRef, () => {
-    navigate(paths.MAIN);
+    setIsResetPasswordEmailModal(false);
   });
 
   useEffect(() => {
@@ -24,7 +21,8 @@ const ResetPasswordEmail = ({ email }: Props) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [email]);
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
       <div

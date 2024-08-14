@@ -1,17 +1,16 @@
-import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import { updatePassword } from "firebase/auth";
-import { paths } from "../../lib/paths";
 import { auth } from "../../api/firebaseConfig";
 import { useOnClickOutside } from "../../context/hooks/useOnClickToCloseModal";
-
-const ResetPassword = () => {
-  const navigate = useNavigate();
+type PropsModal = {
+  setIsResetPasswordModal: (value: boolean) => void;
+};
+const ResetPassword = ({ setIsResetPasswordModal }: PropsModal) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const user = auth.currentUser;
 
   useOnClickOutside(modalRef, () => {
-    navigate(-1);
+    setIsResetPasswordModal(false);
   });
 
   const [formData, setFormData] = useState({
@@ -68,8 +67,7 @@ const ResetPassword = () => {
       const newPassword = formData.password;
       updatePassword(user, newPassword)
         .then(() => {
-          setError("Пароль изменен");
-          navigate(paths.PROFILE);
+          setIsResetPasswordModal(false);
         })
         .catch((error) => {
           setError(error.message);
