@@ -12,6 +12,7 @@ const Profile = () => {
   const user = useUserContext();
   const { coursesUserDefault } = useUserCoursesContext();
   const { coursesUserFull } = useUserCoursesContext();
+  const {isLoadingCourses} = useUserCoursesContext();
 
   const [isResetPasswordModal, setIsResetPasswordModal] =
     useState<boolean>(false);
@@ -71,22 +72,38 @@ const Profile = () => {
       <h2 className="text-[24px] lg:text-[40px] font-semibold text-black pt-[24px] pb-[0] sm:pt-[60px] sm:pb-[30px]">
         Мои курсы
       </h2>
+      {isLoadingCourses ? (
+          <div className=" flex justify-center items-center">
+            <div
+              className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
+              role="status"
+            >
+              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                Loading...
+              </span>
+            </div>
+          </div>
+        ) : coursesUserFull?.length != 0 ? (
+          <div className="flex flex-row flex-wrap items-center gap-[40px]">
+            {coursesUserDefault &&
+              coursesUserFull &&
+              coursesUserDefault.map((course) => (
+                <CourseCard
+                  key={course._id}
+                  course={course}
+                  progress={getCourseProgress(
+                    course._id,
+                    course.workouts,
+                    coursesUserFull
+                  )}
+                />
+              ))}
+          </div>
+        ) : (
+          <p className="text-[18px] font-normal">Нет приобретенных курсов</p>
+        )}
+      
 
-      <div className="flex flex-row flex-wrap items-center gap-[40px]">
-        {coursesUserDefault &&
-          coursesUserFull &&
-          coursesUserDefault.map((course) => (
-            <CourseCard
-              key={course._id}
-              course={course}
-              progress={getCourseProgress(
-                course._id,
-                course.workouts,
-                coursesUserFull
-              )}
-            />
-          ))}
-      </div>
       <div className="flex justify-end">
         <button
           onClick={() => {
