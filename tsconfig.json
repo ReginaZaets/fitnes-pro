@@ -1,11 +1,14 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs", // Используйте CommonJS для Jest
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-jsx", // Обязательно укажите поддержку JSX
+    "esModuleInterop": true, // Включите поддержку импортов
+    "moduleResolution": "node",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
 }

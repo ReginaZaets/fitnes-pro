@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx" // Убедитесь, что поддержка JSX включена
+  },
+  "include": ["src/**/*.test.ts", "src/**/*.test.tsx"]
+}
