@@ -5,11 +5,14 @@ import {
   fetchGetCourse,
   fetchGetCourseImage,
 } from "../../api/coursesApi";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Course } from "../../types/types";
 import { paths } from "../../lib/paths";
 import { auth } from "../../api/firebaseConfig";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+import SigninModal from "../popups/SigninModal";
+import SignupModal from "../popups/SignupModal";
+import ResetPasswordEmail from "../popups/ResetPasswordEmail";
 
 const CourseInfo = () => {
   const { coursesUserDefault, setCoursesUserDefault } = useUserCoursesContext();
@@ -19,6 +22,11 @@ const CourseInfo = () => {
 
   const [message, setMessage] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isSigninModal, setIsSigninModal] = useState<boolean>(false);
+  const [isSignupModal, setIsSignupModal] = useState<boolean>(false);
+  const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
+    useState<boolean>(false);
+  const [email, setEmail] = useState("");
 
   const getBackgroundColor = (courseName: string) => {
     switch (courseName) {
@@ -81,6 +89,19 @@ const CourseInfo = () => {
   //     }
   //   }
   // };
+  const openSigninModal = () => {
+    setIsSigninModal(true);
+    setIsSignupModal(false);
+  };
+  const openSignupModal = () => {
+    setIsSignupModal(true);
+    setIsSigninModal(false);
+  };
+  const openResetPasswordModal = (email: string) => {
+    setEmail(email);
+    setIsResetPasswordEmailModal(true);
+    setIsSigninModal(false);
+  };
 
   const addCourse = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -192,9 +213,9 @@ const CourseInfo = () => {
                 </p>
               )
             ) : (
-              <Link to={paths.SIGN_IN_MODAL}>
-                <p className="text-[18px]">Войдите, чтобы добавить курс</p>
-              </Link>
+              <p onClick={openSigninModal} className="text-[18px]">
+                Войдите, чтобы добавить курс
+              </p>
             )}
           </button>
           {message && (
@@ -217,6 +238,25 @@ const CourseInfo = () => {
           className="relative right-[700px] bottom-[188px] md:right-[580px] md:top-[30px] md:bottom-0"
         />
       </section>
+      {isSigninModal && (
+        <SigninModal
+          setIsSigninModal={setIsSigninModal}
+          openSignupModal={openSignupModal}
+          openResetPasswordModal={openResetPasswordModal}
+        />
+      )}
+      {isSignupModal && (
+        <SignupModal
+          setIsSignupModal={setIsSignupModal}
+          openSigninModal={openSigninModal}
+        />
+      )}
+      {isResetPasswordEmailModal && (
+        <ResetPasswordEmail
+          email={email}
+          setIsResetPasswordEmailModal={setIsResetPasswordEmailModal}
+        />
+      )}
     </>
   );
 };
