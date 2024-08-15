@@ -10,6 +10,8 @@ export const UserCoursesContext = createContext<{
   setCoursesUserFull: React.Dispatch<React.SetStateAction<UserCourse[]>>;
   workoutUsers: UserCourseWorkout[];
   setWorkoutUsers: React.Dispatch<React.SetStateAction<UserCourseWorkout[]>>;
+  isLoadingCourses: boolean;
+  setIsLoadingCourses: React.Dispatch<React.SetStateAction<boolean>>
 }>({
   coursesUserDefault: null,
   setCoursesUserDefault: () => {},
@@ -17,6 +19,8 @@ export const UserCoursesContext = createContext<{
   setCoursesUserFull: () => {},
   workoutUsers: [],
   setWorkoutUsers: () => {},
+  isLoadingCourses: true,
+  setIsLoadingCourses: () => {},
 });
 
 interface UserProviderProps {
@@ -27,7 +31,7 @@ export function UserCoursesProvider({ children }: UserProviderProps) {
   const [coursesUserDefault, setCoursesUserDefault] = useState<Course[]>([]);
   const [coursesUserFull, setCoursesUserFull] = useState<UserCourse[]>([]);
   const [workoutUsers, setWorkoutUsers] = useState<UserCourseWorkout[]>([]);
-
+  const [isLoadingCourses, setIsLoadingCourses] = useState(true);
   // Мемоизация значения контекста
   const value = useMemo(
     () => ({
@@ -37,6 +41,8 @@ export function UserCoursesProvider({ children }: UserProviderProps) {
       setCoursesUserFull,
       workoutUsers,
       setWorkoutUsers,
+      isLoadingCourses,
+      setIsLoadingCourses
     }),
     [coursesUserDefault, coursesUserFull, workoutUsers]
   );

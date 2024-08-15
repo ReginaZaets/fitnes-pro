@@ -8,9 +8,8 @@ import {
   fetchGetWorkoutsCourse,
 } from "../../api/coursesApi";
 import ProgressBar from "./ProgressBar";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
-import { paths } from "../../lib/paths";
 type CourseCardProps = {
   course: Course;
   progress: number;

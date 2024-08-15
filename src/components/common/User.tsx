@@ -17,7 +17,7 @@ const User = () => {
   const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
     useState<boolean>(false);
   const [email, setEmail] = useState("");
-
+  
   const ToggleDropdown = () => setIsOpen((prevState) => !prevState);
   const clickExit = async () => {
     setIsOpen(false);
@@ -38,7 +38,7 @@ const User = () => {
     setIsSigninModal(false);
   };
 
-  const { setCoursesUserDefault, setCoursesUserFull } = useUserCoursesContext();
+  const { setCoursesUserDefault, setCoursesUserFull, setIsLoadingCourses } = useUserCoursesContext();
 
   // Мемоизируем функции
   const fetchCourses = useCallback(async () => {
@@ -46,6 +46,7 @@ const User = () => {
       const data = await fetchGetCoursesUser(user.uid);
       setCoursesUserDefault(data.filteredCourses);
       setCoursesUserFull(data.userCourses);
+      setIsLoadingCourses(false);
     }
   }, [user, setCoursesUserDefault, setCoursesUserFull]);
 
