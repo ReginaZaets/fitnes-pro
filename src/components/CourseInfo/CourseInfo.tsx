@@ -5,16 +5,21 @@ import {
   fetchGetCourse,
   fetchGetCourseImage,
 } from "../../api/coursesApi";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Course } from "../../types/types";
 import { paths } from "../../lib/paths";
-import { useUserContext } from "../../context/hooks/useUser";
 import { auth } from "../../api/firebaseConfig";
+import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 
 const CourseInfo = () => {
-  // const user = useUserContext();
+  const { coursesUserDefault, setCoursesUserDefault } = useUserCoursesContext();
+  const { setCoursesUserFull } = useUserCoursesContext();
+
   const user = auth.currentUser;
+
   const [message, setMessage] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const getBackgroundColor = (courseName: string) => {
     switch (courseName) {
       case "Йога":
@@ -25,13 +30,15 @@ const CourseInfo = () => {
         return "bg-zumba";
       case "Степ-аэробика":
         return "bg-step";
+      case "Бодифлекс":
+        return "bg-bodyflex";
       default:
         return "bg-white";
     }
   };
 
   const nav = useNavigate();
-  // const user = true;
+
   const { id } = useParams<{ id: string }>();
 
   const [data, setData] = useState<Course | null>(null);
@@ -44,7 +51,6 @@ const CourseInfo = () => {
       });
     }
   }, []);
-  console.log(data?.img);
 
   useEffect(() => {
     if (data?.img) {
@@ -54,34 +60,71 @@ const CourseInfo = () => {
     }
   }, [data]);
 
-  const addCourse = async () => {
-    if (user?.uid && data?._id) {
-      await fetchDataUser(user?.uid, data?._id);
+  const isUserCourse = coursesUserDefault?.some((course) => course._id === id);
+
+  // const handleClick = async () => {
+  //   if (!isUserCourse) {
+  //     if (user?.uid && data?._id) {
+  //       await fetchDataUser(
+  //         user?.uid,
+  //         data?._id,
+  //         setCoursesUserDefault,
+  //         setCoursesUserFull
+  //       );
+  //       nav(paths.PROFILE);
+  //       console.log("курс добавлен");
+  //     }
+  //   } else {
+  //     if (user?.uid && data?._id) {
+  //       await fetchDeleteCourseUser(user?.uid, data?._id);
+  //       console.log("курс удален");
+  //     }
+  //   }
+  // };
+
+  const addCourse = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (id && user?.uid && data?._id) {
+      await fetchDataUser(
+        user?.uid,
+        data?._id,
+        setCoursesUserDefault,
+        setCoursesUserFull
+      );
       nav(paths.PROFILE);
       console.log("курс добавлен");
     }
   };
-  // const addCourse = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   event.preventDefault();
-  // };
 
-  const deleteCourse = async () => {
-    if (user?.uid && data?._id) {
+  const deleteCourse = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (id && user?.uid && data?._id) {
       await fetchDeleteCourseUser(user?.uid, data?._id);
       console.log("курс удален");
+      setMessage(true);
+      setIsButtonDisabled(true);
     }
   };
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(false);
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   return (
     <>
       <div
-        className={` opacity-0 rounded-[28px] md:w-full  md:opacity-100 ${data && getBackgroundColor(data?.nameRU)}`}
+        className={`mt-3 rounded-[28px] md:w-full ${data && getBackgroundColor(data?.nameRU)} md: mt-0`}
       >
         <div className="flex items-center md:justify-between md:items-start">
-          <p className="p-10 text-[60px] opacity-0 text-white font-semibold md:opacity-100	">
+          <p className=" hidden p-10 text-[60px] text-white font-semibold 	md:block">
             {data?.nameRU}
           </p>
-          <img src={url} alt="courseColor" md:w-32 className="" />
+          <img src={url} alt="courseColor" md:w-32 className="block " />
         </div>
       </div>
 
@@ -92,7 +135,7 @@ const CourseInfo = () => {
         <section className="flex gap-[17px] flex-col md:flex-row md:flex-wrap md:justify-center md:items-stretch">
           <>
             {data?.fitting.map((item, index) => (
-              <div className=" card">
+              <div key={index} className=" card">
                 <div className="flex gap-6 ">
                   <span className="text-btnColor number-reasons">
                     {index + 1}
@@ -123,11 +166,11 @@ const CourseInfo = () => {
         </div>
       </section>
       <section className="flex absolute my-[142px]">
-        <div className="flex flex-col items-start">
-          <p className=" z-40 leading-none text-[32px] md:text-[60px] text-black font-bold ">
+        <div className="flex flex-col z-20 bg-white md:z-0">
+          <p className=" align-center z-40 leading-none text-[32px] md:text-[60px] text-black font-bold ">
             Начни путь <br />к новому телу
           </p>
-          <ul className=" md:w-[437px] my-7 flex md:items-start flex-col justify-start">
+          <ul className=" p-4 md:w-[437px] md:my-7 flex md:items-start flex-col">
             <li className="items">проработка всех групп мышц</li>
             <li className="items">тренировка суставов</li>
             <li className="items">улучшение циркуляции крови</li>
@@ -135,17 +178,28 @@ const CourseInfo = () => {
             <li className="items">помогают противостоять стрессам</li>
           </ul>
           <button
-            className="bg-btnColor rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]"
-            onClick={addCourse}
+            disabled={isButtonDisabled}
+            className={`bg-btnColor hover:bg-btnHoverGreen ${isButtonDisabled ? "opacity-70 cursor-not-allowed" : ""} pointer rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]`}
           >
             {user ? (
-              <p className="text-[18px]">Добавить курс</p>
+              isUserCourse ? (
+                <p onClick={deleteCourse} className="text-[18px]">
+                  Удалить курс
+                </p>
+              ) : (
+                <p onClick={addCourse} className="text-[18px]">
+                  Добавить курс
+                </p>
+              )
             ) : (
-              <p className="text-[18px]">Войдите, чтобы добавить курс</p>
+              <Link to={paths.SIGN_IN_MODAL}>
+                <p className="text-[18px]">Войдите, чтобы добавить курс</p>
+              </Link>
             )}
           </button>
-          <button onClick={deleteCourse}>удалить</button>
-          {message && <p>Курс добавлен</p>}
+          {message && (
+            <p className="text-[18px] text-center text-gray-700">Курс удален</p>
+          )}
         </div>
         <img
           src="/images/infoCourse.svg"
@@ -155,7 +209,7 @@ const CourseInfo = () => {
         <img
           src="/images/vector1.svg"
           alt=""
-          className="relative bottom-[350px] right-[490px] md:bottom-[250px] md:right-[300px]"
+          className="relative bottom-[357px] right-[470px] md:bottom-[250px] md:right-[300px]"
         />
         <img
           src="/images/vector2.svg"

@@ -24,9 +24,10 @@ export default {
         inputModal: "#D0CECE",
         courseInfoBlock: "#151720",
         yoga: "#FFC700",
-        zumba: "#ff4800",
-        sterch: "#00C1FF",
-        step: "#df5d40",
+        zumba: "#F7A012",
+        sterch: "#2491D2",
+        step: "#ff7e65",
+        bodyflex: "#7D458C",
       },
 
       borderRadius: {
