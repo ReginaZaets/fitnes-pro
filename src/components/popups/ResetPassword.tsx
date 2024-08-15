@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { updatePassword } from "firebase/auth";
 import { auth } from "../../api/firebaseConfig";
 import { useOnClickOutside } from "../../context/hooks/useOnClickToCloseModal";
@@ -76,17 +76,21 @@ const ResetPassword = ({ setIsResetPasswordModal }: PropsModal) => {
       setError("Не удалось изменить пароль: пользователь не найден");
     }
   }
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
       <div
         ref={modalRef}
         className="absolute bg-white border xl:p-10 px-8 py-10 w-auto h-auto shadow-customShadow rounded-radiusModal p-10"
       >
-        <img
-          src="/images/logo.svg"
-          alt="imageLogo"
-          className="ml-[30px] "
-        />
+        <img src="/images/logo.svg" alt="imageLogo" className="ml-[30px] " />
         <div className="flex flex-col items-center mt-12 gap-2.5">
           <input
             className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("password")}`}

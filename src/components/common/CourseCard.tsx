@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useUserContext } from "../../context/hooks/useUser";
 import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
 import { Course } from "../../types/types";
-import { fetchGetCourseImage, fetchDataUser, fetchGetWorkoutsCourse } from "../../api/coursesApi";
+import {
+  fetchGetCourseImage,
+  fetchDataUser,
+  fetchGetWorkoutsCourse,
+} from "../../api/coursesApi";
 import ProgressBar from "./ProgressBar";
 import { Link, useLocation } from "react-router-dom";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
@@ -40,6 +44,8 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
   const handleClickModal = () => {
     setIsCourseProgressModal(true);
   };
+
+  
   useEffect(() => {
     const fetchImg = async () => {
       try {
@@ -63,7 +69,9 @@ export const CourseCard = ({ course, progress }: CourseCardProps) => {
     userData();
   }, [user, course]);
   return (
-    <div className="cursor-pointer hover:scale-[1.03] hover:ease-in duration-[300ms] w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg ">
+    <div
+      className={`cursor-pointer ${isCourseProgressModal ? "" : "hover:scale-[1.03] hover:ease-in duration-[300ms] "} w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg `}
+    >
       <div onClick={handleAddCourse} className="flex justify-end ">
         {location.pathname === "/profile" ? (
           <svg

@@ -221,6 +221,7 @@ const WorkoutComponent = () => {
               onProgressUpdated={handleProgressUpdate}
               toggleModalAddProgress={toggleModalAddProgress}
               exercisesDefault={workout?.exercises}
+              setIsWorkoutProgressModalDone={setIsWorkoutProgressModalDone}
             />
           )}
           {isWorkoutProgressModalDone && (

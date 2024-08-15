@@ -23,6 +23,13 @@ const ResetPasswordEmail = ({ email, setIsResetPasswordEmailModal }: Props) => {
       });
   }, [email]);
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
       <div

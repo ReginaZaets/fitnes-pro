@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { register } from "../../api/authUsersApi";
 import { sanitizeHtml } from "../../lib/sanitizeHtml";
 import { useOnClickOutside } from "../../context/hooks/useOnClickToCloseModal";
@@ -97,6 +97,13 @@ const SignupModal = ({ setIsSignupModal, openSigninModal }: PropsModal) => {
     openSigninModal();
   };
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10 transition-opacity duration-300">
       <div

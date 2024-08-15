@@ -31,8 +31,15 @@ const WorkoutModal = ({
     userData();
   }, [user, course]);
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10 transition-opacity duration-300">
       <div
         ref={modalRef}
         className="absolute bg-white border xl:p-10 p-8  w-[460px] h-[610px] shadow-customShadow rounded-radiusModal"
