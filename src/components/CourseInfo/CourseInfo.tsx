@@ -4,6 +4,7 @@ import {
   fetchDeleteCourseUser,
   fetchGetCourse,
   fetchGetCourseImage,
+  fetchGetCourses,
 } from "../../api/coursesApi";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Course } from "../../types/types";
@@ -19,6 +20,8 @@ const CourseInfo = () => {
 
   const [message, setMessage] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  // Добавляем флаг для отображения загрузки
+  const [isLoading, setIsLoading] = useState(true);
 
   const getBackgroundColor = (courseName: string) => {
     switch (courseName) {
@@ -46,17 +49,28 @@ const CourseInfo = () => {
 
   useEffect(() => {
     if (id) {
-      fetchGetCourse(id).then((res) => {
-        setData(res);
-      });
+      fetchGetCourse(id)
+        .then((res) => {
+          if (!res) {
+            nav(paths.MAIN);
+          }
+          setData(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, []);
 
   useEffect(() => {
     if (data?.img) {
-      fetchGetCourseImage(data?.img).then((img) => {
-        setUrl(img);
-      });
+      fetchGetCourseImage(data?.img)
+        .then((img) => {
+          setUrl(img);
+        })
+        .then(() => {
+          setIsLoading(false);
+        });
     }
   }, [data]);
 
@@ -115,6 +129,25 @@ const CourseInfo = () => {
     }
   }, [message]);
 
+  console.log(isLoading);
+
+  if (isLoading) {
+    return (
+      <main className="flex justify-center mb-[131px]">
+        <div className=" flex justify-center w-[360px] h-[325px] items-center">
+          <div
+            className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <>
       <div
@@ -124,7 +157,7 @@ const CourseInfo = () => {
           <p className=" hidden p-10 text-[60px] text-white font-semibold 	md:block">
             {data?.nameRU}
           </p>
-          <img src={url} alt="courseColor" md:w-32 className="block " />
+          <img src={url} alt="courseColor" className="block" />
         </div>
       </div>
 
