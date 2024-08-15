@@ -5,6 +5,7 @@ import {
   fetchGetCourse,
   fetchGetCourseImage,
   fetchGetCourses,
+  fetchGetCoursesUser,
 } from "../../api/coursesApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { Course } from "../../types/types";
@@ -16,8 +17,9 @@ import SignupModal from "../popups/SignupModal";
 import ResetPasswordEmail from "../popups/ResetPasswordEmail";
 
 const CourseInfo = () => {
-  const { coursesUserDefault, setCoursesUserDefault } = useUserCoursesContext();
-  const { setCoursesUserFull } = useUserCoursesContext();
+  // Берем из контекста объекты курсов
+  const { coursesUserDefault, setCoursesUserDefault, setCoursesUserFull } =
+    useUserCoursesContext();
 
   const user = auth.currentUser;
 
@@ -135,6 +137,12 @@ const CourseInfo = () => {
     e.preventDefault();
     if (id && user?.uid && data?._id) {
       await fetchDeleteCourseUser(user?.uid, data?._id);
+
+      // Обновляем контекст курсов после удаления
+      const updateData = await fetchGetCoursesUser(user.uid);
+      setCoursesUserDefault(updateData.filteredCourses);
+      setCoursesUserFull(updateData.userCourses);
+
       console.log("курс удален");
       setMessage(true);
       setIsButtonDisabled(true);
@@ -233,8 +241,9 @@ const CourseInfo = () => {
               <li className="items">помогают противостоять стрессам</li>
             </ul>
             <button
-              disabled={isButtonDisabled}
-              className={`bg-btnColor hover:bg-btnHoverGreen ${isButtonDisabled ? "opacity-70 cursor-not-allowed" : ""} pointer rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]`}
+              // disabled={isButtonDisabled}
+              className={`bg-btnColor hover:bg-btnHoverGreen pointer rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]`}
+              // className={`bg-btnColor hover:bg-btnHoverGreen ${isButtonDisabled ? "opacity-70 cursor-not-allowed" : ""} pointer rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]`}
             >
               {user ? (
                 isUserCourse ? (
@@ -252,11 +261,11 @@ const CourseInfo = () => {
                 </p>
               )}
             </button>
-            {message && (
+            {/* {message && (
               <p className="text-[18px] text-center text-gray-700">
                 Курс удален
               </p>
-            )}
+            )} */}
           </div>
           <img
             src="/images/infoCourse.svg"
