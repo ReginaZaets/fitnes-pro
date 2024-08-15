@@ -1,7 +1,7 @@
 import WorkoutItem from "./WorkoutItem";
 import { fetchGetWorkoutsCourse } from "../../../api/coursesApi";
 import { useUserContext } from "../../../context/hooks/useUser";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Course } from "../../../types/types";
 import { useOnClickOutside } from "../../../context/hooks/useOnClickToCloseModal";
 import { useUserCoursesContext } from "../../../context/hooks/useUserCourses";
@@ -16,6 +16,8 @@ const WorkoutModal = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const user = useUserContext();
   const { workoutUsers, setWorkoutUsers } = useUserCoursesContext();
+  // Добавляем флаг для отображения загрузки
+  const [isLoading, setIsLoading] = useState(true);
 
   useOnClickOutside(modalRef, () => {
     setClickModal(false);
@@ -24,8 +26,10 @@ const WorkoutModal = ({
   useEffect(() => {
     const userData = async () => {
       if (user && course) {
-        const getWorkout = await fetchGetWorkoutsCourse(user.uid, course._id);
-        setWorkoutUsers(getWorkout);
+        fetchGetWorkoutsCourse(user.uid, course._id).then((data) => {
+          setWorkoutUsers(data);
+          setIsLoading(false);
+        });
       }
     };
     userData();
@@ -37,6 +41,10 @@ const WorkoutModal = ({
       document.body.style.overflow = "auto";
     };
   }, []);
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10 transition-opacity duration-300">
