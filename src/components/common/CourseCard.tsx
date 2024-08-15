@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
-import { useUserContext } from "../../context/hooks/useUser";
 import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
 import { Course } from "../../types/types";
 import {
   fetchGetCourseImage,
-  fetchDataUser,
-  fetchDeleteCourseUser,
 } from "../../api/coursesApi";
 import ProgressBar from "./ProgressBar";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 type CourseCardProps = {
   course: Course;
   progress: number;
   isUserCourse?: boolean;
   onAdd: (courseId: string) => void;
   onRemove: (courseId: string) => void;
+  _id?: string
 };
 
 export const CourseCard = ({
@@ -23,12 +21,14 @@ export const CourseCard = ({
   isUserCourse = false,
   onAdd,
   onRemove,
+  _id
 }: CourseCardProps) => {
   const [clickModal, setClickModal] = useState<boolean>(false);
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
 
+  const courseLink = "/course/" + _id
   const handleAdd = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     onAdd(course._id);
@@ -55,7 +55,8 @@ export const CourseCard = ({
     fetchImg();
   }, []);
   return (
-    <div className="w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-105">
+    <Link to={courseLink}>
+    <div className="w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg cursor-pointer ">
       {isUserCourse ? (
         <div className="flex justify-end " onClick={handleRemove}>
           <svg
@@ -213,5 +214,6 @@ export const CourseCard = ({
       </div>
       {clickModal && <WorkoutModal course={course} />}
     </div>
+    </Link>
   );
 };

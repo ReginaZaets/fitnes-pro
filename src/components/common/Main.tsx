@@ -102,6 +102,7 @@ export const Main = () => {
                 isUserCourse={isUserCourse}
                 onAdd={handleAddCourse} 
                 onRemove={handleRemoveCourse} 
+                _id={course._id}
               />
             );
           })}

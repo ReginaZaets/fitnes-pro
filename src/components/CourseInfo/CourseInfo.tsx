@@ -1,10 +1,29 @@
-const CourseInfo = () => {
+import { useEffect, useState } from "react";
+import { fetchGetCourses } from "../../api/coursesApi";
+import { Course } from "../../types/types";
+
+const CourseInfo = ({ _id }: { _id: string }) => {
+  const [course, setCourse] = useState<Course>();
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const data = await fetchGetCourses();
+        const selectedCourse = data.find((course) => course._id === _id);
+        setCourse(selectedCourse);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchCourses();
+  }, [_id]);
   return (
     <main>
       <div>
-        <p className="p-10 text-[60px] absolute z-10 text-white font-semibold ">
-          Йога
-        </p>
+          <p className="p-10 text-[60px] absolute z-10 text-white font-semibold ">
+            Йога
+          </p>
         <img
           src="/images/skillCards/yoga.png"
           alt=""
