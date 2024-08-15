@@ -221,55 +221,59 @@ const CourseInfo = () => {
       </section>
       <section className="flex my-[142px]">
         <div className="flex flex-rw z-20 md:z-0 bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] p-[30px] w-full">
-          <p className=" align-center z-40 leading-none text-[32px] md:text-[60px] text-black font-bold ">
-            Начни путь <br />к новому телу
-          </p>
-          <ul className=" p-4 md:w-[437px] md:my-7 flex md:items-start flex-col">
-            <li className="items">проработка всех групп мышц</li>
-            <li className="items">тренировка суставов</li>
-            <li className="items">улучшение циркуляции крови</li>
-            <li className="items">упражнения заряжают бодростью</li>
-            <li className="items">помогают противостоять стрессам</li>
-          </ul>
-          <button
-            disabled={isButtonDisabled}
-            className={`bg-btnColor hover:bg-btnHoverGreen ${isButtonDisabled ? "opacity-70 cursor-not-allowed" : ""} pointer rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]`}
-          >
-            {user ? (
-              isUserCourse ? (
-                <p onClick={deleteCourse} className="text-[18px]">
-                  Удалить курс
-                </p>
+          <div className="flex flex-col z-20 md:z-0">
+            <p className=" align-center z-40 leading-none text-[32px] md:text-[60px] text-black font-bold ">
+              Начни путь <br />к новому телу
+            </p>
+            <ul className=" p-4 md:w-[437px] md:my-7 flex md:items-start flex-col">
+              <li className="items">проработка всех групп мышц</li>
+              <li className="items">тренировка суставов</li>
+              <li className="items">улучшение циркуляции крови</li>
+              <li className="items">упражнения заряжают бодростью</li>
+              <li className="items">помогают противостоять стрессам</li>
+            </ul>
+            <button
+              disabled={isButtonDisabled}
+              className={`bg-btnColor hover:bg-btnHoverGreen ${isButtonDisabled ? "opacity-70 cursor-not-allowed" : ""} pointer rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]`}
+            >
+              {user ? (
+                isUserCourse ? (
+                  <p onClick={deleteCourse} className="text-[18px]">
+                    Удалить курс
+                  </p>
+                ) : (
+                  <p onClick={addCourse} className="text-[18px]">
+                    Добавить курс
+                  </p>
+                )
               ) : (
-                <p onClick={addCourse} className="text-[18px]">
-                  Добавить курс
+                <p onClick={openSigninModal} className="text-[18px]">
+                  Войдите, чтобы добавить курс
                 </p>
-              )
-            ) : (
-              <p onClick={openSigninModal} className="text-[18px]">
-                Войдите, чтобы добавить курс
+              )}
+            </button>
+            {message && (
+              <p className="text-[18px] text-center text-gray-700">
+                Курс удален
               </p>
             )}
-          </button>
-          {message && (
-            <p className="text-[18px] text-center text-gray-700">Курс удален</p>
-          )}
+          </div>
+          <img
+            src="/images/infoCourse.svg"
+            alt=""
+            className="relative z-10 right-[175px] bottom-[270px] md:left-[130px] md:z-10 md:right-[0px] md:bottom-[100px]"
+          />
+          <img
+            src="/images/vector1.svg"
+            alt=""
+            className="relative bottom-[357px] right-[470px] md:bottom-[250px] md:right-[300px]"
+          />
+          <img
+            src="/images/vector2.svg"
+            alt=""
+            className="relative right-[700px] bottom-[188px] md:right-[580px] md:top-[30px] md:bottom-0"
+          />
         </div>
-        <img
-          src="/images/infoCourse.svg"
-          alt=""
-          className="relative z-10 right-[175px] bottom-[270px] md:left-[130px] md:z-10 md:right-[0px] md:bottom-[100px]"
-        />
-        <img
-          src="/images/vector1.svg"
-          alt=""
-          className="relative bottom-[357px] right-[470px] md:bottom-[250px] md:right-[300px]"
-        />
-        <img
-          src="/images/vector2.svg"
-          alt=""
-          className="relative right-[700px] bottom-[188px] md:right-[580px] md:top-[30px] md:bottom-0"
-        />
       </section>
       {isSigninModal && (
         <SigninModal
