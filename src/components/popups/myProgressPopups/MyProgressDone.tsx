@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useOnClickOutside } from "../../../context/hooks/useOnClickToCloseModal";
 
 type PropsModal = {
@@ -9,9 +9,13 @@ const MyProgressDone = ({ setIsWorkoutProgressModalDone }: PropsModal) => {
   useOnClickOutside(modalRef, () => {
     setIsWorkoutProgressModalDone(false);
   });
-  // const toggleModal = () => {
-  //   setIsWorkoutProgressModalDone(false);
-  // };
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">

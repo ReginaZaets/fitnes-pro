@@ -8,10 +8,9 @@ import {
   Workout,
 } from "../types/types";
 import { getBlob, ref as storageRef, getStorage } from "firebase/storage";
-import { useUserCoursesContext } from "../context/hooks/useUserCourses";
-import { useUserContext } from "../context/hooks/useUser";
 
 // Получение всех курсов
+
 export const fetchGetCourses = async () => {
   let data: Course[] = [];
   try {
@@ -29,6 +28,7 @@ export const fetchGetCourses = async () => {
 };
 
 // Получение курса по ID
+
 export const fetchGetCourse = async (courseID: string) => {
   let data: Course | null = null;
   try {
@@ -46,6 +46,7 @@ export const fetchGetCourse = async (courseID: string) => {
 };
 
 // Получение всех курсов конкретного юзера
+
 export const fetchGetCoursesUser = async (userID: string) => {
   let userCourses: UserCourse[] = [];
   let filteredCourses: Course[] = [];
@@ -70,7 +71,8 @@ export const fetchGetCoursesUser = async (userID: string) => {
   return { userCourses, filteredCourses };
 };
 
-// // Получение данных по упражнениям пользователя из отдельной тренировки
+// Получение данных по упражнениям пользователя из отдельной тренировки
+
 export const fetchGetExercisesWorkoutUser = async (
   userID: string,
   courseID: string,
@@ -96,6 +98,7 @@ export const fetchGetExercisesWorkoutUser = async (
 };
 
 // Добавление курса в приобретенные к юзеру
+
 export const fetchAddCourseUser = async (
   userID: string,
   courseID: string,
@@ -235,6 +238,7 @@ export const fetchGetWorkout = async (workoutID: string) => {
 };
 
 // Получение картинок по пути (свойство img в объекте Course)
+
 export const fetchGetCourseImage = async (src: string) => {
   try {
     const storage = getStorage();
@@ -267,12 +271,11 @@ export const fetchDataUser = async (
 
     // получаем тренировки курса
     const workout: string[] = course.workouts;
-    //console.log(workout);
     // получаем все упражнения
     const fetchWorkout = await fetchGetWorkouts();
     const workoutArray = Object.values(fetchWorkout);
-    // отфильтровываем упражнения курса от всех упражнений и сортируем по индексу
 
+    // отфильтровываем упражнения курса от всех упражнений и сортируем по индексу
     const filterWorkouts = workoutArray
       .filter((item) => workout.includes(item._id))
       .sort(
@@ -280,8 +283,6 @@ export const fetchDataUser = async (
           workout.findIndex((id) => id === a._id) -
           workout.findIndex((id) => id === b._id)
       );
-
-    console.log(filterWorkouts);
 
     // создаем объект из упражнений, ключом которого будет _id
     const fetchExercises = filterWorkouts.reduce(
@@ -303,7 +304,6 @@ export const fetchDataUser = async (
       {} as { [key: string]: UserCourseWorkout }
     );
 
-    console.log(fetchExercises);
     //записываем все необходимые данные для базы данных
     await fetchAddCourseUser(userID, courseID, fetchExercises).then(() => {
       fetchGetCoursesUser(userID).then((data) => {

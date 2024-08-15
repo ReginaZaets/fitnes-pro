@@ -31,21 +31,28 @@ const WorkoutModal = ({
     userData();
   }, [user, course]);
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10 transition-opacity duration-300">
       <div
         ref={modalRef}
-        className="absolute bg-white border xl:p-10 p-8  w-[460px] h-[610px] shadow-customShadow rounded-radiusModal"
+        className="absolute bg-white border xl:p-10 p-[30px] w-auto h-auto xl:w-[460px] xl:h-[590x] shadow-customShadow rounded-radiusModal"
       >
-        <h1 className="text-[32px] leading-[35.2px] ml-[17px]">
+        <h1 className="text-[32px] leading-[35.2px] xl:ml-[17px] xl:w-[346px] w-[283px]">
           Выберите тренировку
         </h1>
-        <div className=" xl:mt-[48px] mt-[34px] w-[380px] h-[435px] overflow-y-auto">
+        <div className=" xl:mt-[48px] mt-[34px] w-auto h-auto  xl:w-[380px] xl:h-[400px] overflow-y-auto">
           {workoutUsers &&
-            workoutUsers.map((item, index) => {
+            workoutUsers.map((item) => {
               return (
                 <WorkoutItem
-                  key={index}
+                  key={item._id}
                   title={item.name}
                   done={item.done}
                   courseID={course._id}

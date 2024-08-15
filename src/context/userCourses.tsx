@@ -1,5 +1,7 @@
-import { createContext, ReactNode, useMemo, useState } from "react";
+import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import { Course, UserCourse, UserCourseWorkout } from "../types/types";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../api/firebaseConfig";
 
 export const UserCoursesContext = createContext<{
   coursesUserDefault: Course[] | null;
@@ -44,7 +46,16 @@ export function UserCoursesProvider({ children }: UserProviderProps) {
     }),
     [coursesUserDefault, coursesUserFull, workoutUsers]
   );
-
+  useEffect(() => {
+    const exitUser = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        setCoursesUserDefault([]);
+        setCoursesUserFull([]);
+        setWorkoutUsers([]);
+      }
+    });
+    return () => exitUser();
+  }, []);
   return (
     <UserCoursesContext.Provider value={value}>
       {children}
