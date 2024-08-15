@@ -49,10 +49,10 @@ const WorkoutModal = ({
         </h1>
         <div className=" xl:mt-[48px] mt-[34px] w-auto h-auto  xl:w-[380px] xl:h-[400px] overflow-y-auto">
           {workoutUsers &&
-            workoutUsers.map((item, index) => {
+            workoutUsers.map((item) => {
               return (
                 <WorkoutItem
-                  key={index}
+                  key={item._id}
                   title={item.name}
                   done={item.done}
                   courseID={course._id}
