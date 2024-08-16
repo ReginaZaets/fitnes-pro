@@ -56,7 +56,6 @@ const Profile = () => {
             setCoursesUserFull
           );
           setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
-          console.log("Курс добавлен");
         }
       } catch (error: any) {
         console.log(error.message);
@@ -71,7 +70,6 @@ const Profile = () => {
         setCoursesUserDefault((prev) =>
           prev.filter((course) => course._id !== courseId)
         );
-        console.log("Курс удален");
       } catch (error: any) {
         console.log(error.message);
       }
@@ -128,7 +126,7 @@ const Profile = () => {
         Мои курсы
       </h2>
       {isLoadingCourses ? (
-        <div className="flex flex-row flex-wrap items-center justify-center st:justify-start w-full gap-[40px]">
+        <div className="flex flex-row flex-wrap items-center justify-center w-full gap-[40px]">
           <div
             className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
             role="status"

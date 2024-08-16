@@ -26,7 +26,6 @@ export const Main = () => {
   const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
     useState<boolean>(false);
   const [email, setEmail] = useState("");
-  
 
   const openSigninModal = () => {
     setIsSigninModal(true);
@@ -56,7 +55,6 @@ export const Main = () => {
               setCoursesUserFull
             );
             setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
-            console.log("Курс добавлен");
           }
         }
       } catch (error: any) {
@@ -72,7 +70,6 @@ export const Main = () => {
         setCoursesUserDefault((prev) =>
           prev.filter((course) => course._id !== courseId)
         );
-        console.log("Курс удален");
       } catch (error: any) {
         console.log(error.message);
       }

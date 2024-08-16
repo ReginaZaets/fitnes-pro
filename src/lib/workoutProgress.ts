@@ -21,7 +21,5 @@ export const workoutProgress = (
     isDoneWorkout = true;
   }
 
-  console.log(isDoneWorkout);
-
   return isDoneWorkout;
 };
