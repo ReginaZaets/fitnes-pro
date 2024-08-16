@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { paths } from "../../lib/paths";
-import { useUserContext } from "../../context/hooks/useUser";
-import { logout } from "../../api/authUsersApi";
-import { fetchGetCoursesUser } from "../../api/coursesApi";
-import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
-import SigninModal from "../popups/SigninModal";
-import SignupModal from "../popups/SignupModal";
-import ResetPasswordEmail from "../popups/ResetPasswordEmail";
+import { paths } from "../../../lib/paths";
+import { useUserContext } from "../../../context/hooks/useUser";
+import { logout } from "../../../api/authUsersApi";
+import { fetchGetCoursesUser } from "../../../api/coursesApi";
+import { useUserCoursesContext } from "../../../context/hooks/useUserCourses";
+import SigninModal from "../../popups/SigninModal";
+import SignupModal from "../../popups/SignupModal";
+import ResetPasswordEmail from "../../popups/ResetPasswordEmail";
 
 const User = () => {
   const user = useUserContext();

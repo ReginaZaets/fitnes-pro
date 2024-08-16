@@ -1,19 +1,19 @@
-import { CourseCard } from "./CourseCard";
 import { Link } from "react-router-dom";
-import { paths } from "../../lib/paths";
+import { paths } from "../../../lib/paths";
 import { useEffect } from "react";
 import {
   fetchDataUser,
   fetchDeleteCourseUser,
   fetchGetCourses,
-} from "../../api/coursesApi";
-import { Course } from "../../types/types";
-import { useUserContext } from "../../context/hooks/useUser";
-import { logout } from "../../api/authUsersApi";
-import { getCourseProgress } from "../../lib/courseProgress";
-import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+} from "../../../api/coursesApi";
+import { Course } from "../../../types/types";
+import { useUserContext } from "../../../context/hooks/useUser";
+import { logout } from "../../../api/authUsersApi";
+import { getCourseProgress } from "../../../lib/courseProgress";
+import { useUserCoursesContext } from "../../../context/hooks/useUserCourses";
 import { useState } from "react";
-import ResetPassword from "../popups/ResetPassword";
+import ResetPassword from "../../popups/ResetPassword";
+import { CourseCard } from "../CourseCard/CourseCard";
 
 const Profile = () => {
   const user = useUserContext();

@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ExerciseItem from "./ExerciseItem";
+import ExerciseItem from "../ExerciseItem/ExerciseItem";
 import {
   fetchAddProgressWorkoutCourseUser,
   fetchGetCoursesUser,
   fetchGetExercisesWorkoutUser,
   fetchGetWorkout,
-} from "../../api/coursesApi";
-import { Exercise, Workout } from "../../types/types";
-import MyProgressModal from "../popups/myProgressPopups/MyProgressModal";
-import { useUserContext } from "../../context/hooks/useUser";
-import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
-import { paths } from "../../lib/paths";
-import MyProgressDone from "../popups/myProgressPopups/MyProgressDone";
+} from "../../../api/coursesApi";
+import { Exercise, Workout } from "../../../types/types";
+import MyProgressModal from "../../popups/myProgressPopups/MyProgressModal";
+import { useUserContext } from "../../../context/hooks/useUser";
+import { useUserCoursesContext } from "../../../context/hooks/useUserCourses";
+import { paths } from "../../../lib/paths";
+import MyProgressDone from "../../popups/myProgressPopups/MyProgressDone";
 
 const WorkoutComponent = () => {
   const user = useUserContext();

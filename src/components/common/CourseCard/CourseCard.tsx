@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
-import { Course } from "../../types/types";
+import WorkoutModal from "../../popups/workoutPopups/WorkoutModal";
+import { Course } from "../../../types/types";
 import {
   fetchGetCourseImage,
   fetchGetWorkoutsCourse,
-} from "../../api/coursesApi";
+} from "../../../api/coursesApi";
 import { Link, useLocation } from "react-router-dom";
-import ProgressBar from "./ProgressBar";
-import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
-import { useUserContext } from "../../context/hooks/useUser";
+import { useUserCoursesContext } from "../../../context/hooks/useUserCourses";
+import { useUserContext } from "../../../context/hooks/useUser";
+import ProgressBar from "../ProgressBar/ProgressBar";
 type CourseCardProps = {
   course: Course;
   progress: number;

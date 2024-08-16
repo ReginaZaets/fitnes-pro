@@ -1,7 +1,7 @@
 import { describe, test } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Main } from "../components/common/Main";
+import { Main } from "../components/common/Main/Main";
 import CourseInfo from "../components/CourseInfo/CourseInfo";
 import { CourseCard } from "../components/common/CourseCard";
 import { Course } from "../types/types";

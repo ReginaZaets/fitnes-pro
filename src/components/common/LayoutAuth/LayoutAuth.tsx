@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { paths } from "../../lib/paths";
-import { useUserContext } from "../../context/hooks/useUser";
+import { paths } from "../../../lib/paths";
+import { useUserContext } from "../../../context/hooks/useUser";
 
 export const LayoutAuth = () => {
   // получаем пользователя из контекста

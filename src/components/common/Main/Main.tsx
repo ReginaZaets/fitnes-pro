@@ -1,16 +1,16 @@
-import { CourseCard } from "./CourseCard";
 import {
   fetchDataUser,
   fetchDeleteCourseUser,
   fetchGetCourses,
-} from "../../api/coursesApi";
-import { useUserContext } from "../../context/hooks/useUser";
-import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+} from "../../../api/coursesApi";
+import { useUserContext } from "../../../context/hooks/useUser";
+import { useUserCoursesContext } from "../../../context/hooks/useUserCourses";
 import { useEffect, useState } from "react";
-import { Course } from "../../types/types";
-import ResetPasswordEmail from "../popups/ResetPasswordEmail";
-import SignupModal from "../popups/SignupModal";
-import SigninModal from "../popups/SigninModal";
+import { Course } from "../../../types/types";
+import ResetPasswordEmail from "../../popups/ResetPasswordEmail";
+import SignupModal from "../../popups/SignupModal";
+import SigninModal from "../../popups/SigninModal";
+import { CourseCard } from "../CourseCard/CourseCard";
 
 export const Main = () => {
   const [allCourses, setAllCourses] = useState<Course[]>([]);
