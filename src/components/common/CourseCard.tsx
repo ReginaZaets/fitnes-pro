@@ -227,6 +227,7 @@ export const CourseCard = ({
                 <ProgressBar progress={progress} />
               </div>
               <button
+                data-testid="workout"
                 onClick={handleClickModal}
                 className="w-full h-[52px] bg-[#BCEC30] rounded-[46px] mb-[10px] hover:bg-btnHoverGreen active:bg-black active:text-white"
               >

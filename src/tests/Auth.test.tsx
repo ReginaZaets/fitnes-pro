@@ -1,17 +1,7 @@
 import { describe, test } from "@jest/globals";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import User from "../components/common/User";
 import "@testing-library/jest-dom";
-
-
-const user = "rigi";
-const userEmail = "rigi@mail.ru";
-const userPassword = "111222";
-const userID = "s6EFazgbKeWUnq2QzYrcva7ByvJ2";
-
-jest.mock("../api/authUsersApi", () => ({
-  login: jest.fn(),
-}));
 
 describe("auth test", () => {
   test("click on button signin", async () => {
@@ -27,16 +17,14 @@ describe("auth test", () => {
 
     const passwordInput = screen.getByPlaceholderText(/Пароль/i);
     expect(screen.queryByTestId("password")).toContainHTML("");
-    fireEvent.input(passwordInput, { target: { value: "111222" } });
-    expect(screen.queryByTestId("password")).toContainHTML("111222");
+    fireEvent.input(passwordInput, { target: { value: "000000" } });
+    expect(screen.queryByTestId("password")).toContainHTML("000000");
 
-    // const signinButton = screen.getByTestId("signin");
-    // fireEvent.click(signinButton);
+    const signinButton = screen.getByTestId("signin");
+    fireEvent.click(signinButton);
 
-    // await waitFor(() => {
-    //  
-    //   expect(screen.getByText("Войти")).not.toBeInTheDocument();
-    //   expect(screen.getByText(user)).toBeInTheDocument();
-    // });
+    await screen.findByText("Ошибка входа. Попробуйте еще раз.");
+
+    expect(screen.getByTestId("signin")).toBeInTheDocument();
   });
 });
