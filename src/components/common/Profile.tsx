@@ -84,7 +84,7 @@ const Profile = () => {
         Профиль
       </h2>
 
-      <div className="flex flex-wrap justify-center lg:flex-row sm:flex-col sm:justify-normal md:flex-col md:justify-normal  gap-[33px] bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(243, 95, 95, 0.13)] p-[30px] w-full">
+      <div className="flex flex-wrap justify-center lg:flex-row sm:flex-col sm:justify-normal md:flex-col md:justify-normal  gap-[33px] bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(243, 95, 95, 0.13)] p-[30px] w-full shadow-lg">
         <img
           className="w-[141px] lg:w-[197px]"
           src="/images/icon-profile.svg"
@@ -156,7 +156,8 @@ const Profile = () => {
                   isUserCourse={isUserCourse}
                   onAdd={handleAddCourse}
                   onRemove={handleRemoveCourse}
-                  _id={course._id} />
+                  _id={course._id}
+                />
               );
             })}
         </div>
