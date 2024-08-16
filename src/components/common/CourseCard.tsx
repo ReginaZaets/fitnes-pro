@@ -80,7 +80,11 @@ export const CourseCard = ({
         } w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]`}
       >
         {isUserCourse ? (
-          <div className="flex justify-end " onClick={handleRemove}>
+          <div
+            className="flex justify-end "
+            onClick={handleRemove}
+            title="Удалить курс"
+          >
             <svg
               className="absolute mx-[18px] mt-[18px] mb-[12px] cursor-pointer hover:scale-105"
               width="28"
@@ -98,7 +102,11 @@ export const CourseCard = ({
             </svg>
           </div>
         ) : (
-          <div className="flex justify-end " onClick={handleAdd}>
+          <div
+            className="flex justify-end "
+            onClick={handleAdd}
+            title="Добавить курс"
+          >
             <svg
               className="hover:scale-105 cursor-pointer absolute mx-[18px] my-[12px] mt-[18px]"
               width="28"
