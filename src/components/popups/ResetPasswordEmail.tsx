@@ -15,9 +15,7 @@ const ResetPasswordEmail = ({ email, setIsResetPasswordEmailModal }: Props) => {
 
   useEffect(() => {
     sendPasswordResetEmail(auth, email)
-      .then(() => {
-        console.log("Отправка пароля на почту");
-      })
+      .then(() => {})
       .catch((error) => {
         console.log(error);
       });
@@ -29,18 +27,14 @@ const ResetPasswordEmail = ({ email, setIsResetPasswordEmailModal }: Props) => {
       document.body.style.overflow = "auto";
     };
   }, []);
-  
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
       <div
         ref={modalRef}
         className="absolute bg-white border xl:p-10 px-8 py-10 w-auto h-auto shadow-customShadow rounded-radiusModal"
       >
-        <img
-          src="/images/logo.svg"
-          alt="imageLogo"
-          className="ml-[30px] "
-        />
+        <img src="/images/logo.svg" alt="imageLogo" className="ml-[30px] " />
         <p className="w-[278px] text-lg leading-[19.8px] mt-12 text-center">
           Ссылка для востановления пароля отправлена на {email}
         </p>
