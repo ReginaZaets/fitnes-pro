@@ -1,5 +1,6 @@
 import { Outlet, useParams } from "react-router-dom";
 import CourseInfo from "../components/CourseInfo/CourseInfo";
+import { Course } from "../types/types";
 
 const CourseInfoPage = () => {
   let { id } = useParams();

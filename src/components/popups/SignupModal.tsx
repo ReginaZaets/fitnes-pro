@@ -1,10 +1,20 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import { register } from "../../api/authUsersApi";
 import { sanitizeHtml } from "../../lib/sanitizeHtml";
+import { useOnClickOutside } from "../../context/hooks/useOnClickToCloseModal";
 
-const SignupModal = () => {
-  const navigate = useNavigate();
+type PropsModal = {
+  setIsSignupModal: (value: boolean) => void;
+  openSigninModal: () => void;
+};
+const SignupModal = ({ setIsSignupModal, openSigninModal }: PropsModal) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const [error, setError] = useState<string | null>(null);
+
+  useOnClickOutside(modalRef, () => {
+    setIsSignupModal(false);
+  });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -12,8 +22,6 @@ const SignupModal = () => {
     password: "",
     repeatPassword: "",
   });
-
-  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -57,7 +65,7 @@ const SignupModal = () => {
     if (!validateForm(e)) return;
     try {
       await register(formData.email, formData.password, formData.name);
-      navigate("/signin");
+      openSigninModal();
     } catch (error: any) {
       setError(error.message);
     }
@@ -85,17 +93,27 @@ const SignupModal = () => {
     return "border-[#D0CECE]";
   };
 
-  const handleOpenModal = () => {
-    navigate("/signin");
+  const handleClickSignin = () => {
+    openSigninModal();
   };
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10 transition-opacity duration-300">
-      <div className="absolute bg-white border w-auto h-auto shadow-customShadow rounded-radiusModal p-4 md:p-10">
+      <div
+        ref={modalRef}
+        className="absolute bg-white border xl:p-10 px-8 py-10 w-auto h-auto shadow-customShadow rounded-radiusModal p-4 md:p-10"
+      >
         <img
           src="/images/logo.svg"
           alt="imageLogo"
-          className="w-logosigninModalW h-logosigninModalH ml-[30px] "
+          className="ml-[30px] "
         />
         <div className="flex flex-col items-center mt-12 gap-2.5">
           <input
@@ -140,7 +158,7 @@ const SignupModal = () => {
             Зарегистрироваться
           </button>
           <button
-            onClick={handleOpenModal}
+            onClick={handleClickSignin}
             className="w-inputWidth h-inputHeight border border-black rounded-small text-lg font-normal text-black leading-textHeight hover:bg-[#F7F7F7] active:bg-[#E9ECED]"
           >
             Войти

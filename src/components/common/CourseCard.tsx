@@ -3,9 +3,13 @@ import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
 import { Course } from "../../types/types";
 import {
   fetchGetCourseImage,
+  fetchDataUser,
+  fetchGetWorkoutsCourse,
 } from "../../api/coursesApi";
-import ProgressBar from "./ProgressBar";
 import { Link, useLocation } from "react-router-dom";
+import ProgressBar from "./ProgressBar";
+import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+import { useUserContext } from "../../context/hooks/useUser";
 type CourseCardProps = {
   course: Course;
   progress: number;
@@ -14,21 +18,36 @@ type CourseCardProps = {
   onRemove: (courseId: string) => void;
   _id?: string
 };
-
-export const CourseCard = ({
-  course,
-  progress,
-  isUserCourse = false,
+export const CourseCard = ({ course, progress,  isUserCourse = false,
   onAdd,
   onRemove,
-  _id
-}: CourseCardProps) => {
-  const [clickModal, setClickModal] = useState<boolean>(false);
+  _id }: CourseCardProps) => {
+  const [isCourseProgressModal, setIsCourseProgressModal] =
+    useState<boolean>(false);
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
-
+  const user = useUserContext();
   const courseLink = "/course/" + _id
+  const { setCoursesUserDefault } = useUserCoursesContext();
+  const { setCoursesUserFull } = useUserCoursesContext();
+  const { setWorkoutUsers } = useUserCoursesContext();
+  async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    if (user?.uid) {
+      try {
+        await fetchDataUser(
+          user?.uid,
+          course._id,
+          setCoursesUserDefault,
+          setCoursesUserFull
+        );
+        console.log("курс добавлен");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  }
   const handleAdd = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     onAdd(course._id);
@@ -38,10 +57,11 @@ export const CourseCard = ({
     e.preventDefault();
     onRemove(course._id);
   };
-
-  const click = () => {
-    setClickModal(true);
+  const handleClickModal = () => {
+    setIsCourseProgressModal(true);
   };
+
+  
   useEffect(() => {
     const fetchImg = async () => {
       try {
@@ -54,13 +74,23 @@ export const CourseCard = ({
     };
     fetchImg();
   }, []);
+
+  useEffect(() => {
+    const userData = async () => {
+      if (user && course) {
+        const getWorkout = await fetchGetWorkoutsCourse(user.uid, course._id);
+        setWorkoutUsers(getWorkout);
+      }
+    };
+    userData();
+  }, [user, course]);
   return (
     <Link to={courseLink}>
-    <div className="w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg cursor-pointer ">
+    <div  className={`cursor-pointer ${isCourseProgressModal ? "" : "hover:scale-[1.03] hover:ease-in duration-[300ms] "} w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white gap-[10px] mt-[24px] rounded-[30px] shadow-lg `}>
       {isUserCourse ? (
         <div className="flex justify-end " onClick={handleRemove}>
           <svg
-            className="absolute mx-[18px] mt-[18px] mb-[12px] cursor-pointer "
+            className="absolute mx-[18px] mt-[18px] mb-[12px] cursor-pointer hover:scale-105"
             width="28"
             height="28"
             viewBox="0 0 28 28"
@@ -78,7 +108,7 @@ export const CourseCard = ({
       ) : (
         <div className="flex justify-end " onClick={handleAdd}>
           <svg
-            className="absolute mx-[18px] mt-[18px] mb-[12px] cursor-pointer "
+            className="hover:scale-105 cursor-pointer absolute mx-[18px] my-[12px] mt-[18px]"
             width="28"
             height="28"
             viewBox="0 0 28 28"
@@ -109,10 +139,7 @@ export const CourseCard = ({
         <img src={url} className="rounded-[30px] w-[360px] h-[325px]" />
       )}
 
-      <div
-        onClick={click}
-        className="flex flex-col gap-[10px] mt-[10px] pl-[10px] pr-[10px]"
-      >
+      <div className="flex flex-col gap-[10px] mt-[10px] pl-[10px] pr-[10px]">
         <div className="font-medium text-[32px] leading-[35px]">
           {course.nameRU}
         </div>
@@ -206,13 +233,21 @@ export const CourseCard = ({
               </div>
               <ProgressBar progress={progress} />
             </div>
-            <button className="w-full h-[52px] bg-[#BCEC30] rounded-[46px] mb-[10px]">
+            <button
+              onClick={handleClickModal}
+              className="w-full h-[52px] bg-[#BCEC30] rounded-[46px] mb-[10px] hover:bg-btnHoverGreen active:bg-black active:text-white"
+            >
               {progress == 0 ? "Начать тренировку" : "Продолжить"}
             </button>
           </>
         )}
       </div>
-      {clickModal && <WorkoutModal course={course} />}
+      {isCourseProgressModal && (
+        <WorkoutModal
+          course={course}
+          setClickModal={setIsCourseProgressModal}
+        />
+      )}
     </div>
     </Link>
   );

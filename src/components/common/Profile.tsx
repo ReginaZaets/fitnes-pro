@@ -1,20 +1,35 @@
 import { CourseCard } from "./CourseCard";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   fetchDataUser,
   fetchDeleteCourseUser,
   fetchGetCourses,
   fetchGetCoursesUser,
 } from "../../api/coursesApi";
-import { Course, UserCourse } from "../../types/types";
+import { Course } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
 import { getCourseProgress } from "../../lib/courseProgress";
+import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+import { useState } from "react";
+import ResetPassword from "../popups/ResetPassword";
 
 const Profile = () => {
   const user = useUserContext();
+  const { coursesUserDefault } = useUserCoursesContext();
+  const { coursesUserFull } = useUserCoursesContext();
+  const { isLoadingCourses } = useUserCoursesContext();
+
+  const [isResetPasswordModal, setIsResetPasswordModal] =
+    useState<boolean>(false);
+
+  const handleClickModal = () => {
+    setIsResetPasswordModal(true);
+  };
+
+  //console.log(coursesUserFull);
   // Состояние для хранения курсов пользователя
   const [userCourses, setUserCourses] = useState<Course[]>([]);
   // Состояние для хранения курсов, тренировок и прогресса тренировок пользователя
@@ -72,7 +87,7 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <div className="mb-[80px]">
       <h2 className="text-[24px] font-semibold text-black pb-[20px] sm:pb-10 lg:text-[40px]">
         Профиль
       </h2>
@@ -95,11 +110,17 @@ const Profile = () => {
           </div>
 
           <div className="flex flex-col items-center gap-[10px] sm:flex-row ">
-            <Link to={paths.NEW_PASSWORD_MODAL}>
-              <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]">
-                Изменить пароль
-              </button>
-            </Link>
+            <button
+              onClick={handleClickModal}
+              className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]"
+            >
+              Изменить пароль
+            </button>
+            {isResetPasswordModal && (
+              <ResetPassword
+                setIsResetPasswordModal={setIsResetPasswordModal}
+              />
+            )}
             <Link to={paths.MAIN}>
               <button
                 onClick={logout}
@@ -114,28 +135,44 @@ const Profile = () => {
       <h2 className="text-[24px] lg:text-[40px] font-semibold text-black pt-[24px] pb-[0] sm:pt-[60px] sm:pb-[30px]">
         Мои курсы
       </h2>
-
-      <div className="flex flex-row flex-wrap items-center gap-[40px]">
-        {userCourses.map((course) => {
-          const isUserCourse = userCourses.some(
-            (userCourses) => userCourses._id === course._id
-          );
-          return (
-            <CourseCard
-              key={course._id}
-              course={course}
-              progress={getCourseProgress(
-                course._id,
-                course.workouts,
-                userCoursesData
-              )}
-              isUserCourse={isUserCourse}
-              onAdd={handleAddCourse}
-              onRemove={handleRemoveCourse}
-            />
-          );
-        })}
-      </div>
+      {isLoadingCourses ? (
+        <div className=" flex justify-center items-center">
+          <div
+            className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+        </div>
+      ) : coursesUserFull?.length != 0 ? (
+        <div className="flex flex-row flex-wrap items-center gap-[40px]">
+          {coursesUserDefault &&
+            coursesUserFull &&
+            coursesUserDefault.map((course) => {
+              const isUserCourse = userCourses.some(
+                (userCourses) => userCourses._id === course._id
+              );
+              return (
+                <CourseCard
+                  key={course._id}
+                  course={course}
+                  progress={getCourseProgress(
+                    course._id,
+                    course.workouts,
+                    userCoursesData
+                  )}
+                  isUserCourse={isUserCourse}
+                  onAdd={handleAddCourse}
+                  onRemove={handleRemoveCourse}
+                />
+              );
+            })}
+        </div>
+      ) : (
+        <p className="text-[18px] font-normal">Нет приобретенных курсов</p>
+      )}
       <div className="flex justify-end">
         <button
           onClick={() => {

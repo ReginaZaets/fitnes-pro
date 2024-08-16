@@ -1,12 +1,17 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { updatePassword } from "firebase/auth";
-import { paths } from "../../lib/paths";
 import { auth } from "../../api/firebaseConfig";
-
-const ResetPassword = () => {
-  const navigate = useNavigate();
+import { useOnClickOutside } from "../../context/hooks/useOnClickToCloseModal";
+type PropsModal = {
+  setIsResetPasswordModal: (value: boolean) => void;
+};
+const ResetPassword = ({ setIsResetPasswordModal }: PropsModal) => {
+  const modalRef = useRef<HTMLDivElement>(null);
   const user = auth.currentUser;
+
+  useOnClickOutside(modalRef, () => {
+    setIsResetPasswordModal(false);
+  });
 
   const [formData, setFormData] = useState({
     password: "",
@@ -43,10 +48,7 @@ const ResetPassword = () => {
   const getInputColor = (inputName: string) => {
     if (error) {
       const ErrorLowerCase = error.toLowerCase();
-      if (
-        inputName === "password" &&
-        ErrorLowerCase.includes("пароль")
-      ) {
+      if (inputName === "password" && ErrorLowerCase.includes("пароль")) {
         return "border-[#DB0030]";
       } else if (
         inputName === "repeatPassword" &&
@@ -65,8 +67,7 @@ const ResetPassword = () => {
       const newPassword = formData.password;
       updatePassword(user, newPassword)
         .then(() => {
-          setError("Пароль изменен");
-          navigate(paths.PROFILE);
+          setIsResetPasswordModal(false);
         })
         .catch((error) => {
           setError(error.message);
@@ -75,14 +76,21 @@ const ResetPassword = () => {
       setError("Не удалось изменить пароль: пользователь не найден");
     }
   }
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
-      <div className="absolute bg-white border w-auto h-auto shadow-customShadow rounded-radiusModal p-10">
-        <img
-          src="/images/logo.svg"
-          alt="imageLogo"
-          className="w-logosigninModalW h-logosigninModalH ml-[30px] "
-        />
+      <div
+        ref={modalRef}
+        className="absolute bg-white border xl:p-10 px-8 py-10 w-auto h-auto shadow-customShadow rounded-radiusModal p-10"
+      >
+        <img src="/images/logo.svg" alt="imageLogo" className="ml-[30px] " />
         <div className="flex flex-col items-center mt-12 gap-2.5">
           <input
             className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("password")}`}

@@ -1,9 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { paths } from "../../lib/paths";
+import { useUserContext } from "../../context/hooks/useUser";
 
 export const LayoutAuth = () => {
-  // временная авторизацуия на моках
-  const auth = true;
+  // получаем пользователя из контекста
+  const user = useUserContext();
   // если есть авторизация, тогда показываем страницу, если нет - редирект на главную
-  return auth ? <Outlet /> : <Navigate to={paths.MAIN} />;
+  return user ? <Outlet /> : <Navigate to={paths.MAIN} />;
 };
