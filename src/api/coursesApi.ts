@@ -82,9 +82,7 @@ export const fetchGetExercisesWorkoutUser = async (
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       exercises = snapshot.val();
-    } else {
-      console.warn("В тренировки нет упражнений");
-    }
+    } 
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
   }
