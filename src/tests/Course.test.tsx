@@ -35,6 +35,7 @@ describe("course test", () => {
                   onAdd={() => {}}
                   onRemove={() => {}}
                   _id={course._id}
+                  openSigninModal={() => {}}
                 />
               </>
             }
