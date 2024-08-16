@@ -129,6 +129,7 @@ const SigninModal = ({
             onChange={handleChange}
             value={formData.email}
             placeholder="Логин"
+            data-testid="email"
           />
           <input
             className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("password")}`}
@@ -137,6 +138,7 @@ const SigninModal = ({
             onChange={handleChange}
             value={formData.password}
             placeholder="Пароль"
+            data-testid="password"
           />
           {error ? (
             <p
@@ -154,6 +156,7 @@ const SigninModal = ({
         </div>
         <div className="flex items-center flex-col gap-2.5 mt-btnModalMargin">
           <button
+            data-testid="signin"
             onClick={handleLogin}
             className="w-inputWidth h-inputHeight border rounded-small bg-btnColor text-lg font-normal text-black leading-textHeight hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]"
           >
