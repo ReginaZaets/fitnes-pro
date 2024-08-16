@@ -20,7 +20,7 @@ const course: Course = {
 };
 
 describe("course test", () => {
-  test("click on course", async () => {
+  test("click on course", () => {
     render(
       <MemoryRouter initialEntries={[`/`]}>
         <Routes>
@@ -46,7 +46,7 @@ describe("course test", () => {
     );
     const courseCard = screen.getByTestId("course");
     fireEvent.click(courseCard);
-    await waitFor(() => {
+    waitFor(() => {
       expect(screen.getByText("Направления")).toBeInTheDocument();
     });
   });

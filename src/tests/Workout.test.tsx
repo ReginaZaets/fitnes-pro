@@ -51,23 +51,22 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useLocation: jest.fn(),
 }));
+const workout: Workout = {
+  _id: "3yvozj",
+  exercises: [],
+  name: "Утренняя практика / Йога на каждый день / 1 день / Алексей Казубский",
+  video: "https://www.youtube.com/embed/oqe98Dxivns",
+};
 const course: Course = {
-  _id: "6i67sm",
-  nameEN: "StepAirobic",
-  nameRU: "Степ-аэробика",
+  _id: "ab1c3f",
+  nameEN: "Yoga",
+  nameRU: "Йога",
   order: 4,
-  workouts: [],
-  img: "course_img/cardImg4.png",
+  workouts: ["3yvozj", "hfgxlo"],
+  img: "course_img/cardImg1.png",
   description: "",
   directions: [],
   fitting: [],
-};
-
-const workout: Workout = {
-  _id: "e9ghsb",
-  exercises: [],
-  name: "Урок 1. Основы",
-  video: "https://www.youtube.com/embed/oK2mdodtPY4",
 };
 
 const mockUseLocation = (pathname: string) => {
@@ -84,11 +83,9 @@ describe("workout test", () => {
             path="/profile"
             element={
               <UserProvider>
-                <User />
-                <Profile />
                 <CourseCard
                   course={course}
-                  progress={0}
+                  progress={10}
                   onAdd={() => {}}
                   onRemove={() => {}}
                   _id={course._id}
@@ -108,7 +105,9 @@ describe("workout test", () => {
       fireEvent.click(screen.getByTestId("workout"));
     });
     expect(screen.getByTestId("workout")).toBeInTheDocument();
-    fireEvent.click(screen.getByTestId("workoutUser"));
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId("workoutUser"));
+    });
 
     // // // Обертываем в act
     // // await act(async () => {

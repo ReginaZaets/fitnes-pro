@@ -55,7 +55,9 @@ const WorkoutModal = ({
         <h1 className="text-[32px] leading-[35.2px] xl:ml-[17px] xl:w-[346px] w-[283px]">
           Выберите тренировку
         </h1>
-        <div className=" xl:mt-[48px] mt-[34px] w-auto h-auto  xl:w-[380px] xl:h-[400px] overflow-y-auto">
+        <div
+          className=" xl:mt-[48px] mt-[34px] w-auto h-auto  xl:w-[380px] xl:h-[400px] overflow-y-auto"
+        >
           {workoutUsers &&
             workoutUsers.map((item) => {
               return (

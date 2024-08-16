@@ -1,5 +1,9 @@
 import { CourseCard } from "./CourseCard";
-import { fetchDataUser, fetchDeleteCourseUser, fetchGetCourses } from "../../api/coursesApi";
+import {
+  fetchDataUser,
+  fetchDeleteCourseUser,
+  fetchGetCourses,
+} from "../../api/coursesApi";
 import { useUserContext } from "../../context/hooks/useUser";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 import { useEffect, useState } from "react";
@@ -10,7 +14,12 @@ import ResetPasswordEmail from "../popups/ResetPasswordEmail";
 
 export const Main = () => {
   const [allCourses, setAllCourses] = useState<Course[]>([]);
-  const { setCoursesUserFull, setCoursesUserDefault, coursesUserDefault, setIsLoadingCourses } = useUserCoursesContext();
+  const {
+    setCoursesUserFull,
+    setCoursesUserDefault,
+    coursesUserDefault,
+    setIsLoadingCourses,
+  } = useUserCoursesContext();
   const user = useUserContext();
   const [isSigninModal, setIsSigninModal] = useState<boolean>(false);
   const [isSignupModal, setIsSignupModal] = useState<boolean>(false);
@@ -55,6 +64,7 @@ export const Main = () => {
       }
     }
   };
+
   const openSigninModal = () => {
     setIsSigninModal(true);
     setIsSignupModal(false);
@@ -107,7 +117,7 @@ export const Main = () => {
                 onAdd={handleAddCourse}
                 onRemove={handleRemoveCourse}
                 _id={course._id}
-                openSigninModal={openSigninModal}
+                openSigninModal={() => {}}
               />
             );
           })}
