@@ -12,7 +12,6 @@ const WorkoutItem = ({
   courseID,
   workoutID,
 }: PropsWorkoutItem) => {
-
   const parts = title.split("/");
 
   const firstParts = parts[0] || "";
@@ -26,7 +25,9 @@ const WorkoutItem = ({
       />
       <div className="flex flex-col justify-center ml-[10px] w-[223px] h-auto  xl:w-[354px] xl:h-[74px]  cursor-pointer">
         <Link to={`/profile/${courseID}/workout/${workoutID}`}>
-          <h1 className="text-lg xl:text-2xl leading-[19.8px] xl:leading-[26.4px]">{firstParts}</h1>
+          <span className="text-lg xl:text-2xl leading-[19.8px] xl:leading-[26.4px]">
+            {firstParts}
+          </span>
           {secondParts && (
             <p className="text-sm xl:text-base leading-[15.4px] xl:leading-[17.6px] mt-[10px]">
               {secondParts}

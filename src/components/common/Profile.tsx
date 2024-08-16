@@ -56,7 +56,6 @@ const Profile = () => {
             setCoursesUserFull
           );
           setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
-          console.log("Курс добавлен");
         }
       } catch (error: any) {
         console.log(error.message);
@@ -71,7 +70,6 @@ const Profile = () => {
         setCoursesUserDefault((prev) =>
           prev.filter((course) => course._id !== courseId)
         );
-        console.log("Курс удален");
       } catch (error: any) {
         console.log(error.message);
       }

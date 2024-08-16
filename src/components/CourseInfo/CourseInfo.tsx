@@ -133,8 +133,6 @@ const CourseInfo = () => {
     }
   }, [message]);
 
-  console.log(isLoading);
-
   if (isLoading) {
     return (
       <main className="flex justify-center mb-[131px]">

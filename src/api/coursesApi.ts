@@ -18,9 +18,7 @@ export const fetchGetCourses = async () => {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       data = Object.values(snapshot.val());
-    } else {
-      console.warn("Нет доступных курсов");
-    }
+    } 
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
   }
@@ -36,9 +34,7 @@ export const fetchGetCourse = async (courseID: string) => {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       data = snapshot.val();
-    } else {
-      console.warn("Нет доступных курсов");
-    }
+    } 
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
   }
@@ -56,7 +52,6 @@ export const fetchGetCoursesUser = async (userID: string) => {
     if (snapshot.exists()) {
       userCourses = snapshot.val();
       const allCourses = await fetchGetCourses();
-      console.log(allCourses)
       // Фильтрация курсов по ID
       filteredCourses = allCourses.filter((course) =>
         Object.keys(userCourses).some((userCourse) => userCourse === course._id)
@@ -87,7 +82,6 @@ export const fetchGetExercisesWorkoutUser = async (
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       exercises = snapshot.val();
-      //console.log(exercises);
     } else {
       console.warn("В тренировки нет упражнений");
     }
@@ -188,9 +182,7 @@ export const fetchGetWorkouts = async () => {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       data = snapshot.val();
-    } else {
-      console.warn("Нет доступных тренировок");
-    }
+    } 
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
   }
@@ -210,9 +202,7 @@ export const fetchGetWorkoutsCourse = async (
     if (snapshot.exists()) {
       data = Object.values(snapshot.val());
       data.sort((a, b) => a.order - b.order);
-    } else {
-      console.warn("Нет доступных тренировок");
-    }
+    } 
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
   }
