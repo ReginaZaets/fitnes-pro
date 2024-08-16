@@ -1,13 +1,13 @@
 import { CourseCard } from "./CourseCard";
-import { fetchDataUser, fetchDeleteCourseUser } from "../../api/coursesApi";
+import { fetchDataUser, fetchDeleteCourseUser, fetchGetCourses } from "../../api/coursesApi";
 import { useUserContext } from "../../context/hooks/useUser";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+import { useEffect, useState } from "react";
+import { Course } from "../../types/types";
 
 export const Main = () => {
-  const { allCourses } = useUserCoursesContext();
-  const { setCoursesUserDefault } = useUserCoursesContext();
-  const { setCoursesUserFull } = useUserCoursesContext();
-  const { coursesUserDefault } = useUserCoursesContext();
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
+  const { setCoursesUserFull, setCoursesUserDefault, coursesUserDefault, setIsLoadingCourses } = useUserCoursesContext();
   const user = useUserContext();
 
   const handleAddCourse = async (courseId: string) => {
@@ -47,7 +47,19 @@ export const Main = () => {
       }
     }
   };
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const data = await fetchGetCourses();
+        setAllCourses(data);
+        setIsLoadingCourses(false);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
+    fetchCourses();
+  }, [setIsLoadingCourses]);
   return (
     <>
       <div className="flex gap-[5px] font-normal  text-2xl items-center my-4 w-full">
@@ -59,9 +71,9 @@ export const Main = () => {
           <p>Измени своё тело за полгода!</p>
         </div>
       </div>
-      {allCourses ? (
+      {allCourses?.length !== 0 ? (
         <div className="flex flex-row flex-wrap items-center gap-[40px]">
-          {allCourses.map((course) => {
+          {allCourses?.map((course) => {
             const isUserCourse = coursesUserDefault?.some(
               (courseUserDefault) => courseUserDefault._id === course._id
             );

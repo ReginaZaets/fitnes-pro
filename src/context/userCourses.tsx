@@ -64,19 +64,6 @@ export function UserCoursesProvider({ children }: UserProviderProps) {
     });
     return () => exitUser();
   }, []);
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const data = await fetchGetCourses();
-        setAllCourses(data);
-        setIsLoadingCourses(false);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchCourses();
-  }, []);
   return (
     <UserCoursesContext.Provider value={value}>
       {children}
