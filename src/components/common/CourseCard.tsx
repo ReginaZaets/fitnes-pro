@@ -16,6 +16,7 @@ type CourseCardProps = {
   onAdd: (courseId: string) => void;
   onRemove: (courseId: string) => void;
   _id?: string;
+  openSigninModal: (value: boolean) => void;
 };
 export const CourseCard = ({
   course,
@@ -24,6 +25,7 @@ export const CourseCard = ({
   onAdd,
   onRemove,
   _id,
+  openSigninModal,
 }: CourseCardProps) => {
   const [isCourseProgressModal, setIsCourseProgressModal] =
     useState<boolean>(false);
@@ -73,6 +75,7 @@ export const CourseCard = ({
   return (
     <Link to={courseLink}>
       <div
+        data-testid="course"
         className={`cursor-pointer ${
           isCourseProgressModal
             ? ""
@@ -104,7 +107,14 @@ export const CourseCard = ({
         ) : (
           <div
             className="flex justify-end "
-            onClick={handleAdd}
+            onClick={(e) => {
+              e.preventDefault();
+              if (!user) {
+                openSigninModal(true);
+              } else {
+                handleAdd(e);
+              }
+            }}
             title="Добавить курс"
           >
             <svg
@@ -234,6 +244,7 @@ export const CourseCard = ({
                 <ProgressBar progress={progress} />
               </div>
               <button
+                data-testid="workout"
                 onClick={handleClickModal}
                 className="w-full h-[52px] bg-[#BCEC30] rounded-[46px] mb-[10px] hover:bg-btnHoverGreen active:bg-black active:text-white"
               >

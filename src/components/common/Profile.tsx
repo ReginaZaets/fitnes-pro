@@ -157,6 +157,7 @@ const Profile = () => {
                   onAdd={handleAddCourse}
                   onRemove={handleRemoveCourse}
                   _id={course._id}
+                  openSigninModal={() => {}}
                 />
               );
             })}

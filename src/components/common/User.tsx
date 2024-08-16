@@ -17,7 +17,7 @@ const User = () => {
   const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
     useState<boolean>(false);
   const [email, setEmail] = useState("");
-  
+
   const ToggleDropdown = () => setIsOpen((prevState) => !prevState);
   const clickExit = async () => {
     setIsOpen(false);
@@ -38,7 +38,8 @@ const User = () => {
     setIsSigninModal(false);
   };
 
-  const { setCoursesUserDefault, setCoursesUserFull, setIsLoadingCourses } = useUserCoursesContext();
+  const { setCoursesUserDefault, setCoursesUserFull, setIsLoadingCourses } =
+    useUserCoursesContext();
 
   // Мемоизируем функции
   const fetchCourses = useCallback(async () => {
@@ -58,6 +59,7 @@ const User = () => {
     <div className="flex gap-x-3 items-center relative">
       {!user && (
         <button
+          data-testid="signinUser"
           onClick={openSigninModal}
           className="bg-btnColor  hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small w-[83px] h-[36px] sm:w-[103px] sm:h-[52px] text-black text-lg"
         >
