@@ -8,6 +8,9 @@ import { useUserContext } from "../../context/hooks/useUser";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 import { useEffect, useState } from "react";
 import { Course } from "../../types/types";
+import ResetPasswordEmail from "../popups/ResetPasswordEmail";
+import SignupModal from "../popups/SignupModal";
+import SigninModal from "../popups/SigninModal";
 
 export const Main = () => {
   const [allCourses, setAllCourses] = useState<Course[]>([]);
@@ -18,7 +21,26 @@ export const Main = () => {
     setIsLoadingCourses,
   } = useUserCoursesContext();
   const user = useUserContext();
+  const [isSigninModal, setIsSigninModal] = useState<boolean>(false);
+  const [isSignupModal, setIsSignupModal] = useState<boolean>(false);
+  const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
+    useState<boolean>(false);
+  const [email, setEmail] = useState("");
+  
 
+  const openSigninModal = () => {
+    setIsSigninModal(true);
+    setIsSignupModal(false);
+  };
+  const openSignupModal = () => {
+    setIsSignupModal(true);
+    setIsSigninModal(false);
+  };
+  const openResetPasswordModal = (email: string) => {
+    setEmail(email);
+    setIsResetPasswordEmailModal(true);
+    setIsSigninModal(false);
+  };
   const handleAddCourse = async (courseId: string) => {
     if (user?.uid) {
       try {
@@ -95,6 +117,7 @@ export const Main = () => {
                 onAdd={handleAddCourse}
                 onRemove={handleRemoveCourse}
                 _id={course._id}
+                openSigninModal={openSigninModal}
               />
             );
           })}
@@ -121,6 +144,25 @@ export const Main = () => {
           Наверх ↑
         </button>
       </section>
+      {isSigninModal && (
+        <SigninModal
+          setIsSigninModal={setIsSigninModal}
+          openSignupModal={openSignupModal}
+          openResetPasswordModal={openResetPasswordModal}
+        />
+      )}
+      {isSignupModal && (
+        <SignupModal
+          setIsSignupModal={setIsSignupModal}
+          openSigninModal={openSigninModal}
+        />
+      )}
+      {isResetPasswordEmailModal && (
+        <ResetPasswordEmail
+          email={email}
+          setIsResetPasswordEmailModal={setIsResetPasswordEmailModal}
+        />
+      )}
     </>
   );
 };
