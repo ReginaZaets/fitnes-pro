@@ -1,8 +1,5 @@
 import { CourseCard } from "./CourseCard";
-import {
-  fetchDataUser,
-  fetchDeleteCourseUser
-} from "../../api/coursesApi";
+import { fetchDataUser, fetchDeleteCourseUser } from "../../api/coursesApi";
 import { useUserContext } from "../../context/hooks/useUser";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 
@@ -57,7 +54,7 @@ export const Main = () => {
         <div className=" w-[947px] h-[120px] text-black text-[60px] font-medium leading-[60px] text-left">
           Начните заниматься спортом и улучшите качество жизни
         </div>
-        <div className="relative max-w-xs p-3 bg-[#BCEC30] text-black rounded-lg w-[288px] flex items-center ">
+        <div className="relative max-w-xs p-3 bg-[#BCEC30] text-black rounded-lg w-[288px] items-center hidden st:flex">
           <div className="absolute top-[88%]  rotate-45 w-0 h-0 border-l-[10px] border-r-[10px] border-t-[30px] border-l-transparent border-r-transparent border-t-[#BCEC30] "></div>{" "}
           <p>Измени своё тело за полгода!</p>
         </div>
