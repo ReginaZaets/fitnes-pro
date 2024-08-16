@@ -2,7 +2,6 @@ import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import { Course, UserCourse, UserCourseWorkout } from "../types/types";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../api/firebaseConfig";
-import { fetchGetCourses } from "../api/coursesApi";
 
 export const UserCoursesContext = createContext<{
   coursesUserDefault: Course[] | null;
