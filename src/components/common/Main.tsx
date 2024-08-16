@@ -1,13 +1,22 @@
 import { CourseCard } from "./CourseCard";
-import { fetchDataUser, fetchDeleteCourseUser } from "../../api/coursesApi";
+import {
+  fetchDataUser,
+  fetchDeleteCourseUser,
+  fetchGetCourses,
+} from "../../api/coursesApi";
 import { useUserContext } from "../../context/hooks/useUser";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+import { useEffect, useState } from "react";
+import { Course } from "../../types/types";
 
 export const Main = () => {
-  const { allCourses } = useUserCoursesContext();
-  const { setCoursesUserDefault } = useUserCoursesContext();
-  const { setCoursesUserFull } = useUserCoursesContext();
-  const { coursesUserDefault } = useUserCoursesContext();
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
+  const {
+    setCoursesUserFull,
+    setCoursesUserDefault,
+    coursesUserDefault,
+    setIsLoadingCourses,
+  } = useUserCoursesContext();
   const user = useUserContext();
 
   const handleAddCourse = async (courseId: string) => {
@@ -47,11 +56,23 @@ export const Main = () => {
       }
     }
   };
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const data = await fetchGetCourses();
+        setAllCourses(data);
+        setIsLoadingCourses(false);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
+    fetchCourses();
+  }, [setIsLoadingCourses]);
   return (
     <>
-      <div className="flex gap-[5px] font-normal  text-2xl items-center my-4 w-full">
-        <div className=" w-[947px] h-[120px] text-black text-[60px] font-medium leading-[60px] text-left">
+      <div className="flex gap-[5px] font-normal text-2xl items-center my-4 w-full mb-[50px]">
+        <div className=" w-[947px] min-h-[120px] text-black md:text-[60px]  sm:text-[45px] text-[32px] font-medium leading-[32px] sm:leading-[45px]   md:leading-[60px] text-left ">
           Начните заниматься спортом и улучшите качество жизни
         </div>
         <div className="relative max-w-xs p-3 bg-[#BCEC30] text-black rounded-lg w-[288px] items-center hidden st:flex">
@@ -59,9 +80,9 @@ export const Main = () => {
           <p>Измени своё тело за полгода!</p>
         </div>
       </div>
-      {allCourses ? (
-        <div className="flex flex-row flex-wrap items-center gap-[40px]">
-          {allCourses.map((course) => {
+      {allCourses?.length !== 0 ? (
+        <div className="flex flex-row flex-wrap items-center justify-center st:justify-start w-full gap-[40px]">
+          {allCourses?.map((course) => {
             const isUserCourse = coursesUserDefault?.some(
               (courseUserDefault) => courseUserDefault._id === course._id
             );
@@ -90,7 +111,7 @@ export const Main = () => {
           </div>
         </div>
       )}
-      <section className="mt-[20px] mb-[20px] flex justify-center">
+      <section className="mt-[20px] mb-[20px] flex justify-end md:justify-center ">
         <button
           onClick={() => {
             window.scrollTo(0, 0);

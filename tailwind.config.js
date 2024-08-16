@@ -7,6 +7,9 @@ export default {
         itemIcon: 'url("/icones/iconDirections.svg")',
       },
       screens: {
+        m: "375px",
+        m1: "400px",
+        m2: "420px",
         sm: "480px",
         md: "768px",
         lg: "976px",

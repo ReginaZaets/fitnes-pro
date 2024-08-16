@@ -56,13 +56,12 @@ const MyProgressModal = ({
         onProgressUpdated();
         toggleModalAddProgress();
         setIsWorkoutProgressModalDone(true);
-        isDoneWorkout &&
-          fetchAddProgressWorkoutCourseUser(
-            user?.uid,
-            courseID,
-            workoutID,
-            isDoneWorkout
-          );
+        fetchAddProgressWorkoutCourseUser(
+          user?.uid,
+          courseID,
+          workoutID,
+          isDoneWorkout
+        );
       });
     }
   };
