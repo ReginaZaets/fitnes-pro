@@ -66,13 +66,13 @@ button {
 
 @media (max-width: 375px) {
   header {
-    max-width: 343px;
+    width: 343px;
     margin: 0 auto;
     padding: 0 16px;
   }
 
   main {
-    max-width: 343px;
+    width: 343px;
     margin: 0 auto;
     padding: 0 16px;
   }
