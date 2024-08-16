@@ -22,7 +22,7 @@ const course: Course = {
 describe("course test", () => {
   test("click on course", async () => {
     render(
-      <MemoryRouter initialEntries={[`/`]}> 
+      <MemoryRouter initialEntries={[`/`]}>
         <Routes>
           <Route
             path="/"
@@ -35,6 +35,7 @@ describe("course test", () => {
                   onAdd={() => {}}
                   onRemove={() => {}}
                   _id={course._id}
+                  openSigninModal={() => {}}
                 />
               </>
             }
