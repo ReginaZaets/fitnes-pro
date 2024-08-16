@@ -73,6 +73,7 @@ export const CourseCard = ({
   return (
     <Link to={courseLink}>
       <div
+        data-testid="course"
         className={`cursor-pointer ${
           isCourseProgressModal
             ? ""

@@ -4,19 +4,49 @@ import "@testing-library/jest-dom";
 import { Main } from "../components/common/Main";
 import CourseInfo from "../components/CourseInfo/CourseInfo";
 import { CourseCard } from "../components/common/CourseCard";
+import { Course } from "../types/types";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 
-const course = "6i67sm"
+const course: Course = {
+  _id: "6i67sm",
+  nameEN: "StepAirobic",
+  nameRU: "Степ-аэробика",
+  order: 4,
+  workouts: [],
+  img: "course_img/cardImg4.png",
+  description: "",
+  directions: [],
+  fitting: [],
+};
 
 describe("course test", () => {
-  test("click on button signin", async () => {
+  test("click on course", async () => {
     render(
-      <>
-        <Main />
-        {/* <CourseCard course={course} progress={0}/> */}
-        <CourseInfo />
-      </>
+      <MemoryRouter initialEntries={[`/`]}> 
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Main />
+                <CourseCard
+                  course={course}
+                  progress={0}
+                  onAdd={() => {}}
+                  onRemove={() => {}}
+                  _id={course._id}
+                />
+              </>
+            }
+          />
+          <Route path={`/course/${course._id}`} element={<CourseInfo />} />
+        </Routes>
+      </MemoryRouter>
     );
-
-  
+    const courseCard = screen.getByTestId("course");
+    fireEvent.click(courseCard);
+    await waitFor(() => {
+      expect(screen.getByText("Направления")).toBeInTheDocument();
+    });
   });
 });
