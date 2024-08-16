@@ -166,7 +166,7 @@ const CourseInfo = () => {
         </div>
       </section>
       <section className="  flex my-[142px] ">
-        <div className="w-full p-[40px] rounded-[30px] z-50  bg-white flex flex-col items-center z-40 md:z-0 md:justify-start md:items-start">
+        <div className="shadow-lg w-full p-[40px] rounded-[30px] z-50  bg-white flex flex-col items-center z-40 md:z-0 md:justify-start md:items-start">
           <p className=" align-center z-50 leading-none text-[32px] md:text-[60px] text-black font-bold ">
             Начни путь <br />к новому телу
           </p>
