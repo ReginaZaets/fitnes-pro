@@ -2,8 +2,8 @@ import { describe, test } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Main } from "../components/common/Main/Main";
-import CourseInfo from "../components/CourseInfo/CourseInfo";
-import { CourseCard } from "../components/common/CourseCard";
+import { CourseCard } from "../components/common/CourseCard/CourseCard";
+import CourseInfo from "../components/common/CourseInfo/CourseInfo";
 import { Course } from "../types/types";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
