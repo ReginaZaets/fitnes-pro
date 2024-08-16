@@ -11,6 +11,7 @@ import { Course } from "../../types/types";
 import ResetPasswordEmail from "../popups/ResetPasswordEmail";
 import SignupModal from "../popups/SignupModal";
 import SigninModal from "../popups/SigninModal";
+import { ButtonToTop } from "./ButtonToTop";
 
 export const Main = () => {
   const [allCourses, setAllCourses] = useState<Course[]>([]);
@@ -26,7 +27,6 @@ export const Main = () => {
   const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
     useState<boolean>(false);
   const [email, setEmail] = useState("");
-  
 
   const openSigninModal = () => {
     setIsSigninModal(true);
@@ -93,7 +93,9 @@ export const Main = () => {
   }, [setIsLoadingCourses]);
   return (
     <>
-      <div className="flex gap-[5px] font-normal text-2xl items-center my-4 w-full mb-[50px]">
+      <div
+        className="flex gap-[5px] font-normal text-2xl items-center my-4 w-full mb-[50px]"
+      >
         <div className=" w-[947px] min-h-[120px] text-black md:text-[60px]  sm:text-[45px] text-[32px] font-medium leading-[32px] sm:leading-[45px]   md:leading-[60px] text-left ">
           Начните заниматься спортом и улучшите качество жизни
         </div>
@@ -135,14 +137,7 @@ export const Main = () => {
         </div>
       )}
       <section className="mt-[20px] mb-[20px] flex justify-end md:justify-center ">
-        <button
-          onClick={() => {
-            window.scrollTo(0, 0);
-          }}
-          className="bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center"
-        >
-          Наверх ↑
-        </button>
+       <ButtonToTop/>
       </section>
       {isSigninModal && (
         <SigninModal
