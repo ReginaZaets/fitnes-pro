@@ -1,4 +1,4 @@
-import { exerciseProgress } from "../../lib/exerciseProgress";
+import { exerciseProgress } from "../../../lib/exerciseProgress";
 
 type ExerciseItem = {
   name: string;

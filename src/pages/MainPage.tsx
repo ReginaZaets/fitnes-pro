@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Main } from "../components/common/Main";
+import { Main } from "../components/common/Main/Main";
 const MainPage = () => {
   return (
     <>
