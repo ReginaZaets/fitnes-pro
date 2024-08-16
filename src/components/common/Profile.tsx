@@ -1,26 +1,86 @@
 import { CourseCard } from "./CourseCard";
-
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
-import { useUserContext } from "../../context/hooks/useUser";
-import { useEffect, useState } from "react";
-import { fetchGetCoursesUser } from "../../api/coursesApi";
+import { useEffect } from "react";
+import {
+  fetchDataUser,
+  fetchDeleteCourseUser,
+  fetchGetCourses,
+} from "../../api/coursesApi";
 import { Course } from "../../types/types";
+import { useUserContext } from "../../context/hooks/useUser";
+import { logout } from "../../api/authUsersApi";
+import { getCourseProgress } from "../../lib/courseProgress";
+import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
+import { useState } from "react";
+import ResetPassword from "../popups/ResetPassword";
 
 const Profile = () => {
-  const { user, logout } = useUserContext();
-  const [coursesUser, setCoursesUser] = useState<Course[]>([]);
+  const user = useUserContext();
+  const { coursesUserDefault } = useUserCoursesContext();
+  const { coursesUserFull } = useUserCoursesContext();
+  const { isLoadingCourses } = useUserCoursesContext();
+  const { allCourses } = useUserCoursesContext();
+  const { setCoursesUserDefault } = useUserCoursesContext();
+  const { setCoursesUserFull } = useUserCoursesContext();
+
+  const [isResetPasswordModal, setIsResetPasswordModal] =
+    useState<boolean>(false);
+
+  const handleClickModal = () => {
+    setIsResetPasswordModal(true);
+  };
+
+  const [courses, setCourses] = useState<Course[]>([]);
 
   useEffect(() => {
-    if (user) {
-      fetchGetCoursesUser(user._uid).then(({ filteredCourses }) => {
-        setCoursesUser(filteredCourses);
-      });
+    const fetchCourses = async () => {
+      try {
+        const data = await fetchGetCourses();
+        setCourses(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+  const handleAddCourse = async (courseId: string) => {
+    if (user?.uid) {
+      try {
+        const courseToAdd = courses.find((course) => course._id === courseId);
+        if (courseToAdd) {
+          await fetchDataUser(
+            user.uid,
+            courseId,
+            setCoursesUserDefault,
+            setCoursesUserFull
+          );
+          setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
+          console.log("Курс добавлен");
+        }
+      } catch (error: any) {
+        console.log(error.message);
+      }
     }
-  }, [user]);
+  };
+
+  const handleRemoveCourse = async (courseId: string) => {
+    if (user?.uid) {
+      try {
+        await fetchDeleteCourseUser(user.uid, courseId);
+        setCoursesUserDefault((prev) =>
+          prev.filter((course) => course._id !== courseId)
+        );
+        console.log("Курс удален");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  };
 
   return (
-    <div>
+    <div className="mb-[80px]">
       <h2 className="text-[24px] font-semibold text-black pb-[20px] sm:pb-10 lg:text-[40px]">
         Профиль
       </h2>
@@ -35,7 +95,7 @@ const Profile = () => {
         <div className="flex flex-col justify-between">
           <div className="self-start">
             <p className="text-[24px] sm:text-[32px] font-semibold pb-[20px] sm:pb-[30px]">
-              {user?.name}
+              {user?.displayName}
             </p>
             <p className="text-[18px] font-normal pb-[30px]">
               Логин: {user?.email}
@@ -43,11 +103,17 @@ const Profile = () => {
           </div>
 
           <div className="flex flex-col items-center gap-[10px] sm:flex-row ">
-            <Link to={paths.NEW_PASSWORD_MODAL}>
-              <button className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]">
-                Изменить пароль
-              </button>
-            </Link>
+            <button
+              onClick={handleClickModal}
+              className="bg-btnColor hover:bg-btnHoverGreen active:bg-black active:text-white rounded-small h-[52px] sm:w-[192px] w-[248px] text-black text-[18px]"
+            >
+              Изменить пароль
+            </button>
+            {isResetPasswordModal && (
+              <ResetPassword
+                setIsResetPasswordModal={setIsResetPasswordModal}
+              />
+            )}
             <Link to={paths.MAIN}>
               <button
                 onClick={logout}
@@ -62,12 +128,54 @@ const Profile = () => {
       <h2 className="text-[24px] lg:text-[40px] font-semibold text-black pt-[24px] pb-[0] sm:pt-[60px] sm:pb-[30px]">
         Мои курсы
       </h2>
-
-      {/* Здесь будут карточки */}
-      <div className="flex flex-row flex-wrap items-center gap-[40px]">
-        {coursesUser.map((course) => (
-          <CourseCard key={course._id} course={course} />
-        ))}
+      {isLoadingCourses ? (
+        <div className=" flex justify-center items-center">
+          <div
+            className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+        </div>
+      ) : coursesUserFull?.length != 0 ? (
+        <div className="flex flex-row flex-wrap items-center gap-[40px]">
+          {coursesUserDefault &&
+            coursesUserFull &&
+            allCourses &&
+            coursesUserDefault.map((course) => {
+              const isUserCourse = allCourses.some(
+                (userCourses) => userCourses._id === course._id
+              );
+              return (
+                <CourseCard
+                  key={course._id}
+                  course={course}
+                  progress={getCourseProgress(
+                    course._id,
+                    course.workouts,
+                    coursesUserFull
+                  )}
+                  isUserCourse={isUserCourse}
+                  onAdd={handleAddCourse}
+                  onRemove={handleRemoveCourse}
+                  _id={course._id} />
+              );
+            })}
+        </div>
+      ) : (
+        <p className="text-[18px] font-normal">Нет приобретенных курсов</p>
+      )}
+      <div className="flex justify-end">
+        <button
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+          className="sm:hidden bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center mb-[40px] mt-[24px]"
+        >
+          Наверх ↑
+        </button>
       </div>
     </div>
   );

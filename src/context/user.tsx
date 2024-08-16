@@ -1,50 +1,59 @@
-import { createContext, ReactNode, useState } from "react";
-import { User } from "../types/types";
+import { createContext, ReactNode, useEffect, useState, useMemo } from "react";
+import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import Cookies from "js-cookie";
+import CryptoJS from "crypto-js";
+import { auth } from "../api/firebaseConfig";
 
-function checkLS(): User | null {
+type User = FirebaseUser | null;
+type ContextState = { user: User };
+
+function checkCookie(): User {
   try {
-    const user: User = JSON.parse(localStorage.getItem("user") || "null");
-    return user;
+    const cookie = Cookies.get("user");
+    if (!cookie) return null;
+    // расшифровка cookie
+    const bytes = CryptoJS.AES.decrypt(cookie, "secret user");
+    const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+    const decryptedData = JSON.parse(decryptedText);
+    return decryptedData;
   } catch (error) {
-    localStorage.removeItem("user");
+    Cookies.remove("user");
     return null;
   }
 }
 
-export const UserContext = createContext<{
-  user: User | null;
-  userLogin: (newUser: User) => void;
-  logout: () => void;
-}>({
-  user: null,
-  userLogin: () => {},
-  logout: () => {},
-});
+export const UserContext = createContext<ContextState | undefined>(undefined);
 
 interface UserProviderProps {
   children: ReactNode;
 }
 
 export function UserProvider({ children }: UserProviderProps) {
-  const [user, setUser] = useState<User | null>(checkLS());
-  //const [user, setUser] = useState("julia")
+  const [user, setUser] = useState<User>(checkCookie());
 
-  function userLogin(newUser: User) {
-    console.log(newUser);
-    localStorage.setItem("user", JSON.stringify(newUser));
-    setUser(newUser);
-    return user;
-  }
+  // Мемоизация значения контекста
+  const value = useMemo(() => ({ user }), [user]);
 
-  function logout() {
-    localStorage.removeItem("user");
-    setUser(null);
-    console.log(user);
-    return user;
-  }
-  return (
-    <UserContext.Provider value={{ user, userLogin, logout }}>
-      {children}
-    </UserContext.Provider>
-  );
+  useEffect(() => {
+    const exitUser = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      if (user) {
+        // шифруем данные пользователя
+        const EncryptedText = CryptoJS.AES.encrypt(
+          JSON.stringify(user),
+          "secret user"
+        ).toString();
+        Cookies.set("user", EncryptedText, {
+          expires: 7, // хранятся 7 дней
+          secure: true, // cookie отправляются по HTTPS
+          sameSite: "Strict", // отправка с того же сайта
+        });
+      } else {
+        Cookies.remove("user");
+      }
+    });
+    return () => exitUser();
+  }, []);
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
