@@ -77,7 +77,7 @@ export const CourseCard = ({
           isCourseProgressModal
             ? ""
             : "hover:scale-[1.03] hover:ease-in duration-[300ms] "
-        } w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white rounded-[30px] shadow-lg`}
+        } w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]`}
       >
         {isUserCourse ? (
           <div className="flex justify-end " onClick={handleRemove}>
