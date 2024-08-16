@@ -6,7 +6,6 @@ import {
   fetchDataUser,
   fetchDeleteCourseUser,
   fetchGetCourses,
-  fetchGetCoursesUser,
 } from "../../api/coursesApi";
 import { Course } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
@@ -21,6 +20,9 @@ const Profile = () => {
   const { coursesUserDefault } = useUserCoursesContext();
   const { coursesUserFull } = useUserCoursesContext();
   const { isLoadingCourses } = useUserCoursesContext();
+  const { allCourses } = useUserCoursesContext();
+  const { setCoursesUserDefault } = useUserCoursesContext();
+  const { setCoursesUserFull } = useUserCoursesContext();
 
   const [isResetPasswordModal, setIsResetPasswordModal] =
     useState<boolean>(false);
@@ -29,22 +31,8 @@ const Profile = () => {
     setIsResetPasswordModal(true);
   };
 
-  //console.log(coursesUserFull);
-  // Состояние для хранения курсов пользователя
-  const [userCourses, setUserCourses] = useState<Course[]>([]);
-  // Состояние для хранения курсов, тренировок и прогресса тренировок пользователя
-  const [userCoursesData, setUserCoursesData] = useState<Course[]>([]);
-
   const [courses, setCourses] = useState<Course[]>([]);
 
-  useEffect(() => {
-    if (user) {
-      fetchGetCoursesUser(user.uid).then((data) => {
-        setUserCourses(data.filteredCourses);
-        setUserCoursesData(data.filteredCourses);
-      });
-    }
-  }, [user]);
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -62,8 +50,13 @@ const Profile = () => {
       try {
         const courseToAdd = courses.find((course) => course._id === courseId);
         if (courseToAdd) {
-          await fetchDataUser(user.uid, courseId);
-          setUserCourses((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
+          await fetchDataUser(
+            user.uid,
+            courseId,
+            setCoursesUserDefault,
+            setCoursesUserFull
+          );
+          setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
           console.log("Курс добавлен");
         }
       } catch (error: any) {
@@ -76,7 +69,7 @@ const Profile = () => {
     if (user?.uid) {
       try {
         await fetchDeleteCourseUser(user.uid, courseId);
-        setUserCourses((prev) =>
+        setCoursesUserDefault((prev) =>
           prev.filter((course) => course._id !== courseId)
         );
         console.log("Курс удален");
@@ -150,8 +143,9 @@ const Profile = () => {
         <div className="flex flex-row flex-wrap items-center gap-[40px]">
           {coursesUserDefault &&
             coursesUserFull &&
+            allCourses &&
             coursesUserDefault.map((course) => {
-              const isUserCourse = userCourses.some(
+              const isUserCourse = allCourses.some(
                 (userCourses) => userCourses._id === course._id
               );
               return (
@@ -161,12 +155,12 @@ const Profile = () => {
                   progress={getCourseProgress(
                     course._id,
                     course.workouts,
-                    userCoursesData
+                    coursesUserFull
                   )}
                   isUserCourse={isUserCourse}
                   onAdd={handleAddCourse}
                   onRemove={handleRemoveCourse}
-                />
+                  _id={course._id} />
               );
             })}
         </div>

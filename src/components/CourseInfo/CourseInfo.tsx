@@ -1,24 +1,4 @@
 import { useEffect, useState } from "react";
-import { fetchGetCourses } from "../../api/coursesApi";
-import { Course } from "../../types/types";
-
-const CourseInfo = ({ _id }: { _id: string }) => {
-  const [course, setCourse] = useState<Course>();
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const data = await fetchGetCourses();
-        const selectedCourse = data.find((course) => course._id === _id);
-        setCourse(selectedCourse);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchCourses();
-  }, [_id]);
-import { useEffect, useState } from "react";
 import {
   fetchDataUser,
   fetchDeleteCourseUser,
@@ -48,6 +28,13 @@ const CourseInfo = () => {
     useState<boolean>(false);
   const [email, setEmail] = useState("");
 
+  const nav = useNavigate();
+
+  const { id } = useParams<{ id: string }>();
+
+  const [data, setData] = useState<Course | null>(null);
+  const [url, setUrl] = useState<string>("");
+
   const getBackgroundColor = (courseName: string) => {
     switch (courseName) {
       case "Йога":
@@ -64,13 +51,6 @@ const CourseInfo = () => {
         return "bg-white";
     }
   };
-
-  const nav = useNavigate();
-
-  const { id } = useParams<{ id: string }>();
-
-  const [data, setData] = useState<Course | null>(null);
-  const [url, setUrl] = useState<string>("");
 
   useEffect(() => {
     if (id) {
@@ -90,25 +70,6 @@ const CourseInfo = () => {
 
   const isUserCourse = coursesUserDefault?.some((course) => course._id === id);
 
-  // const handleClick = async () => {
-  //   if (!isUserCourse) {
-  //     if (user?.uid && data?._id) {
-  //       await fetchDataUser(
-  //         user?.uid,
-  //         data?._id,
-  //         setCoursesUserDefault,
-  //         setCoursesUserFull
-  //       );
-  //       nav(paths.PROFILE);
-  //       console.log("курс добавлен");
-  //     }
-  //   } else {
-  //     if (user?.uid && data?._id) {
-  //       await fetchDeleteCourseUser(user?.uid, data?._id);
-  //       console.log("курс удален");
-  //     }
-  //   }
-  // };
   const openSigninModal = () => {
     setIsSigninModal(true);
     setIsSignupModal(false);
@@ -159,33 +120,23 @@ const CourseInfo = () => {
   return (
     <>
       <div
-        className={`mt-3 rounded-[28px] md:w-full ${data && getBackgroundColor(data?.nameRU)} md: mt-0`}
+        className={`mt-3 rounded-[28px] md:w-full ${
+          data && getBackgroundColor(data?.nameRU)
+        } md: mt-0`}
       >
-        <div className="flex items-center md:justify-between md:items-start">
-          <p className=" hidden p-10 text-[60px] text-white font-semibold 	md:block">
-            {data?.nameRU}
-          </p>
-          <img src={url} alt="courseColor" md:w-32 className="block " />
-        </div>
-    <main>
-      <div>
-          <p className="p-10 text-[60px] absolute z-10 text-white font-semibold ">
-            Йога
-          </p>
-        <img
-          src="/images/skillCards/yoga.png"
-          alt=""
-          className="relative"
-          md:w-32
-        />
-      </div>
-
-      <section className="my-[20px] pb-[40px] flex flex-col">
-        <p className="text-[24px] md:text-[40px] text-black font-semibold my-10">
-          Подойдет для вас, если:
+      <div className="flex items-center md:justify-between md:items-start">
+        <p className=" hidden p-10 text-[60px] text-white font-semibold 	md:block">
+          {data?.nameRU}
         </p>
-        <section className="flex gap-[17px] flex-col md:flex-row md:flex-wrap md:justify-center md:items-stretch">
-          <>
+        <img src={url} alt="courseColor" className="block" />
+      </div>
+      </div>
+      <main>
+        <section className="my-[20px] pb-[40px] flex flex-col">
+          <p className="text-[24px] md:text-[40px] text-black font-semibold my-10">
+            Подойдет для вас, если:
+          </p>
+          <section className="flex gap-[17px] flex-col md:flex-row md:flex-wrap md:justify-center md:items-stretch">
             {data?.fitting.map((item, index) => (
               <div key={index} className=" card">
                 <div className="flex gap-6 ">
@@ -198,96 +149,98 @@ const CourseInfo = () => {
                 </div>
               </div>
             ))}
-          </>
+          </section>
         </section>
-      </section>
-      <section className="flex flex-col">
-        <p className="text-[24px] md:text-[40px] text-black font-semibold">
-          Направления
-        </p>
-        <div className="bg-btnColor mt-6 md:mt-[40px] h-full w-full rounded-[28px] p-[30px] flex wd:items-stretch wd:flex-wrap wd: justify-center">
-          <div className="direction">
-            <>
+        <section className="flex flex-col">
+          <p className="text-[24px] md:text-[40px] text-black font-semibold">
+            Направления
+          </p>
+          <div className="bg-btnColor mt-6 md:mt-[40px] h-full w-full rounded-[28px] p-[30px] flex wd:items-stretch wd:flex-wrap wd: justify-center">
+            <div className="direction">
               {data?.directions.map((item) => (
                 <span className="directions-name " key={item}>
                   {item}
                 </span>
               ))}
-            </>
+            </div>
           </div>
-        </div>
-      </section>
-      <section className="flex absolute my-[142px]">
-        <div className="flex flex-col z-20 bg-white md:z-0">
-          <p className=" align-center z-40 leading-none text-[32px] md:text-[60px] text-black font-bold ">
-            Начни путь <br />к новому телу
-          </p>
-          <ul className=" p-4 md:w-[437px] md:my-7 flex md:items-start flex-col">
-            <li className="items">проработка всех групп мышц</li>
-            <li className="items">тренировка суставов</li>
-            <li className="items">улучшение циркуляции крови</li>
-            <li className="items">упражнения заряжают бодростью</li>
-            <li className="items">помогают противостоять стрессам</li>
-          </ul>
-          <button
-            disabled={isButtonDisabled}
-            className={`bg-btnColor hover:bg-btnHoverGreen ${isButtonDisabled ? "opacity-70 cursor-not-allowed" : ""} pointer rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]`}
-          >
-            {user ? (
-              isUserCourse ? (
-                <p onClick={deleteCourse} className="text-[18px]">
-                  Удалить курс
-                </p>
+        </section>
+        <section className="flex absolute my-[142px]">
+          <div className="flex flex-col z-20 bg-white md:z-0">
+            <p className=" align-center z-40 leading-none text-[32px] md:text-[60px] text-black font-bold ">
+              Начни путь <br />к новому телу
+            </p>
+            <ul className=" p-4 md:w-[437px] md:my-7 flex md:items-start flex-col">
+              <li className="items">проработка всех групп мышц</li>
+              <li className="items">тренировка суставов</li>
+              <li className="items">улучшение циркуляции крови</li>
+              <li className="items">упражнения заряжают бодростью</li>
+              <li className="items">помогают противостоять стрессам</li>
+            </ul>
+            <button
+              disabled={isButtonDisabled}
+              className={`bg-btnColor hover:bg-btnHoverGreen ${
+                isButtonDisabled ? "opacity-70 cursor-not-allowed" : ""
+              } pointer rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]`}
+            >
+              {user ? (
+                isUserCourse ? (
+                  <p onClick={deleteCourse} className="text-[18px]">
+                    Удалить курс
+                  </p>
+                ) : (
+                  <p onClick={addCourse} className="text-[18px]">
+                    Добавить курс
+                  </p>
+                )
               ) : (
-                <p onClick={addCourse} className="text-[18px]">
-                  Добавить курс
+                <p onClick={openSigninModal} className="text-[18px]">
+                  Войдите, чтобы добавить курс
                 </p>
-              )
-            ) : (
-              <p onClick={openSigninModal} className="text-[18px]">
-                Войдите, чтобы добавить курс
+              )}
+            </button>
+            {message && (
+              <p className="text-[18px] text-center text-gray-700">
+                Курс удален
               </p>
             )}
-          </button>
-          {message && (
-            <p className="text-[18px] text-center text-gray-700">Курс удален</p>
-          )}
-        </div>
-        <img
-          src="/images/infoCourse.svg"
-          alt=""
-          className="relative z-10 right-[175px] bottom-[270px] md:left-[130px] md:z-10 md:right-[0px] md:bottom-[100px]"
-        />
-        <img
-          src="/images/vector1.svg"
-          alt=""
-          className="relative bottom-[357px] right-[470px] md:bottom-[250px] md:right-[300px]"
-        />
-        <img
-          src="/images/vector2.svg"
-          alt=""
-          className="relative right-[700px] bottom-[188px] md:right-[580px] md:top-[30px] md:bottom-0"
-        />
-      </section>
-      {isSigninModal && (
-        <SigninModal
-          setIsSigninModal={setIsSigninModal}
-          openSignupModal={openSignupModal}
-          openResetPasswordModal={openResetPasswordModal}
-        />
-      )}
-      {isSignupModal && (
-        <SignupModal
-          setIsSignupModal={setIsSignupModal}
-          openSigninModal={openSigninModal}
-        />
-      )}
-      {isResetPasswordEmailModal && (
-        <ResetPasswordEmail
-          email={email}
-          setIsResetPasswordEmailModal={setIsResetPasswordEmailModal}
-        />
-      )}
+          </div>
+          <img
+            src="/images/infoCourse.svg"
+            alt=""
+            className="relative z-10 right-[175px] bottom-[270px] md:left-[130px] md:z-10 md:right-[0px] md:bottom-[100px]"
+          />
+          <img
+            src="/images/vector1.svg"
+            alt=""
+            className="relative bottom-[357px] right-[470px] md:bottom-[250px] md:right-[300px]"
+          />
+          <img
+            src="/images/vector2.svg"
+            alt=""
+            className="relative right-[700px] bottom-[188px] md:right-[580px] md:top-[30px] md:bottom-0"
+          />
+        </section>
+        {isSigninModal && (
+          <SigninModal
+            setIsSigninModal={setIsSigninModal}
+            openSignupModal={openSignupModal}
+            openResetPasswordModal={openResetPasswordModal}
+          />
+        )}
+        {isSignupModal && (
+          <SignupModal
+            setIsSignupModal={setIsSignupModal}
+            openSigninModal={openSigninModal}
+          />
+        )}
+        {isResetPasswordEmailModal && (
+          <ResetPasswordEmail
+            email={email}
+            setIsResetPasswordEmailModal={setIsResetPasswordEmailModal}
+          />
+        )}
+      </main>
     </>
   );
 };

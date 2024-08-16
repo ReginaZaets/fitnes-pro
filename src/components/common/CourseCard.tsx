@@ -3,7 +3,6 @@ import WorkoutModal from "../popups/workoutPopups/WorkoutModal";
 import { Course } from "../../types/types";
 import {
   fetchGetCourseImage,
-  fetchDataUser,
   fetchGetWorkoutsCourse,
 } from "../../api/coursesApi";
 import { Link, useLocation } from "react-router-dom";
@@ -29,25 +28,8 @@ export const CourseCard = ({ course, progress,  isUserCourse = false,
   const location = useLocation();
   const user = useUserContext();
   const courseLink = "/course/" + _id
-  const { setCoursesUserDefault } = useUserCoursesContext();
-  const { setCoursesUserFull } = useUserCoursesContext();
   const { setWorkoutUsers } = useUserCoursesContext();
-  async function handleAddCourse(e: React.MouseEvent<HTMLDivElement>) {
-    e.preventDefault();
-    if (user?.uid) {
-      try {
-        await fetchDataUser(
-          user?.uid,
-          course._id,
-          setCoursesUserDefault,
-          setCoursesUserFull
-        );
-        console.log("курс добавлен");
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    }
-  }
+
   const handleAdd = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     onAdd(course._id);

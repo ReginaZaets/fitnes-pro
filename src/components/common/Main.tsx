@@ -1,29 +1,35 @@
-import { useEffect, useState } from "react";
 import { CourseCard } from "./CourseCard";
 import {
   fetchDataUser,
-  fetchDeleteCourseUser,
-  fetchGetCourses,
-  fetchGetCoursesUser,
+  fetchDeleteCourseUser
 } from "../../api/coursesApi";
-import { Course } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
+import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 
 export const Main = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [courses, setCourses] = useState<Course[]>([]);
-  // Состояние для хранения курсов пользователя
-  const [userCourses, setUserCourses] = useState<Course[]>([]);
+  const { allCourses } = useUserCoursesContext();
+  const { setCoursesUserDefault } = useUserCoursesContext();
+  const { setCoursesUserFull } = useUserCoursesContext();
+  const { coursesUserDefault } = useUserCoursesContext();
   const user = useUserContext();
 
   const handleAddCourse = async (courseId: string) => {
     if (user?.uid) {
       try {
-        const courseToAdd = courses.find((course) => course._id === courseId);
-        if (courseToAdd) {
-          await fetchDataUser(user.uid, courseId);
-          setUserCourses((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
-          console.log("Курс добавлен");
+        if (allCourses) {
+          const courseToAdd = allCourses.find(
+            (course) => course._id === courseId
+          );
+          if (courseToAdd) {
+            await fetchDataUser(
+              user.uid,
+              courseId,
+              setCoursesUserDefault,
+              setCoursesUserFull
+            );
+            setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
+            console.log("Курс добавлен");
+          }
         }
       } catch (error: any) {
         console.log(error.message);
@@ -35,7 +41,7 @@ export const Main = () => {
     if (user?.uid) {
       try {
         await fetchDeleteCourseUser(user.uid, courseId);
-        setUserCourses((prev) =>
+        setCoursesUserDefault((prev) =>
           prev.filter((course) => course._id !== courseId)
         );
         console.log("Курс удален");
@@ -44,27 +50,6 @@ export const Main = () => {
       }
     }
   };
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const data = await fetchGetCourses();
-        setCourses(data);
-        setIsLoading(false);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchCourses();
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      fetchGetCoursesUser(user.uid).then((data) => {
-        setUserCourses(data.filteredCourses);
-      });
-    }
-  }, [user]);
 
   return (
     <>
@@ -77,7 +62,26 @@ export const Main = () => {
           <p>Измени своё тело за полгода!</p>
         </div>
       </div>
-      {isLoading ? (
+      {allCourses ? (
+        <div className="flex flex-row flex-wrap items-center gap-[40px]">
+          {allCourses.map((course) => {
+            const isUserCourse = coursesUserDefault?.some(
+              (courseUserDefault) => courseUserDefault._id === course._id
+            );
+            return (
+              <CourseCard
+                key={course._id}
+                course={course}
+                progress={0}
+                isUserCourse={isUserCourse}
+                onAdd={handleAddCourse}
+                onRemove={handleRemoveCourse}
+                _id={course._id}
+              />
+            );
+          })}
+        </div>
+      ) : (
         <div className="w-full flex justify-center">
           <div
             className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
@@ -87,25 +91,6 @@ export const Main = () => {
               Loading...
             </span>
           </div>
-        </div>
-      ) : (
-        <div className="flex flex-row flex-wrap items-center gap-[40px]">
-          {courses.map((course) => {
-            const isUserCourse = userCourses.some(
-              (userCourses) => userCourses._id === course._id
-            );
-            return (
-              <CourseCard
-                key={course._id}
-                course={course}
-                progress={0}
-                isUserCourse={isUserCourse}
-                onAdd={handleAddCourse} 
-                onRemove={handleRemoveCourse} 
-                _id={course._id}
-              />
-            );
-          })}
         </div>
       )}
       <section className="mt-[20px] mb-[20px] flex justify-center">
