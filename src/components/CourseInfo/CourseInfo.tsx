@@ -241,12 +241,24 @@ const CourseInfo = () => {
             <p className="text-[18px] text-center text-gray-700">Курс удален</p>
           )}
         </div>
-        <div>
+        <div className={"overflow-hidden"}>
           {" "}
           <img
             src="/images/infoCourse.svg"
             alt=""
-            className="absolute z-10 bottom-[240px] left-[85px] st:left-[600px] st:z-10 st:right-[0px] st:bottom-[100px] w-[80%] st:w-auto "
+            className="absolute z-10 bottom-[240px] left-[85px] w-[80%]
+            md:w-auto
+            md:right-0 
+            md:left-auto
+            md:bottom-[190px]
+            sm:bottom-[70px]
+            m2:bottom-[150px]
+            m1:bottom-[300px]
+            m:w-auto
+            m:right-0 
+            m:left-auto
+            m:bottom-[300px]
+            "
           />
           <img
             src="/images/vector1.svg"
