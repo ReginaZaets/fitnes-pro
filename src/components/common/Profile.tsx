@@ -124,11 +124,11 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <h2 className="text-[24px] lg:text-[40px] font-semibold text-black pt-[24px] pb-[0] sm:pt-[60px] sm:pb-[30px]">
+      <h2 className="text-[24px] lg:text-[40px] font-semibold text-black pt-[24px] sm:pt-[60px] pb-[20px] sm:pb-10">
         Мои курсы
       </h2>
       {isLoadingCourses ? (
-        <div className=" flex justify-center items-center">
+        <div className="flex flex-row flex-wrap items-center justify-center st:justify-start w-full gap-[40px]">
           <div
             className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
             role="status"
@@ -139,7 +139,7 @@ const Profile = () => {
           </div>
         </div>
       ) : coursesUserFull?.length != 0 ? (
-        <div className="flex flex-row flex-wrap items-center gap-[40px]">
+        <div className="flex flex-row flex-wrap items-center justify-center st:justify-start w-full gap-[40px]">
           {coursesUserDefault &&
             coursesUserFull &&
             coursesUserDefault.map((course) => {
