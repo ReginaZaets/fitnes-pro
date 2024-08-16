@@ -80,10 +80,14 @@ export const CourseCard = ({
           isCourseProgressModal
             ? ""
             : "hover:scale-[1.03] hover:ease-in duration-[300ms] "
-        } w-[360px] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white rounded-[30px] shadow-lg`}
+        } w-[100%] min-h-[501px] flex flex-col justify-start font-normal text-[16px] leading-[17px] bg-white rounded-[30px] shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]`}
       >
         {isUserCourse ? (
-          <div className="flex justify-end " onClick={handleRemove}>
+          <div
+            className="flex justify-end "
+            onClick={handleRemove}
+            title="Удалить курс"
+          >
             <svg
               className="absolute mx-[18px] mt-[18px] mb-[12px] cursor-pointer hover:scale-105"
               width="28"
@@ -141,7 +145,7 @@ export const CourseCard = ({
             </div>
           </div>
         ) : (
-          <img src={url} className="rounded-[30px] max-w-[360px] h-[325px] " />
+          <img src={url} className="rounded-[30px] max-w-[100%] h-[325px] " />
         )}
 
         <div className="flex flex-col gap-[10px] mt-[10px] pl-[10px] pr-[10px]">

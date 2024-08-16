@@ -105,10 +105,10 @@ const SignupModal = ({ setIsSignupModal, openSigninModal }: PropsModal) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-10 transition-opacity duration-300">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-500 transition-opacity duration-300">
       <div
         ref={modalRef}
-        className="absolute bg-white border xl:p-10 px-8 py-10 w-auto h-auto shadow-customShadow rounded-radiusModal p-4 md:p-10"
+        className="absolute bg-white border xl:p-10 px-8 py-10 w-auto h-auto shadow-customShadow rounded-radiusModal p-4 md:p-10 z-600"
       >
         <img src="/images/logo.svg" alt="imageLogo" className="ml-[30px] " />
         <div className="flex flex-col items-center mt-12 gap-2.5">

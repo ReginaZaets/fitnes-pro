@@ -93,7 +93,7 @@ export const Main = () => {
   }, [setIsLoadingCourses]);
   return (
     <>
-      <div className="flex gap-[5px] font-normal text-2xl items-center my-4 w-full">
+      <div className="flex gap-[5px] font-normal text-2xl items-center my-4 w-full mb-[50px]">
         <div className=" w-[947px] min-h-[120px] text-black md:text-[60px]  sm:text-[45px] text-[32px] font-medium leading-[32px] sm:leading-[45px]   md:leading-[60px] text-left ">
           Начните заниматься спортом и улучшите качество жизни
         </div>
@@ -103,7 +103,7 @@ export const Main = () => {
         </div>
       </div>
       {allCourses?.length !== 0 ? (
-        <div className="flex flex-row flex-wrap items-center justify-center st:justify-start w-full gap-[40px]  ">
+        <div className="flex flex-row flex-wrap items-center justify-center st:justify-start w-full gap-[40px]">
           {allCourses?.map((course) => {
             const isUserCourse = coursesUserDefault?.some(
               (courseUserDefault) => courseUserDefault._id === course._id
