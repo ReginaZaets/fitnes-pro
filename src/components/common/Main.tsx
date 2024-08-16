@@ -102,7 +102,7 @@ export const Main = () => {
           </div>
         </div>
       )}
-      <section className="mt-[20px] mb-[20px] flex justify-center">
+      <section className="mt-[20px] mb-[20px] flex justify-end md:justify-center ">
         <button
           onClick={() => {
             window.scrollTo(0, 0);
