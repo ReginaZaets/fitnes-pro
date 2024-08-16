@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
 
-import Profile from "../components/common/Profile";
+import Profile from "../components/common/Profile/Profile";
 
 const UserProfile = () => {
   return (
     <>
       <main>
-       <Profile/>
+        <Profile />
         <Outlet />
       </main>
     </>

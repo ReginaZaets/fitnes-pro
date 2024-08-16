@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
+import { useUserCoursesContext } from "../../../context/hooks/useUserCourses";
+import { useNavigate, useParams } from "react-router-dom";
+import { Course } from "../../../types/types";
+import { auth } from "../../../api/firebaseConfig";
 import {
   fetchDataUser,
   fetchDeleteCourseUser,
   fetchGetCourse,
   fetchGetCourseImage,
   fetchGetCoursesUser,
-} from "../../api/coursesApi";
-import { useNavigate, useParams } from "react-router-dom";
-import { Course } from "../../types/types";
-import { paths } from "../../lib/paths";
-import { auth } from "../../api/firebaseConfig";
-import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
-import SigninModal from "../popups/SigninModal";
-import SignupModal from "../popups/SignupModal";
-import ResetPasswordEmail from "../popups/ResetPasswordEmail";
+} from "../../../api/coursesApi";
+import { paths } from "../../../lib/paths";
+import SigninModal from "../../popups/SigninModal";
+import SignupModal from "../../popups/SignupModal";
+import ResetPasswordEmail from "../../popups/ResetPasswordEmail";
 
 const CourseInfo = () => {
   // Берем из контекста объекты курсов

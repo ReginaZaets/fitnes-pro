@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import CourseInfo from "../components/CourseInfo/CourseInfo";
+import CourseInfo from "../components/common/CourseInfo/CourseInfo";
 
 const CourseInfoPage = () => {
   return (

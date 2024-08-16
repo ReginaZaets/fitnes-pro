@@ -1,6 +1,6 @@
 import { describe, test } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
-import User from "../components/common/User";
+import User from "../components/common/User/User";
 import "@testing-library/jest-dom";
 
 describe("auth test", () => {
