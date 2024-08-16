@@ -58,6 +58,7 @@ const WorkoutComponent = () => {
     }
   };
 
+  // Обновляем контекст с курсами, если изменился прогресс по упражнениям
   useEffect(() => {
     if (user) {
       fetchGetCoursesUser(user.uid)
@@ -73,6 +74,7 @@ const WorkoutComponent = () => {
     }
   }, [user, setCoursesUserDefault, setCoursesUserFull, exercises]);
 
+  // Получаем информацию по тренировке после того, как вытянули курсы из контекста
   useEffect(() => {
     if (coursesLoaded && workoutID) {
       fetchGetWorkout(workoutID)
@@ -89,6 +91,7 @@ const WorkoutComponent = () => {
     }
   }, [coursesLoaded, workoutID]);
 
+  // получаем информацию по упражнениям тренировки
   useEffect(() => {
     if (user && workoutID && courseID) {
       fetchGetExercisesWorkoutUser(user.uid, courseID, workoutID)
@@ -102,6 +105,7 @@ const WorkoutComponent = () => {
     }
   }, [user, workoutID, courseID]);
 
+  // После загрузки курсов из контекста делаем проверку на существование такого курса и тренировки
   useEffect(() => {
     if (coursesLoaded && courseID && workoutID) {
       if (coursesUserDefault) {
@@ -207,7 +211,7 @@ const WorkoutComponent = () => {
             onClick={toggleModalAddProgress}
             className="w-[251px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] "
           >
-            <p className="mx-[20px] my-[16px]">
+            <p>
               {nonZeroProgressExercisesCount
                 ? "Обновить свой прогресс"
                 : "Заполнить свой прогресс"}
