@@ -81,7 +81,7 @@ export const Main = () => {
         </div>
       </div>
       {allCourses?.length !== 0 ? (
-        <div className="flex flex-row flex-wrap items-center justify-center st:justify-start w-full gap-[40px]  ">
+        <div className="flex flex-row flex-wrap items-center justify-center st:justify-start w-full gap-[40px]">
           {allCourses?.map((course) => {
             const isUserCourse = coursesUserDefault?.some(
               (courseUserDefault) => courseUserDefault._id === course._id
