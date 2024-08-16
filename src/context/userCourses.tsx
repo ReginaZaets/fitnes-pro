@@ -2,6 +2,7 @@ import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import { Course, UserCourse, UserCourseWorkout } from "../types/types";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../api/firebaseConfig";
+import { fetchGetCourses } from "../api/coursesApi";
 
 export const UserCoursesContext = createContext<{
   coursesUserDefault: Course[] | null;
@@ -11,7 +12,9 @@ export const UserCoursesContext = createContext<{
   workoutUsers: UserCourseWorkout[];
   setWorkoutUsers: React.Dispatch<React.SetStateAction<UserCourseWorkout[]>>;
   isLoadingCourses: boolean;
-  setIsLoadingCourses: React.Dispatch<React.SetStateAction<boolean>>
+  setIsLoadingCourses: React.Dispatch<React.SetStateAction<boolean>>;
+  allCourses: Course[] | null;
+  setAllCourses: React.Dispatch<React.SetStateAction<Course[]>>;
 }>({
   coursesUserDefault: null,
   setCoursesUserDefault: () => {},
@@ -21,6 +24,8 @@ export const UserCoursesContext = createContext<{
   setWorkoutUsers: () => {},
   isLoadingCourses: true,
   setIsLoadingCourses: () => {},
+  allCourses: null,
+  setAllCourses: () => {},
 });
 
 interface UserProviderProps {
@@ -32,6 +37,7 @@ export function UserCoursesProvider({ children }: UserProviderProps) {
   const [coursesUserFull, setCoursesUserFull] = useState<UserCourse[]>([]);
   const [workoutUsers, setWorkoutUsers] = useState<UserCourseWorkout[]>([]);
   const [isLoadingCourses, setIsLoadingCourses] = useState(true);
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
   // Мемоизация значения контекста
   const value = useMemo(
     () => ({
@@ -42,7 +48,9 @@ export function UserCoursesProvider({ children }: UserProviderProps) {
       workoutUsers,
       setWorkoutUsers,
       isLoadingCourses,
-      setIsLoadingCourses
+      setIsLoadingCourses,
+      allCourses,
+      setAllCourses,
     }),
     [coursesUserDefault, coursesUserFull, workoutUsers]
   );
@@ -55,6 +63,19 @@ export function UserCoursesProvider({ children }: UserProviderProps) {
       }
     });
     return () => exitUser();
+  }, []);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const data = await fetchGetCourses();
+        setAllCourses(data);
+        setIsLoadingCourses(false);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchCourses();
   }, []);
   return (
     <UserCoursesContext.Provider value={value}>

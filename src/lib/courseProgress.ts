@@ -10,7 +10,6 @@ export const getCourseProgress = (
   let currentProgress = 0;
   // Объявляем переменную для хранения количества тренировок в курсе
   const countWorkouts = workouts.length;
-
   const userCoursesDataArray = Object.values(userCoursesData);
 
   // Находим массив тренировок из объект курса с полной информацией о тренировках

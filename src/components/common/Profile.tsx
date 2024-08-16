@@ -1,6 +1,13 @@
 import { CourseCard } from "./CourseCard";
 import { Link } from "react-router-dom";
 import { paths } from "../../lib/paths";
+import { useEffect } from "react";
+import {
+  fetchDataUser,
+  fetchDeleteCourseUser,
+  fetchGetCourses,
+} from "../../api/coursesApi";
+import { Course } from "../../types/types";
 import { useUserContext } from "../../context/hooks/useUser";
 import { logout } from "../../api/authUsersApi";
 import { getCourseProgress } from "../../lib/courseProgress";
@@ -12,7 +19,10 @@ const Profile = () => {
   const user = useUserContext();
   const { coursesUserDefault } = useUserCoursesContext();
   const { coursesUserFull } = useUserCoursesContext();
-  const {isLoadingCourses} = useUserCoursesContext();
+  const { isLoadingCourses } = useUserCoursesContext();
+  const { allCourses } = useUserCoursesContext();
+  const { setCoursesUserDefault } = useUserCoursesContext();
+  const { setCoursesUserFull } = useUserCoursesContext();
 
   const [isResetPasswordModal, setIsResetPasswordModal] =
     useState<boolean>(false);
@@ -21,7 +31,53 @@ const Profile = () => {
     setIsResetPasswordModal(true);
   };
 
-  //console.log(coursesUserFull);
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const data = await fetchGetCourses();
+        setCourses(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+  const handleAddCourse = async (courseId: string) => {
+    if (user?.uid) {
+      try {
+        const courseToAdd = courses.find((course) => course._id === courseId);
+        if (courseToAdd) {
+          await fetchDataUser(
+            user.uid,
+            courseId,
+            setCoursesUserDefault,
+            setCoursesUserFull
+          );
+          setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
+          console.log("Курс добавлен");
+        }
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  };
+
+  const handleRemoveCourse = async (courseId: string) => {
+    if (user?.uid) {
+      try {
+        await fetchDeleteCourseUser(user.uid, courseId);
+        setCoursesUserDefault((prev) =>
+          prev.filter((course) => course._id !== courseId)
+        );
+        console.log("Курс удален");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+  };
 
   return (
     <div className="mb-[80px]">
@@ -73,21 +129,26 @@ const Profile = () => {
         Мои курсы
       </h2>
       {isLoadingCourses ? (
-          <div className=" flex justify-center items-center">
-            <div
-              className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
-              role="status"
-            >
-              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                Loading...
-              </span>
-            </div>
+        <div className=" flex justify-center items-center">
+          <div
+            className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-black"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
           </div>
-        ) : coursesUserFull?.length != 0 ? (
-          <div className="flex flex-row flex-wrap items-center gap-[40px]">
-            {coursesUserDefault &&
-              coursesUserFull &&
-              coursesUserDefault.map((course) => (
+        </div>
+      ) : coursesUserFull?.length != 0 ? (
+        <div className="flex flex-row flex-wrap items-center gap-[40px]">
+          {coursesUserDefault &&
+            coursesUserFull &&
+            allCourses &&
+            coursesUserDefault.map((course) => {
+              const isUserCourse = allCourses.some(
+                (userCourses) => userCourses._id === course._id
+              );
+              return (
                 <CourseCard
                   key={course._id}
                   course={course}
@@ -96,14 +157,16 @@ const Profile = () => {
                     course.workouts,
                     coursesUserFull
                   )}
-                />
-              ))}
-          </div>
-        ) : (
-          <p className="text-[18px] font-normal">Нет приобретенных курсов</p>
-        )}
-      
-
+                  isUserCourse={isUserCourse}
+                  onAdd={handleAddCourse}
+                  onRemove={handleRemoveCourse}
+                  _id={course._id} />
+              );
+            })}
+        </div>
+      ) : (
+        <p className="text-[18px] font-normal">Нет приобретенных курсов</p>
+      )}
       <div className="flex justify-end">
         <button
           onClick={() => {
