@@ -4,7 +4,6 @@ import {
   fetchDeleteCourseUser,
   fetchGetCourse,
   fetchGetCourseImage,
-  fetchGetCourses,
   fetchGetCoursesUser,
 } from "../../api/coursesApi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -24,7 +23,6 @@ const CourseInfo = () => {
   const user = auth.currentUser;
 
   const [message, setMessage] = useState(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   // Добавляем флаг для отображения загрузки
   const [isLoading, setIsLoading] = useState(true);
   const [isSigninModal, setIsSigninModal] = useState<boolean>(false);
@@ -110,7 +108,6 @@ const CourseInfo = () => {
         setCoursesUserFull
       );
       nav(paths.PROFILE);
-      console.log("курс добавлен");
     }
   };
 
@@ -123,10 +120,7 @@ const CourseInfo = () => {
       const updateData = await fetchGetCoursesUser(user.uid);
       setCoursesUserDefault(updateData.filteredCourses);
       setCoursesUserFull(updateData.userCourses);
-
-      console.log("курс удален");
       setMessage(true);
-      setIsButtonDisabled(true);
     }
   };
   useEffect(() => {
@@ -218,8 +212,7 @@ const CourseInfo = () => {
             <li className="items">помогают противостоять стрессам</li>
           </ul>
           <button
-            disabled={isButtonDisabled}
-            className={`bg-btnColor hover:bg-btnHoverGreen ${isButtonDisabled ? "opacity-70 cursor-not-allowed" : ""} pointer rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]`}
+            className={`bg-btnColor hover:bg-btnHoverGreen pointer rounded-small w-[283px] md:w-[437px] h-btnHeight text-black text-lg my-[28px]`}
           >
             {user ? (
               isUserCourse ? (
@@ -237,9 +230,6 @@ const CourseInfo = () => {
               </p>
             )}
           </button>
-          {message && (
-            <p className="text-[18px] text-center text-gray-700">Курс удален</p>
-          )}
         </div>
         <div className={"overflow-hidden"}>
           {" "}

@@ -1,5 +1,9 @@
 import { CourseCard } from "./CourseCard";
-import { fetchDataUser, fetchDeleteCourseUser, fetchGetCourses } from "../../api/coursesApi";
+import {
+  fetchDataUser,
+  fetchDeleteCourseUser,
+  fetchGetCourses,
+} from "../../api/coursesApi";
 import { useUserContext } from "../../context/hooks/useUser";
 import { useUserCoursesContext } from "../../context/hooks/useUserCourses";
 import { useEffect, useState } from "react";
@@ -7,7 +11,12 @@ import { Course } from "../../types/types";
 
 export const Main = () => {
   const [allCourses, setAllCourses] = useState<Course[]>([]);
-  const { setCoursesUserFull, setCoursesUserDefault, coursesUserDefault, setIsLoadingCourses } = useUserCoursesContext();
+  const {
+    setCoursesUserFull,
+    setCoursesUserDefault,
+    coursesUserDefault,
+    setIsLoadingCourses,
+  } = useUserCoursesContext();
   const user = useUserContext();
 
   const handleAddCourse = async (courseId: string) => {
@@ -62,7 +71,7 @@ export const Main = () => {
   }, [setIsLoadingCourses]);
   return (
     <>
-      <div className="flex gap-[5px] font-normal text-2xl items-center my-4 w-full">
+      <div className="flex gap-[5px] font-normal text-2xl items-center my-4 w-full mb-[50px]">
         <div className=" w-[947px] min-h-[120px] text-black md:text-[60px]  sm:text-[45px] text-[32px] font-medium leading-[32px] sm:leading-[45px]   md:leading-[60px] text-left ">
           Начните заниматься спортом и улучшите качество жизни
         </div>
