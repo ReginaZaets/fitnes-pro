@@ -211,7 +211,7 @@ const WorkoutComponent = () => {
             onClick={toggleModalAddProgress}
             className="w-[251px] md:w-[320px] h-[52px] rounded-[30px] bg-[#BCEC30] font-[Roboto san-serif] text-[18px] font-normal leading-[110%] "
           >
-            <p className="mx-[20px] my-[16px]">
+            <p>
               {nonZeroProgressExercisesCount
                 ? "Обновить свой прогресс"
                 : "Заполнить свой прогресс"}
