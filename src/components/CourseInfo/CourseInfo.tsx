@@ -124,7 +124,7 @@ const CourseInfo = () => {
           <p className=" hidden p-10 text-[60px] text-white font-semibold 	md:block">
             {data?.nameRU}
           </p>
-          <img src={url} alt="courseColor" md:w-32 className="block " />
+          <img src={url} alt="courseColor" className="block " />
         </div>
       </div>
 
@@ -165,9 +165,9 @@ const CourseInfo = () => {
           </div>
         </div>
       </section>
-      <section className="flex absolute my-[142px]">
-        <div className="flex flex-col z-20 bg-white md:z-0">
-          <p className=" align-center z-40 leading-none text-[32px] md:text-[60px] text-black font-bold ">
+      <section className="  flex my-[142px] ">
+        <div className="w-full p-[40px] rounded-[30px] z-50  bg-white flex flex-col items-center z-40 md:z-0 md:justify-start md:items-start">
+          <p className=" align-center z-50 leading-none text-[32px] md:text-[60px] text-black font-bold ">
             Начни путь <br />к новому телу
           </p>
           <ul className=" p-4 md:w-[437px] md:my-7 flex md:items-start flex-col">
@@ -201,21 +201,24 @@ const CourseInfo = () => {
             <p className="text-[18px] text-center text-gray-700">Курс удален</p>
           )}
         </div>
-        <img
-          src="/images/infoCourse.svg"
-          alt=""
-          className="relative z-10 right-[175px] bottom-[270px] md:left-[130px] md:z-10 md:right-[0px] md:bottom-[100px]"
-        />
-        <img
-          src="/images/vector1.svg"
-          alt=""
-          className="relative bottom-[357px] right-[470px] md:bottom-[250px] md:right-[300px]"
-        />
-        <img
-          src="/images/vector2.svg"
-          alt=""
-          className="relative right-[700px] bottom-[188px] md:right-[580px] md:top-[30px] md:bottom-0"
-        />
+        <div className="absolute">
+          {" "}
+          <img
+            src="/images/infoCourse.svg"
+            alt=""
+            className="relative z-10 bottom-[240px] left-[85px] md:left-[600px] md:z-10 md:right-[0px] md:bottom-[100px]"
+          />
+          <img
+            src="/images/vector1.svg"
+            alt=""
+            className="absolute bottom-[488px] left-[164px] md:top-[9px] md:left-[720px] md:right-[4px] md:bottom-[250px] "
+          />
+          <img
+            src="/images/vector2.svg"
+            alt=""
+            className="absolute right-[30px] md:right-[700px] bottom-[220px] md:left-[520px] md:top-[140px] md:bottom-0"
+          />
+        </div>
       </section>
     </>
   );
