@@ -41,7 +41,7 @@ const CourseInfo = () => {
         return "bg-yoga";
       case "Стретчинг":
         return "bg-sterch";
-      case "Зумба":
+      case "Танцевальный фитнес":
         return "bg-zumba";
       case "Степ-аэробика":
         return "bg-step";
