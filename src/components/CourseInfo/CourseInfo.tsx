@@ -199,7 +199,7 @@ const CourseInfo = () => {
           </div>
         </div>
       </section>
-      <section className="relative flex my-[142px] ">
+      <section className="relative flex my-[142px] z-0">
         <div className="shadow-lg w-full p-[40px] rounded-[30px] z-50  bg-white flex flex-col items-center z-40 st:z-0 md:justify-start md:items-start">
           <p className=" align-center z-50 leading-none text-[32px] md:text-[60px] text-black font-bold ">
             Начни путь <br />к новому телу
