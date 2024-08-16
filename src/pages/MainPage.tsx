@@ -4,9 +4,10 @@ const MainPage = () => {
   return (
     <>
       <main>
-      <Main/>
+        <Main />
+
+        <Outlet />
       </main>
-      <Outlet />
     </>
   );
 };

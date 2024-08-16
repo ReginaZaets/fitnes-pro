@@ -20,7 +20,6 @@ const Profile = () => {
   const { coursesUserDefault } = useUserCoursesContext();
   const { coursesUserFull } = useUserCoursesContext();
   const { isLoadingCourses } = useUserCoursesContext();
-  const { allCourses } = useUserCoursesContext();
   const { setCoursesUserDefault } = useUserCoursesContext();
   const { setCoursesUserFull } = useUserCoursesContext();
 
@@ -143,11 +142,8 @@ const Profile = () => {
         <div className="flex flex-row flex-wrap items-center gap-[40px]">
           {coursesUserDefault &&
             coursesUserFull &&
-            allCourses &&
             coursesUserDefault.map((course) => {
-              const isUserCourse = allCourses.some(
-                (userCourses) => userCourses._id === course._id
-              );
+              const isUserCourse = true;
               return (
                 <CourseCard
                   key={course._id}
