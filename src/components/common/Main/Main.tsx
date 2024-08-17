@@ -11,6 +11,7 @@ import ResetPasswordEmail from "../../popups/ResetPasswordEmail";
 import SignupModal from "../../popups/SignupModal";
 import SigninModal from "../../popups/SigninModal";
 import { CourseCard } from "../CourseCard/CourseCard";
+import { ButtonToTop } from "../ButtonToTop/ButtonToTop";
 
 export const Main = () => {
   const [allCourses, setAllCourses] = useState<Course[]>([]);
@@ -132,14 +133,7 @@ export const Main = () => {
         </div>
       )}
       <section className="mt-[20px] mb-[20px] flex justify-end md:justify-center ">
-        <button
-          onClick={() => {
-            window.scrollTo(0, 0);
-          }}
-          className="bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center"
-        >
-          Наверх ↑
-        </button>
+  <ButtonToTop />
       </section>
       {isSigninModal && (
         <SigninModal
