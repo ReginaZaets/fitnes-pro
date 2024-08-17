@@ -158,9 +158,9 @@ npm run build
 
 **## Разработчики**
 
-- **Регина** - [GitHub](https://github.com/имя-пользователя)
-- **Юлия** - [GitHub](https://github.com/имя-пользователя)
-- **Екатерина** - [GitHub](https://github.com/имя-пользователя)
-- **Андрей** - [GitHub](https://github.com/имя-пользователя)
-- **Рамал** - [GitHub](https://github.com/имя-пользователя)
-- **Павел** - [GitHub](https://github.com/имя-пользователя)
+- **Регина** - [GitHub](https://github.com/ReginaZaets)
+- **Юлия** - [GitHub](https://github.com/amjulia)
+- **Екатерина** - [GitHub](https://github.com/Kekyra228)
+- **Андрей** - [GitHub](https://github.com/Andrey-Bakin)
+- **Рамал** - [GitHub](https://github.com/rambak02)
+- **Павел** - [GitHub](https://github.com/productPach)
