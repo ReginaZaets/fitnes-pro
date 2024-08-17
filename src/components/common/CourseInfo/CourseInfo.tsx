@@ -175,7 +175,7 @@ const CourseInfo = () => {
         <section className="flex gap-[17px] flex-col md:flex-row md:flex-wrap md:justify-center md:items-stretch">
           {data?.fitting.map((item, index) => (
             <div key={index} className=" card">
-              <div className="flex gap-6 ">
+              <div className="flex gap-6 items-center">
                 <span className="text-btnColor number-reasons">
                   {index + 1}
                 </span>
@@ -202,7 +202,8 @@ const CourseInfo = () => {
         </div>
       </section>
       <section className="relative flex my-[142px] z-0">
-        <div className="shadow-lg w-full p-[40px] rounded-[30px] z-50  bg-white flex flex-col items-center z-40 st:z-0 md:justify-start md:items-start">
+        <div className="shadow-lg w-full p-[40px] rounded-[30px]   bg-white flex items-center z-50 st:z-0 md:justify-start md:items-start overflow-hidden  lg:h-[534px] lg:flex-row">
+          <div>
           <p className=" align-center z-50 leading-none text-[32px] md:text-[60px] text-black font-bold ">
             Начни путь <br />к новому телу
           </p>
@@ -232,9 +233,16 @@ const CourseInfo = () => {
               </p>
             )}
           </button>
+          </div>
+          <img
+            src="/images/vector2.svg"
+            alt=""
+            className="absolute hidden lg:block lg:static lg:pt-[100px] right-[30px] st:right-[700px] bottom-[220px] st:left-[520px] st:top-[140px] st:bottom-0 sm1:bottom-[100px] "
+          />
         </div>
         <div className={"overflow-hidden"}>
           {" "}
+       
           <img
             src="/images/infoCourse.svg"
             alt=""
@@ -242,7 +250,7 @@ const CourseInfo = () => {
             md:w-auto
             md:right-0 
             md:left-auto
-            md:bottom-[190px]
+            md:bottom-[35px]
             sm:bottom-[80px]
             sm:left-auto
             sm:w-auto
@@ -267,7 +275,7 @@ const CourseInfo = () => {
           <img
             src="/images/vector2.svg"
             alt=""
-            className="absolute right-[30px] st:right-[700px] bottom-[220px] st:left-[520px] st:top-[140px] st:bottom-0 sm1:bottom-[100px]"
+            className="absolute lg:hidden right-[30px] st:right-[700px] bottom-[220px] st:left-[520px] st:top-[140px] st:bottom-0 sm1:bottom-[100px] "
           />
         </div>
       </section>
