@@ -234,18 +234,25 @@ const CourseInfo = () => {
           <img
             src="/images/infoCourse.svg"
             alt=""
-            className="absolute z-10 bottom-[240px] left-[85px] w-[80%]
+            className="absolute z-10 bottom-[420px] left-[85px] w-[80%]
             md:w-auto
             md:right-0 
             md:left-auto
             md:bottom-[190px]
-            sm:bottom-[70px]
-            m2:bottom-[150px]
-            m1:bottom-[300px]
-            m:w-auto
+            sm:bottom-[80px]
+            sm:left-auto
+            sm:w-auto
+            sm1:bottom-[40px]
+            sm1:left-auto
+            sm1:w-auto
+            m2:bottom-[220px]
+            m1:bottom-[270px]
+            m1:left-[20px]
             m:right-0 
             m:left-auto
-            m:bottom-[300px]
+            m:bottom-[350px]
+            m:w-[80%]
+            lg:z-50
             "
           />
           <img
@@ -256,7 +263,7 @@ const CourseInfo = () => {
           <img
             src="/images/vector2.svg"
             alt=""
-            className="absolute right-[30px] st:right-[700px] bottom-[220px] st:left-[520px] st:top-[140px] st:bottom-0"
+            className="absolute right-[30px] st:right-[700px] bottom-[220px] st:left-[520px] st:top-[140px] st:bottom-0 sm1:bottom-[100px]"
           />
         </div>
       </section>

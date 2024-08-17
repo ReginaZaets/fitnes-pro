@@ -11,6 +11,7 @@ export default {
         m1: "400px",
         m2: "420px",
         sm: "480px",
+        sm1: "530px",
         md: "768px",
         lg: "976px",
         st: "1160px",
