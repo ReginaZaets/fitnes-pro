@@ -13,7 +13,7 @@ type CourseCardProps = {
   course: Course;
   progress: number;
   isUserCourse?: boolean;
-  onAdd: (courseId: string) => void;
+  onAdd?: (courseId: string) => void;
   onRemove: (courseId: string) => void;
   _id?: string;
   openSigninModal: (value: boolean) => void;
@@ -27,8 +27,7 @@ export const CourseCard = ({
   _id,
   openSigninModal,
 }: CourseCardProps) => {
-  const [isCourseProgressModal, setIsCourseProgressModal] =
-    useState<boolean>(false);
+  const [isCourseProgressModal, setIsCourseProgressModal] = useState(false);
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
@@ -38,7 +37,9 @@ export const CourseCard = ({
 
   const handleAdd = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    onAdd(course._id);
+    if (onAdd) {
+      onAdd(course._id);
+    }
   };
 
   const handleRemove = (e: React.MouseEvent<HTMLDivElement>) => {

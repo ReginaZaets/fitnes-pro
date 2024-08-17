@@ -22,13 +22,12 @@ const CourseInfo = () => {
 
   const user = auth.currentUser;
 
-  const [message, setMessage] = useState(false);
   // Добавляем флаг для отображения загрузки
   const [isLoading, setIsLoading] = useState(true);
-  const [isSigninModal, setIsSigninModal] = useState<boolean>(false);
-  const [isSignupModal, setIsSignupModal] = useState<boolean>(false);
+  const [isSigninModal, setIsSigninModal] = useState(false);
+  const [isSignupModal, setIsSignupModal] = useState(false);
   const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
-    useState<boolean>(false);
+    useState(false);
   const [email, setEmail] = useState("");
 
   const nav = useNavigate();
@@ -36,7 +35,7 @@ const CourseInfo = () => {
   const { id } = useParams<{ id: string }>();
 
   const [data, setData] = useState<Course | null>(null);
-  const [url, setUrl] = useState<string>("");
+  const [url, setUrl] = useState("");
 
   const getBackgroundColor = (courseName: string) => {
     switch (courseName) {
@@ -105,12 +104,9 @@ const CourseInfo = () => {
   const addCourse = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (id && user?.uid && data?._id) {
-      await fetchDataUser(
-        user?.uid,
-        data?._id,
-        setCoursesUserDefault,
-        setCoursesUserFull
-      );
+      const { filteredCourses, userCourses } = await fetchDataUser(user.uid, data._id);
+      setCoursesUserDefault(filteredCourses);
+      setCoursesUserFull(userCourses);
       nav(paths.PROFILE);
     }
   };
@@ -124,18 +120,8 @@ const CourseInfo = () => {
       const updateData = await fetchGetCoursesUser(user.uid);
       setCoursesUserDefault(updateData.filteredCourses);
       setCoursesUserFull(updateData.userCourses);
-      setMessage(true);
     }
   };
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => {
-        setMessage(false);
-      }, 1500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
 
   if (isLoading) {
     return (

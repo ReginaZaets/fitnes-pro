@@ -268,22 +268,16 @@ export const fetchGetCourseImage = async (src: string) => {
 
 export const fetchDataUser = async (
   userID: string,
-  courseID: string,
-  setCoursesUserDefault: React.Dispatch<React.SetStateAction<Course[]>>,
-  setCoursesUserFull: React.Dispatch<React.SetStateAction<UserCourse[]>>
-) => {
+  courseID: string
+): Promise<{ filteredCourses: Course[]; userCourses: UserCourse[] }> => {
   try {
-    // получаем курс
     const course = await fetchGetCourse(courseID);
-    if (!course) return;
+    if (!course) return { filteredCourses: [], userCourses: [] };
 
-    // получаем тренировки курса
     const workout: string[] = course.workouts;
-    // получаем все упражнения
     const fetchWorkout = await fetchGetWorkouts();
     const workoutArray = Object.values(fetchWorkout);
 
-    // отфильтровываем упражнения курса от всех упражнений и сортируем по индексу
     const filterWorkouts = workoutArray
       .filter((item) => workout.includes(item._id))
       .sort(
@@ -292,33 +286,25 @@ export const fetchDataUser = async (
           workout.findIndex((id) => id === b._id)
       );
 
-    // создаем объект из упражнений, ключом которого будет _id
     const fetchExercises = filterWorkouts.reduce((acc, item, index) => {
       acc[item._id] = {
         _id: item._id,
         name: item.name,
-        exercises: item.exercises
-          ? item.exercises.map((i) => ({
-              name: i.name,
-              quantity: 0,
-            }))
-          : [],
+        exercises:
+          item.exercises?.map((i) => ({ name: i.name, quantity: 0 })) || [],
         done: false,
         order: index,
       };
       return acc;
     }, {} as { [key: string]: UserCourseWorkout });
 
-    //записываем все необходимые данные для базы данных
-    await fetchAddCourseUser(userID, courseID, fetchExercises).then(() => {
-      fetchGetCoursesUser(userID).then((data) => {
-        setCoursesUserDefault(data.filteredCourses);
-        setCoursesUserFull(data.userCourses);
-      });
-    });
-  } catch (error: unknown) {
+    await fetchAddCourseUser(userID, courseID, fetchExercises);
+
+    return fetchGetCoursesUser(userID);
+  } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
     }
+    return { filteredCourses: [], userCourses: [] }; // Возвращаем пустые массивы в случае ошибки
   }
 };

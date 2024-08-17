@@ -132,7 +132,7 @@ const SigninModal = ({
             name="email"
             onChange={handleChange}
             value={formData.email}
-            placeholder="Логин"
+            placeholder="Почта"
             data-testid="email"
           />
           <input

@@ -22,10 +22,10 @@ export const Main = () => {
     setIsLoadingCourses,
   } = useUserCoursesContext();
   const user = useUserContext();
-  const [isSigninModal, setIsSigninModal] = useState<boolean>(false);
-  const [isSignupModal, setIsSignupModal] = useState<boolean>(false);
+  const [isSigninModal, setIsSigninModal] = useState(false);
+  const [isSignupModal, setIsSignupModal] = useState(false);
   const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
-    useState<boolean>(false);
+    useState(false);
   const [email, setEmail] = useState("");
 
   const openSigninModal = () => {
@@ -44,21 +44,13 @@ export const Main = () => {
   const handleAddCourse = async (courseId: string) => {
     if (user?.uid) {
       try {
-        if (allCourses) {
-          const courseToAdd = allCourses.find(
-            (course) => course._id === courseId
-          );
-          if (courseToAdd) {
-            await fetchDataUser(
-              user.uid,
-              courseId,
-              setCoursesUserDefault,
-              setCoursesUserFull
-            );
-            setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
-          }
+        const courseToAdd = allCourses?.find(course => course._id === courseId);
+        if (courseToAdd) {
+          const { userCourses } = await fetchDataUser(user.uid, courseId);
+          setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
+          setCoursesUserFull(userCourses); // обновляем полные данные
         }
-      } catch (error: unknown) {
+      } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);
         }

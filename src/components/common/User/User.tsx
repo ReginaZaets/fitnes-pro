@@ -11,11 +11,11 @@ import ResetPasswordEmail from "../../popups/ResetPasswordEmail";
 
 const User = () => {
   const user = useUserContext();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isSigninModal, setIsSigninModal] = useState<boolean>(false);
-  const [isSignupModal, setIsSignupModal] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSigninModal, setIsSigninModal] = useState(false);
+  const [isSignupModal, setIsSignupModal] = useState(false);
   const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
-    useState<boolean>(false);
+    useState(false);
   const [email, setEmail] = useState("");
 
   const ToggleDropdown = () => setIsOpen((prevState) => !prevState);

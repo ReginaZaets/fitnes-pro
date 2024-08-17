@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { paths } from "../../../lib/paths";
 import { useEffect } from "react";
 import {
-  fetchDataUser,
   fetchDeleteCourseUser,
   fetchGetCourses,
 } from "../../../api/coursesApi";
@@ -22,50 +21,12 @@ const Profile = () => {
   const { coursesUserFull } = useUserCoursesContext();
   const { isLoadingCourses } = useUserCoursesContext();
   const { setCoursesUserDefault } = useUserCoursesContext();
-  const { setCoursesUserFull } = useUserCoursesContext();
 
   const [isResetPasswordModal, setIsResetPasswordModal] =
-    useState<boolean>(false);
+    useState(false);
 
   const handleClickModal = () => {
     setIsResetPasswordModal(true);
-  };
-
-  const [courses, setCourses] = useState<Course[]>([]);
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const data = await fetchGetCourses();
-        setCourses(data);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error(error);
-        }
-      }
-    };
-
-    fetchCourses();
-  }, []);
-  const handleAddCourse = async (courseId: string) => {
-    if (user?.uid) {
-      try {
-        const courseToAdd = courses.find((course) => course._id === courseId);
-        if (courseToAdd) {
-          await fetchDataUser(
-            user.uid,
-            courseId,
-            setCoursesUserDefault,
-            setCoursesUserFull
-          );
-          setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
-        }
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        }
-      }
-    }
   };
 
   const handleRemoveCourse = async (courseId: string) => {
@@ -159,7 +120,6 @@ const Profile = () => {
                     coursesUserFull
                   )}
                   isUserCourse={isUserCourse}
-                  onAdd={handleAddCourse}
                   onRemove={handleRemoveCourse}
                   _id={course._id}
                   openSigninModal={() => {}}
