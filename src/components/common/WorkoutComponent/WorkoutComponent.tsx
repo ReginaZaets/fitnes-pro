@@ -51,9 +51,11 @@ const WorkoutComponent = () => {
           setIsWorkoutProgressModalDone(true);
           setHasUpdated(true); // Обновляем флаг после успешного обновления
         })
-        .catch((error) => {
-          console.error("Ошибка при загрузке упражнений:", error);
-          setIsError("Ошибка при загрузке упражнений");
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            console.error("Ошибка при загрузке упражнений:", error);
+            setIsError("Ошибка при загрузке упражнений");
+          }
         });
     }
   };
@@ -67,9 +69,11 @@ const WorkoutComponent = () => {
           setCoursesUserFull(data.userCourses);
           setCoursesLoaded(true);
         })
-        .catch((error) => {
-          console.error("Ошибка при загрузке курсов:", error);
-          setIsError("Ошибка при загрузке курсов");
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            console.error("Ошибка при загрузке курсов:", error);
+            setIsError("Ошибка при загрузке курсов");
+          }
         });
     }
   }, [user, setCoursesUserDefault, setCoursesUserFull, exercises]);
@@ -81,9 +85,11 @@ const WorkoutComponent = () => {
         .then((data) => {
           setWorkout(data);
         })
-        .catch((error) => {
-          console.error("Ошибка при загрузке тренировки:", error);
-          setIsError("Ошибка при загрузке тренировки");
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            console.error("Ошибка при загрузке тренировки:", error);
+            setIsError("Ошибка при загрузке тренировки");
+          }
         })
         .finally(() => {
           setIsLoading(false);
@@ -98,9 +104,11 @@ const WorkoutComponent = () => {
         .then((data) => {
           setExercises(data);
         })
-        .catch((error) => {
-          console.error("Ошибка при загрузке упражнений:", error);
-          setIsError("Ошибка при загрузке упражнений");
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            console.error("Ошибка при загрузке упражнений:", error);
+            setIsError("Ошибка при загрузке упражнений");
+          }
         });
     }
   }, [user, workoutID, courseID]);

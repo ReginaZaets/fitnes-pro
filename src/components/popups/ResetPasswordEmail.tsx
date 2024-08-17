@@ -16,8 +16,10 @@ const ResetPasswordEmail = ({ email, setIsResetPasswordEmailModal }: Props) => {
   useEffect(() => {
     sendPasswordResetEmail(auth, email)
       .then(() => {})
-      .catch((error) => {
-        console.log(error);
+      .catch((error: unknown) => {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       });
   }, [email]);
 

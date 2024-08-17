@@ -18,9 +18,11 @@ export const fetchGetCourses = async () => {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       data = Object.values(snapshot.val());
-    } 
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Ошибка получения данных: ${error}`, error.message);
+    }
   }
   return data;
 };
@@ -34,9 +36,11 @@ export const fetchGetCourse = async (courseID: string) => {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       data = snapshot.val();
-    } 
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Ошибка получения данных: ${error}`, error.message);
+    }
   }
   return data;
 };
@@ -56,12 +60,13 @@ export const fetchGetCoursesUser = async (userID: string) => {
       filteredCourses = allCourses.filter((course) =>
         Object.keys(userCourses).some((userCourse) => userCourse === course._id)
       );
-      
     } else {
       console.warn("Нет приобретенных курсов");
     }
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Ошибка получения данных: ${error}`, error.message);
+    }
   }
   return { userCourses, filteredCourses };
 };
@@ -82,9 +87,11 @@ export const fetchGetExercisesWorkoutUser = async (
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       exercises = snapshot.val();
-    } 
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Ошибка получения данных: ${error}`, error.message);
+    }
   }
   return exercises;
 };
@@ -103,8 +110,10 @@ export const fetchAddCourseUser = async (
       _id: courseID,
       workouts: workouts,
     });
-  } catch (error) {
-    console.error("Ошибка получения данных:", error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Ошибка получения данных:", error);
+    }
   }
 };
 
@@ -117,8 +126,10 @@ export const fetchDeleteCourseUser = async (
   try {
     const dbRef = ref(db, `users/${userID}/courses/${courseID}`);
     await remove(dbRef);
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Ошибка получения данных: ${error}`, error.message);
+    }
   }
 };
 
@@ -137,16 +148,15 @@ export const fetchAddProgressExercisesCourseUser = async (
       `users/${userID}/courses/${courseID}/workouts/${workoutID}/exercises`
     );
     // Преобразуем массив в объект с уникальными ключами
-    const progressObject = progress.reduce(
-      (acc, exercise, index) => {
-        acc[index] = exercise; // `exercise${index}` создаст уникальные ключи
-        return acc;
-      },
-      {} as { [key: string]: Exercise }
-    );
+    const progressObject = progress.reduce((acc, exercise, index) => {
+      acc[index] = exercise; // `exercise${index}` создаст уникальные ключи
+      return acc;
+    }, {} as { [key: string]: Exercise });
     await update(dbRef, progressObject);
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Ошибка получения данных: ${error}`, error.message);
+    }
   }
 };
 
@@ -166,8 +176,10 @@ export const fetchAddProgressWorkoutCourseUser = async (
     );
 
     await update(dbRef, { done: isDoneWorkout });
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Ошибка получения данных: ${error}`, error.message);
+    }
   }
 };
 
@@ -180,9 +192,11 @@ export const fetchGetWorkouts = async () => {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       data = snapshot.val();
-    } 
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Ошибка получения данных: ${error}`, error.message);
+    }
   }
   return data;
 };
@@ -200,9 +214,11 @@ export const fetchGetWorkoutsCourse = async (
     if (snapshot.exists()) {
       data = Object.values(snapshot.val());
       data.sort((a, b) => a.order - b.order);
-    } 
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Ошибка получения данных: ${error}`, error.message);
+    }
   }
   return data;
 };
@@ -219,8 +235,10 @@ export const fetchGetWorkout = async (workoutID: string) => {
     } else {
       console.warn("Нет данных о тренировке");
     }
-  } catch (error) {
-    console.log(`Ошибка получения данных: ${error}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Ошибка получения данных: ${error}`, error.message);
+    }
   }
   return data;
 };
@@ -238,9 +256,11 @@ export const fetchGetCourseImage = async (src: string) => {
 
     const url = URL.createObjectURL(blob);
     return url;
-  } catch (error) {
-    console.error("Ошибка получения изображения:", error);
-    throw error;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Ошибка получения изображения:", error);
+      throw error;
+    }
   }
 };
 
@@ -273,24 +293,21 @@ export const fetchDataUser = async (
       );
 
     // создаем объект из упражнений, ключом которого будет _id
-    const fetchExercises = filterWorkouts.reduce(
-      (acc, item, index) => {
-        acc[item._id] = {
-          _id: item._id,
-          name: item.name,
-          exercises: item.exercises
-            ? item.exercises.map((i) => ({
-                name: i.name,
-                quantity: 0,
-              }))
-            : [],
-          done: false,
-          order: index,
-        };
-        return acc;
-      },
-      {} as { [key: string]: UserCourseWorkout }
-    );
+    const fetchExercises = filterWorkouts.reduce((acc, item, index) => {
+      acc[item._id] = {
+        _id: item._id,
+        name: item.name,
+        exercises: item.exercises
+          ? item.exercises.map((i) => ({
+              name: i.name,
+              quantity: 0,
+            }))
+          : [],
+        done: false,
+        order: index,
+      };
+      return acc;
+    }, {} as { [key: string]: UserCourseWorkout });
 
     //записываем все необходимые данные для базы данных
     await fetchAddCourseUser(userID, courseID, fetchExercises).then(() => {
@@ -299,7 +316,9 @@ export const fetchDataUser = async (
         setCoursesUserFull(data.userCourses);
       });
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
   }
 };

@@ -58,8 +58,10 @@ export const Main = () => {
             setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
           }
         }
-      } catch (error: any) {
-        console.log(error.message);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
     }
   };
@@ -71,8 +73,10 @@ export const Main = () => {
         setCoursesUserDefault((prev) =>
           prev.filter((course) => course._id !== courseId)
         );
-      } catch (error: any) {
-        console.log(error.message);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
     }
   };
@@ -82,8 +86,10 @@ export const Main = () => {
         const data = await fetchGetCourses();
         setAllCourses(data);
         setIsLoadingCourses(false);
-      } catch (err) {
-        console.error(err);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error);
+        }
       }
     };
 
@@ -133,7 +139,7 @@ export const Main = () => {
         </div>
       )}
       <section className="mt-[20px] mb-[20px] flex justify-end md:justify-center ">
-  <ButtonToTop />
+        <ButtonToTop />
       </section>
       {isSigninModal && (
         <SigninModal

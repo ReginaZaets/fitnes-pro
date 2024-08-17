@@ -38,8 +38,10 @@ const Profile = () => {
       try {
         const data = await fetchGetCourses();
         setCourses(data);
-      } catch (err) {
-        console.error(err);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error);
+        }
       }
     };
 
@@ -58,8 +60,10 @@ const Profile = () => {
           );
           setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
         }
-      } catch (error: any) {
-        console.log(error.message);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
     }
   };
@@ -71,8 +75,10 @@ const Profile = () => {
         setCoursesUserDefault((prev) =>
           prev.filter((course) => course._id !== courseId)
         );
-      } catch (error: any) {
-        console.log(error.message);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
     }
   };
@@ -165,7 +171,7 @@ const Profile = () => {
         <p className="text-[18px] font-normal">Нет приобретенных курсов</p>
       )}
       <div className="flex justify-end">
-     <ButtonToTop/>
+        <ButtonToTop />
       </div>
     </div>
   );

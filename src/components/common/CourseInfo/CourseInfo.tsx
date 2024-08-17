@@ -64,8 +64,10 @@ const CourseInfo = () => {
           }
           setData(res);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            console.error(`Ошибка получения данных: ${error}`, error.message);
+          }
         });
     }
   }, []);
@@ -74,7 +76,9 @@ const CourseInfo = () => {
     if (data?.img) {
       fetchGetCourseImage(data?.img)
         .then((img) => {
-          setUrl(img);
+          if (img) {
+            setUrl(img);
+          }
         })
         .then(() => {
           setIsLoading(false);

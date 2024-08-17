@@ -54,10 +54,14 @@ export const CourseCard = ({
     const fetchImg = async () => {
       try {
         const res = await fetchGetCourseImage(course.img);
-        setUrl(res);
+        if (res) {
+          setUrl(res);
+        }
         setIsLoading(false);
-      } catch {
-        console.log("error");
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(`Ошибка получения данных: ${error}`, error.message);
+        }
       }
     };
     fetchImg();

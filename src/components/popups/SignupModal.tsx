@@ -66,8 +66,10 @@ const SignupModal = ({ setIsSignupModal, openSigninModal }: PropsModal) => {
     try {
       await register(formData.email, formData.password, formData.name);
       openSigninModal();
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
     }
   }
 
@@ -113,28 +115,36 @@ const SignupModal = ({ setIsSignupModal, openSigninModal }: PropsModal) => {
         <img src="/images/logo.svg" alt="imageLogo" className="ml-[30px] " />
         <div className="flex flex-col items-center mt-12 gap-2.5">
           <input
-            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("name")}`}
+            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor(
+              "name"
+            )}`}
             type="text"
             name="name"
             onChange={handleChange}
             placeholder="Имя"
           />
           <input
-            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("email")}`}
+            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor(
+              "email"
+            )}`}
             type="text"
             name="email"
             onChange={handleChange}
             placeholder="Эл. почта"
           />
           <input
-            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("password")}`}
+            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor(
+              "password"
+            )}`}
             type="password"
             name="password"
             onChange={handleChange}
             placeholder="Пароль"
           />
           <input
-            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("repeatPassword")}`}
+            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor(
+              "repeatPassword"
+            )}`}
             type="password"
             name="repeatPassword"
             onChange={handleChange}
