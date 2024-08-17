@@ -136,7 +136,7 @@ const CourseInfo = () => {
           <>
             {data?.fitting.map((item, index) => (
               <div key={index} className=" card">
-                <div className="flex gap-6 ">
+                <div className="flex gap-6 items-center">
                   <span className="text-btnColor number-reasons">
                     {index + 1}
                   </span>

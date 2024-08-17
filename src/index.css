@@ -27,7 +27,7 @@ main {
 }
 @layer components {
   .card {
-    @apply rounded-[28px] md:w-[368px] h-auto flex items-center justify-between text-white bg-courseInfoBlock p-[20px];
+    @apply rounded-[28px] md:w-[368px] h-auto flex items-center justify-center text-white bg-courseInfoBlock p-[20px];
   }
   .number-reasons {
     @apply font-semibold w-[35px] font-bold text-7xl 
