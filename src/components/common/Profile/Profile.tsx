@@ -14,6 +14,7 @@ import { useUserCoursesContext } from "../../../context/hooks/useUserCourses";
 import { useState } from "react";
 import ResetPassword from "../../popups/ResetPassword";
 import { CourseCard } from "../CourseCard/CourseCard";
+import { ButtonToTop } from "../ButtonToTop/ButtonToTop";
 
 const Profile = () => {
   const user = useUserContext();
@@ -164,14 +165,7 @@ const Profile = () => {
         <p className="text-[18px] font-normal">Нет приобретенных курсов</p>
       )}
       <div className="flex justify-end">
-        <button
-          onClick={() => {
-            window.scrollTo(0, 0);
-          }}
-          className="sm:hidden bg-[#BCEC30] w-[127px] h-[52px] rounded-[46px] font-medium text-lg items-center flex justify-center mb-[40px] mt-[24px]"
-        >
-          Наверх ↑
-        </button>
+     <ButtonToTop/>
       </div>
     </div>
   );
