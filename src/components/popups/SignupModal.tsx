@@ -42,13 +42,13 @@ const SignupModal = ({ setIsSignupModal, openSigninModal }: PropsModal) => {
       !formData.password &&
       !formData.repeatPassword
     ) {
-      setError("Введите имя, логин и пароль");
+      setError("Введите имя, почту и пароль");
       return false;
     } else if (!formData.name) {
       setError("Введите имя");
       return false;
     } else if (!formData.email) {
-      setError("Введите логин");
+      setError("Введите почту");
       return false;
     } else if (!formData.password) {
       setError("Введите пароль");
@@ -74,7 +74,7 @@ const SignupModal = ({ setIsSignupModal, openSigninModal }: PropsModal) => {
   const getInputColor = (inputName: string) => {
     if (error) {
       const ErrorLowerCase = error.toLowerCase();
-      if (inputName === "email" && ErrorLowerCase.includes("логин")) {
+      if (inputName === "email" && ErrorLowerCase.includes("почту")) {
         return "border-[#DB0030]";
       } else if (
         inputName === "password" &&

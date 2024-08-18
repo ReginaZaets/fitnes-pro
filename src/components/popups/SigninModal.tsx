@@ -37,10 +37,10 @@ const SigninModal = ({
     const validateEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
     if (!formData.email && !formData.password) {
-      setError("Введите логин и пароль");
+      setError("Введите почту и пароль");
       return false;
     } else if (!formData.email) {
-      setError("Введите логин");
+      setError("Введите почту");
       return false;
     } else if (!formData.password) {
       setError("Введите пароль");
@@ -68,7 +68,7 @@ const SigninModal = ({
       const ErrorLowerCase = error.toLowerCase();
       if (
         inputName === "email" &&
-        ErrorLowerCase.includes("логин" && "почты")
+        ErrorLowerCase.includes("почту" && "почты")
       ) {
         return "border-[#DB0030]";
       } else if (
@@ -128,7 +128,7 @@ const SigninModal = ({
             name="email"
             onChange={handleChange}
             value={formData.email}
-            placeholder="Логин"
+            placeholder="Эл. почта"
             data-testid="email"
           />
           <input
