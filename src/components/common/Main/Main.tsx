@@ -44,22 +44,16 @@ export const Main = () => {
   const handleAddCourse = async (courseId: string) => {
     if (user?.uid) {
       try {
-        if (allCourses) {
-          const courseToAdd = allCourses.find(
-            (course) => course._id === courseId
-          );
-          if (courseToAdd) {
-            await fetchDataUser(
-              user.uid,
-              courseId,
-              setCoursesUserDefault,
-              setCoursesUserFull
-            );
-            setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
-          }
+        const courseToAdd = allCourses?.find(course => course._id === courseId);
+        if (courseToAdd) {
+          const { userCourses } = await fetchDataUser(user.uid, courseId);
+          setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
+          setCoursesUserFull(userCourses); // обновляем полные данные
         }
-      } catch (error: any) {
-        console.log(error.message);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
     }
   };
@@ -71,8 +65,10 @@ export const Main = () => {
         setCoursesUserDefault((prev) =>
           prev.filter((course) => course._id !== courseId)
         );
-      } catch (error: any) {
-        console.log(error.message);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
     }
   };
@@ -82,8 +78,10 @@ export const Main = () => {
         const data = await fetchGetCourses();
         setAllCourses(data);
         setIsLoadingCourses(false);
-      } catch (err) {
-        console.error(err);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error);
+        }
       }
     };
 

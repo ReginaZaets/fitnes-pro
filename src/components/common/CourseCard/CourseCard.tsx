@@ -13,7 +13,7 @@ type CourseCardProps = {
   course: Course;
   progress: number;
   isUserCourse?: boolean;
-  onAdd: (courseId: string) => void;
+  onAdd?: (courseId: string) => void;
   onRemove: (courseId: string) => void;
   _id?: string;
   openSigninModal: (value: boolean) => void;
@@ -37,7 +37,9 @@ export const CourseCard = ({
 
   const handleAdd = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    onAdd(course._id);
+    if (onAdd) {
+      onAdd(course._id);
+    }
   };
 
   const handleRemove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -53,10 +55,14 @@ export const CourseCard = ({
     const fetchImg = async () => {
       try {
         const res = await fetchGetCourseImage(course.img);
-        setUrl(res);
+        if (res) {
+          setUrl(res);
+        }
         setIsLoading(false);
-      } catch {
-        console.log("error");
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(`Ошибка получения данных: ${error}`, error.message);
+        }
       }
     };
     fetchImg();

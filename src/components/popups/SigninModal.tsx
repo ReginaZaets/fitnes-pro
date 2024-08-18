@@ -58,8 +58,10 @@ const SigninModal = ({
     try {
       await login(formData.email, formData.password);
       setIsSigninModal(false);
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
     }
   }
 
@@ -123,7 +125,9 @@ const SigninModal = ({
         <img src="/images/logo.svg" alt="imageLogo" className="ml-[30px] " />
         <div className="flex flex-col items-center mt-12 gap-2.5">
           <input
-            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("email")}`}
+            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor(
+              "email"
+            )}`}
             type="text"
             name="email"
             onChange={handleChange}
@@ -132,7 +136,9 @@ const SigninModal = ({
             data-testid="email"
           />
           <input
-            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("password")}`}
+            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor(
+              "password"
+            )}`}
             type="password"
             name="password"
             onChange={handleChange}

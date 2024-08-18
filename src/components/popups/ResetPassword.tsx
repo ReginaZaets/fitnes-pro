@@ -69,8 +69,10 @@ const ResetPassword = ({ setIsResetPasswordModal }: PropsModal) => {
         .then(() => {
           setIsResetPasswordModal(false);
         })
-        .catch((error) => {
-          setError(error.message);
+        .catch((error: unknown) => {
+          if (error instanceof Error) {
+            setError(error.message);
+          }
         });
     } else {
       setError("Не удалось изменить пароль: пользователь не найден");
@@ -93,14 +95,18 @@ const ResetPassword = ({ setIsResetPasswordModal }: PropsModal) => {
         <img src="/images/logo.svg" alt="imageLogo" className="ml-[30px] " />
         <div className="flex flex-col items-center mt-12 gap-2.5">
           <input
-            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("password")}`}
+            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor(
+              "password"
+            )}`}
             type="password"
             name="password"
             onChange={handleChange}
             placeholder="Пароль"
           />
           <input
-            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor("repeatPassword")}`}
+            className={`border w-inputWidth h-inputHeight rounded-lg pl-inputPadding py-4 text-lg leading-textHeight ${getInputColor(
+              "repeatPassword"
+            )}`}
             type="password"
             name="repeatPassword"
             onChange={handleChange}

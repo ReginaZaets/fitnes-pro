@@ -16,7 +16,7 @@ function checkCookie(): User {
     const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
     const decryptedData = JSON.parse(decryptedText);
     return decryptedData;
-  } catch (error) {
+  } catch (error: unknown) { 
     Cookies.remove("user");
     return null;
   }

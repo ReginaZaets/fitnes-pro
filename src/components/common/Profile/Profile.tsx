@@ -1,12 +1,6 @@
 import { Link } from "react-router-dom";
 import { paths } from "../../../lib/paths";
-import { useEffect } from "react";
-import {
-  fetchDataUser,
-  fetchDeleteCourseUser,
-  fetchGetCourses,
-} from "../../../api/coursesApi";
-import { Course } from "../../../types/types";
+import { fetchDeleteCourseUser } from "../../../api/coursesApi";
 import { useUserContext } from "../../../context/hooks/useUser";
 import { logout } from "../../../api/authUsersApi";
 import { getCourseProgress } from "../../../lib/courseProgress";
@@ -22,45 +16,11 @@ const Profile = () => {
   const { coursesUserFull } = useUserCoursesContext();
   const { isLoadingCourses } = useUserCoursesContext();
   const { setCoursesUserDefault } = useUserCoursesContext();
-  const { setCoursesUserFull } = useUserCoursesContext();
 
   const [isResetPasswordModal, setIsResetPasswordModal] = useState(false);
 
   const handleClickModal = () => {
     setIsResetPasswordModal(true);
-  };
-
-  const [courses, setCourses] = useState<Course[]>([]);
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const data = await fetchGetCourses();
-        setCourses(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchCourses();
-  }, []);
-  const handleAddCourse = async (courseId: string) => {
-    if (user?.uid) {
-      try {
-        const courseToAdd = courses.find((course) => course._id === courseId);
-        if (courseToAdd) {
-          await fetchDataUser(
-            user.uid,
-            courseId,
-            setCoursesUserDefault,
-            setCoursesUserFull
-          );
-          setCoursesUserDefault((prev) => [...prev, courseToAdd]); // добавляем полный объект курса
-        }
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    }
   };
 
   const handleRemoveCourse = async (courseId: string) => {
@@ -70,8 +30,10 @@ const Profile = () => {
         setCoursesUserDefault((prev) =>
           prev.filter((course) => course._id !== courseId)
         );
-      } catch (error: any) {
-        console.log(error.message);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
     }
   };
@@ -152,7 +114,6 @@ const Profile = () => {
                     coursesUserFull
                   )}
                   isUserCourse={isUserCourse}
-                  onAdd={handleAddCourse}
                   onRemove={handleRemoveCourse}
                   _id={course._id}
                   openSigninModal={() => {}}
