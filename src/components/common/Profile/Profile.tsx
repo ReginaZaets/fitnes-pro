@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
 import { paths } from "../../../lib/paths";
-import { useEffect } from "react";
-import {
-  fetchDeleteCourseUser,
-  fetchGetCourses,
-} from "../../../api/coursesApi";
-import { Course } from "../../../types/types";
+import { fetchDeleteCourseUser } from "../../../api/coursesApi";
 import { useUserContext } from "../../../context/hooks/useUser";
 import { logout } from "../../../api/authUsersApi";
 import { getCourseProgress } from "../../../lib/courseProgress";
@@ -22,8 +17,7 @@ const Profile = () => {
   const { isLoadingCourses } = useUserCoursesContext();
   const { setCoursesUserDefault } = useUserCoursesContext();
 
-  const [isResetPasswordModal, setIsResetPasswordModal] =
-    useState(false);
+  const [isResetPasswordModal, setIsResetPasswordModal] = useState(false);
 
   const handleClickModal = () => {
     setIsResetPasswordModal(true);
