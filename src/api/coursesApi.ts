@@ -200,7 +200,7 @@ export const fetchGetWorkoutsCourse = async (
     if (snapshot.exists()) {
       data = Object.values(snapshot.val());
       data.sort((a, b) => a.order - b.order);
-    } 
+    }
   } catch (error) {
     console.log(`Ошибка получения данных: ${error}`);
   }
