@@ -27,8 +27,7 @@ export const CourseCard = ({
   _id,
   openSigninModal,
 }: CourseCardProps) => {
-  const [isCourseProgressModal, setIsCourseProgressModal] =
-    useState<boolean>(false);
+  const [isCourseProgressModal, setIsCourseProgressModal] = useState(false);
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();

@@ -25,10 +25,10 @@ const CourseInfo = () => {
   const [message, setMessage] = useState(false);
   // Добавляем флаг для отображения загрузки
   const [isLoading, setIsLoading] = useState(true);
-  const [isSigninModal, setIsSigninModal] = useState<boolean>(false);
-  const [isSignupModal, setIsSignupModal] = useState<boolean>(false);
+  const [isSigninModal, setIsSigninModal] = useState(false);
+  const [isSignupModal, setIsSignupModal] = useState(false);
   const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
-    useState<boolean>(false);
+    useState(false);
   const [email, setEmail] = useState("");
 
   const nav = useNavigate();

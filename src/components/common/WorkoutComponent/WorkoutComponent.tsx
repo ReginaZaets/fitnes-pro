@@ -31,10 +31,9 @@ const WorkoutComponent = () => {
   const [nonZeroProgressExercisesCount, setNonZeroProgressExercisesCount] =
     useState(0);
 
-  const [isWorkoutProgressModal, setIsWorkoutProgressModal] =
-    useState<boolean>(false);
+  const [isWorkoutProgressModal, setIsWorkoutProgressModal] = useState(false);
   const [isWorkoutProgressModalDone, setIsWorkoutProgressModalDone] =
-    useState<boolean>(false);
+    useState(false);
   const [hasUpdated, setHasUpdated] = useState(false); // флаг для контроля вызова handleProgressUpdate
 
   const toggleModalAddProgress = () => {

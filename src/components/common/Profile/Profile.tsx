@@ -24,8 +24,7 @@ const Profile = () => {
   const { setCoursesUserDefault } = useUserCoursesContext();
   const { setCoursesUserFull } = useUserCoursesContext();
 
-  const [isResetPasswordModal, setIsResetPasswordModal] =
-    useState<boolean>(false);
+  const [isResetPasswordModal, setIsResetPasswordModal] = useState(false);
 
   const handleClickModal = () => {
     setIsResetPasswordModal(true);
@@ -165,7 +164,7 @@ const Profile = () => {
         <p className="text-[18px] font-normal">Нет приобретенных курсов</p>
       )}
       <div className="flex justify-end">
-     <ButtonToTop/>
+        <ButtonToTop />
       </div>
     </div>
   );

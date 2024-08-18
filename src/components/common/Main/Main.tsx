@@ -22,10 +22,10 @@ export const Main = () => {
     setIsLoadingCourses,
   } = useUserCoursesContext();
   const user = useUserContext();
-  const [isSigninModal, setIsSigninModal] = useState<boolean>(false);
-  const [isSignupModal, setIsSignupModal] = useState<boolean>(false);
+  const [isSigninModal, setIsSigninModal] = useState(false);
+  const [isSignupModal, setIsSignupModal] = useState(false);
   const [isResetPasswordEmailModal, setIsResetPasswordEmailModal] =
-    useState<boolean>(false);
+    useState(false);
   const [email, setEmail] = useState("");
 
   const openSigninModal = () => {
@@ -133,7 +133,7 @@ export const Main = () => {
         </div>
       )}
       <section className="mt-[20px] mb-[20px] flex justify-end md:justify-center ">
-  <ButtonToTop />
+        <ButtonToTop />
       </section>
       {isSigninModal && (
         <SigninModal
