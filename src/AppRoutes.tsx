@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { paths } from "./lib/paths";
 import MainPage from "./pages/MainPage";
 import { LayoutHeader } from "./components/common/LayoutHeader/LayoutHeader";
@@ -17,6 +17,7 @@ export const AppRoutes = () => {
           <Route path={paths.PROFILE} element={<UserProfile />}></Route>
           <Route path={paths.WORKOUT} element={<WorkoutPage />}></Route>
         </Route>
+        <Route path={paths.NOT_FOUND} element={<Navigate to={paths.MAIN} />} />
       </Route>
     </Routes>
   );
